@@ -1,14 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prediction Result</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #F5F0E8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #3A3A3A;
+        }
+
+        .result-box {
+            background: #FFFFFF;
+            width: 420px;
+            padding: 30px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #E0D7CC;
+        }
+
+        .safe {
+            color: green;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .risky {
+            color: red;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #D4A373;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background: #B5835A;
+        }
+    </style>
 </head>
 <body>
 
-    <h2>Prediction Result</h2>
-    <h3>{{ result }}</h3>
+    <div class="result-box">
+        <h2>Prediction Result</h2>
 
-    <a href="/">Go Back</a>
+        {% if prediction == 1 %}
+            <p class="risky">⚠ High Risk: Loan May Default</p>
+        {% else %}
+            <p class="safe">✔ Low Risk: Loan is Safe</p>
+        {% endif %}
+
+        <a href="/">Go Back</a>
+    </div>
 
 </body>
 </html>
