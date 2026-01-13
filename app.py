@@ -20,43 +20,36 @@ def home():
 
 
 # ---------------------- PREDICT ROUTE ----------------------
-@app.route('/predict', methods=['GET', 'POST'])
-def predict():
-    # If user opens /predict directly → redirect to form
-    if request.method == 'GET':
-        return redirect(url_for('home'))
+employment_map = {
+    "Employed": "Full-time",
+    "Self-Employed": "Self-emplc",
+    "Unemployed": "Unemployme"
+}
 
+@app.route('/predict', methods=['POST'])
+def predict():
     try:
-        # Get inputs
         age = float(request.form['age'])
         income = float(request.form['income'])
         loan_amount = float(request.form['loan_amount'])
         loan_term = float(request.form['loan_term'])
         credit_score = float(request.form['credit_score'])
-
         education = request.form['education']
         employment = request.form['employment']
 
-        # Encode categorical features
-        encoded = encoder.transform([[education, employment]])[0]
+        # FIX: Map UI value → dataset value
+        employment_clean = employment_map[employment]
 
-        # Create final model input
-        final_input = [
-            age,
-            income,
-            loan_amount,
-            loan_term,
-            credit_score,
-            encoded[0],
-            encoded[1]
-        ]
+        # Encode
+        edu_enc = encoder.transform([[education, employment_clean]])[0]
 
+        # Final input
+        final_input = [age, income, loan_amount, loan_term, credit_score, edu_enc[0], edu_enc[1]]
         final_scaled = scaler.transform([final_input])
 
         # Prediction
         prediction = model.predict(final_scaled)[0]
 
-        # Save history
         history.append({
             "age": age,
             "income": income,
@@ -71,7 +64,8 @@ def predict():
         return render_template("result.html", prediction=prediction)
 
     except Exception as e:
-        return f"Error: {str(e)}"
+        return str(e)
+
 
 
 # ---------------------- DASHBOARD ----------------------
