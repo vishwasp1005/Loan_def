@@ -2,6 +2,10 @@ from flask import Flask, render_template, request
 import joblib
 import numpy as np
 
+# Store prediction history in memory
+history = []
+
+
 app = Flask(__name__)
 
 # Load all ML components
@@ -39,14 +43,58 @@ def predict():
         final_input = np.hstack([cat_encoded, num_scaled])
 
         # Predict
-        prediction = model.predict(final_input)[0]
+     @app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        age = float(request.form['age'])
+        income = float(request.form['income'])
+        loan_amount = float(request.form['loan_amount'])
+        loan_term = float(request.form['loan_term'])
+        credit_score = float(request.form['credit_score'])
+        education = request.form['education']
+        employment = request.form['employment']
 
-        result = "Approved ✔" if prediction == 1 else "Rejected ❌"
+        # Encode
+        edu_enc = encoder.transform([[education, employment]])[0]
 
-        return render_template("result.html", prediction=result)
+        # Final input
+        final_input = [age, income, loan_amount, loan_term, credit_score, edu_enc[0], edu_enc[1]]
+        final_scaled = scaler.transform([final_input])
+
+        # Prediction
+        prediction = model.predict(final_scaled)[0]
+
+        # Save to history
+        history.append({
+            "age": age,
+            "income": income,
+            "loan": loan_amount,
+            "term": loan_term,
+            "credit": credit_score,
+            "education": education,
+            "employment": employment,
+            "prediction": int(prediction)
+        })
+
+        return render_template("result.html", prediction=prediction)
 
     except Exception as e:
-        return f"Error: {str(e)}"
+        return str(e)
+
+@app.route('/dashboard')
+def dashboard():
+    safe = sum(1 for h in history if h["prediction"] == 0)
+    danger = sum(1 for h in history if h["prediction"] == 1)
+    total = len(history)
+
+    return render_template(
+        "dashboard.html",
+        history=history,
+        safe=safe,
+        danger=danger,
+        total=total
+    )
+
 
 # Render uses gunicorn in start command
 if __name__ == '__main__':
