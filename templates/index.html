@@ -1,34 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Loan Default Prediction</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Default Predictor</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #F5F0E8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #3A3A3A;
+        }
+
+        .container {
+            background: #FFFFFF;
+            width: 450px;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #E0D7CC;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #E0D7CC;
+            margin-top: 5px;
+            margin-bottom: 12px;
+            background: #FAF7F2;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #D4A373;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #B5835A;
+        }
+    </style>
 </head>
 <body>
-    <h2>Loan Default Prediction</h2>
 
-    <form action="/predict" method="post">
-        Age: <input name="age" type="number" required><br><br>
-        Income: <input name="income" type="number" required><br><br>
-        Loan Amount: <input name="loan_amount" type="number" required><br><br>
-        Loan Term: <input name="loan_term" type="number" required><br><br>
-        Credit Score: <input name="credit_score" type="number" required><br><br>
+    <div class="container">
+        <h2>Loan Default Prediction</h2>
 
-        Education:
-        <select name="education">
-            <option>Bachelor's</option>
-            <option>Master's</option>
-            <option>High School</option>
-        </select><br><br>
+        <form action="/predict" method="POST">
 
-        Employment:
-        <select name="employment">
-            <option>Employed</option>
-            <option>Self-employed</option>
-            <option>Unemployed</option>
-        </select><br><br>
+            <label>Loan Amount</label>
+            <input type="number" name="loan_amount" required>
 
-        <button type="submit">Predict</button>
-    </form>
+            <label>Income</label>
+            <input type="number" name="income" required>
+
+            <label>Age</label>
+            <input type="number" name="age" required>
+
+            <label>Credit Score</label>
+            <input type="number" name="credit_score" required>
+
+            <label>Employment Status</label>
+            <select name="employment" required>
+                <option value="employed">Employed</option>
+                <option value="self-employed">Self-Employed</option>
+                <option value="unemployed">Unemployed</option>
+            </select>
+
+            <button type="submit">Predict</button>
+        </form>
+    </div>
 
 </body>
 </html>
