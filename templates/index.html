@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Default Prediction</title>
+</head>
+<body>
+    <h2>Loan Default Prediction</h2>
+
+    <form action="/predict" method="post">
+        Age: <input name="age" type="number" required><br><br>
+        Income: <input name="income" type="number" required><br><br>
+        Loan Amount: <input name="loan_amount" type="number" required><br><br>
+        Loan Term: <input name="loan_term" type="number" required><br><br>
+        Credit Score: <input name="credit_score" type="number" required><br><br>
+
+        Education:
+        <select name="education">
+            <option>Bachelor's</option>
+            <option>Master's</option>
+            <option>High School</option>
+        </select><br><br>
+
+        Employment:
+        <select name="employment">
+            <option>Employed</option>
+            <option>Self-employed</option>
+            <option>Unemployed</option>
+        </select><br><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+</body>
+</html>
