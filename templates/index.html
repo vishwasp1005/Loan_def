@@ -2,76 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Default Predictor</title>
+    <title>Loan Default Prediction</title>
 
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #F5F0E8;
             margin: 0;
-            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background: #F5F0E8; 
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: #3A3A3A;
         }
 
-        .container {
-            background: #FFFFFF;
-            width: 450px;
-            padding: 30px;
-            border-radius: 14px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border: 1px solid #E0D7CC;
+        .card {
+            background: white;
+            width: 500px;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 20px;
-            font-weight: 700;
+            color: #3C2F2F;
+            margin-bottom: 30px;
+            font-size: 24px;
         }
 
         label {
-            font-size: 14px;
             font-weight: 600;
-            margin-top: 10px;
-            display: block;
+            color: #3C2F2F;
         }
 
         input, select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
+            margin-top: 6px;
+            margin-bottom: 18px;
             border-radius: 8px;
-            border: 1px solid #E0D7CC;
-            margin-top: 5px;
-            margin-bottom: 12px;
+            border: 1px solid #d8cfc5;
             background: #FAF7F2;
-            font-size: 14px;
+            font-size: 15px;
         }
 
         button {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            background: #D4A373;
-            color: white;
+            padding: 14px;
+            background: #CBA47A;
             border: none;
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
             border-radius: 10px;
             cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
+            transition: 0.25s;
         }
 
         button:hover {
-            background: #B5835A;
+            background: #b48a64;
+            transform: scale(1.03);
+        }
+
+        .dashboard-btn {
+            margin-top: 15px;
+            background: #6F4E37;
+        }
+
+        .dashboard-btn:hover {
+            background: #583d2b;
         }
     </style>
 </head>
+
 <body>
 
-    <div class="container">
+    <div class="card">
         <h2>Loan Default Prediction</h2>
 
         <form action="/predict" method="POST">
@@ -88,14 +100,29 @@
             <label>Credit Score</label>
             <input type="number" name="credit_score" required>
 
+            <label>Loan Term (months)</label>
+            <input type="number" name="loan_term" required>
+
+            <label>Education Level</label>
+            <select name="education">
+                <option>High School</option>
+                <option>Bachelor's</option>
+                <option>Master's</option>
+                <option>PhD</option>
+            </select>
+
             <label>Employment Status</label>
-            <select name="employment" required>
-                <option value="employed">Employed</option>
-                <option value="self-employed">Self-Employed</option>
-                <option value="unemployed">Unemployed</option>
+            <select name="employment">
+                <option>Employed</option>
+                <option>Self-Employed</option>
+                <option>Unemployed</option>
             </select>
 
             <button type="submit">Predict</button>
+        </form>
+
+        <form action="/dashboard">
+            <button class="dashboard-btn">📊 View Dashboard</button>
         </form>
     </div>
 
