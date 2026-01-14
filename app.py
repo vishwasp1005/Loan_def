@@ -16,20 +16,39 @@ model = joblib.load("loan_model.pkl")
 # -------------------------
 # CSV FILE FOR PREDICTION HISTORY
 # -------------------------
+
 HISTORY_FILE = "history.csv"
 
+# Create history.csv if missing
 if not os.path.exists(HISTORY_FILE):
     pd.DataFrame(columns=[
         "age", "income", "loan_amount", "credit_score",
         "dti_ratio", "education", "employment", "prediction"
     ]).to_csv(HISTORY_FILE, index=False)
 
+# -------------------------
+# CSV FILE FOR USERS (SIGNUP LOGIN)
+# -------------------------
+
+USERS_FILE = "users.csv"
+
+# Create users.csv if missing
+if not os.path.exists(USERS_FILE):
+    pd.DataFrame([{
+        "username": "admin",
+        "password": "12345"
+    }]).to_csv(USERS_FILE, index=False)
+
+
 
 # -------------------------
-# HARD-CODED LOGIN (Render Safe)
+# USER VALIDATION (checks users.csv)
 # -------------------------
 def validate_user(username, password):
-    return username == "admin" and password == "12345"
+    df = pd.read_csv(USERS_FILE)
+    user = df[(df["username"] == username) & (df["password"] == password)]
+    return not user.empty
+
 
 
 # -------------------------
