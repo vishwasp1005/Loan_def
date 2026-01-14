@@ -51,6 +51,30 @@ def login():
 
 
 # -------------------------
+# SIGNUP PAGE
+# -------------------------
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        df = pd.read_csv(USERS_FILE)
+
+        # Check if username exists
+        if username in df["username"].values:
+            return render_template("signup.html", error="Username already exists!")
+
+        # Add new user
+        new_user = pd.DataFrame([{"username": username, "password": password}])
+        new_user.to_csv(USERS_FILE, mode='a', header=False, index=False)
+
+        return redirect(url_for("login"))
+
+    return render_template("signup.html")
+
+
+# -------------------------
 # LOGOUT
 # -------------------------
 @app.route("/logout")
