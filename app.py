@@ -4,37 +4,19 @@ import pandas as pd
 import os
 
 app = Flask(__name__)
-app.secret_key = "loan_secret_key_123"
+app.secret_key = "loan_secret_key_123"   # Needed for sessions
+
 
 # -------------------------
 # LOAD MODEL
 # -------------------------
 model = joblib.load("loan_model.pkl")
 
-# -------------------------
-# USERS CSV IN /tmp (WRITABLE)
-# -------------------------
-USERS_FILE = "/tmp/users.csv"
-
-# Create file only if NOT already created
-if not os.path.exists(USERS_FILE):
-    df = pd.DataFrame([{
-        "username": "admin",
-        "password": "12345"
-    }])
-    df.to_csv(USERS_FILE, index=False)
-
-
-def validate_user(username, password):
-    df = pd.read_csv(USERS_FILE)
-    user = df[(df["username"] == username) & (df["password"] == password)]
-    return not user.empty
-
 
 # -------------------------
-# HISTORY FILE ALSO MOVES TO /tmp
+# CSV FILE FOR PREDICTION HISTORY
 # -------------------------
-HISTORY_FILE = "/tmp/history.csv"
+HISTORY_FILE = "history.csv"
 
 if not os.path.exists(HISTORY_FILE):
     pd.DataFrame(columns=[
@@ -43,8 +25,11 @@ if not os.path.exists(HISTORY_FILE):
     ]).to_csv(HISTORY_FILE, index=False)
 
 
-def login_required():
-    return "user" in session
+# -------------------------
+# HARD-CODED LOGIN (Render Safe)
+# -------------------------
+def validate_user(username, password):
+    return username == "admin" and password == "12345"
 
 
 # -------------------------
@@ -75,6 +60,13 @@ def logout():
 
 
 # -------------------------
+# LOGIN PROTECTION
+# -------------------------
+def login_required():
+    return "user" in session
+
+
+# -------------------------
 # HOME PAGE
 # -------------------------
 @app.route("/")
@@ -85,7 +77,7 @@ def home():
 
 
 # -------------------------
-# PREDICT
+# PREDICT ROUTE
 # -------------------------
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
@@ -104,7 +96,7 @@ def predict():
         education = request.form["education"]
         employment = request.form["employment"]
 
-        # Prediction DataFrame
+        # Prepare data for model
         input_data = pd.DataFrame([{
             "Age": age,
             "Income": income,
@@ -115,9 +107,9 @@ def predict():
             "EmploymentType": employment
         }])
 
-        pred = int(model.predict(input_data)[0])
+        prediction = int(model.predict(input_data)[0])
 
-        # Save history
+        # Save to CSV
         pd.DataFrame([{
             "age": age,
             "income": income,
@@ -126,10 +118,10 @@ def predict():
             "dti_ratio": dti_ratio,
             "education": education,
             "employment": employment,
-            "prediction": pred
+            "prediction": prediction
         }]).to_csv(HISTORY_FILE, mode='a', header=False, index=False)
 
-        return render_template("result.html", prediction=pred)
+        return render_template("result.html", prediction=prediction)
 
     except Exception as e:
         return f"Error: {str(e)}"
@@ -144,13 +136,20 @@ def dashboard():
         return redirect(url_for("login"))
 
     df = pd.read_csv(HISTORY_FILE)
+
     safe = len(df[df["prediction"] == 0])
     danger = len(df[df["prediction"] == 1])
     total = len(df)
 
     history = df.to_dict(orient="records")
 
-    return render_template("dashboard.html", history=history, safe=safe, danger=danger, total=total)
+    return render_template(
+        "dashboard.html",
+        history=history,
+        safe=safe,
+        danger=danger,
+        total=total
+    )
 
 
 # -------------------------
