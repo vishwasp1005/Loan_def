@@ -4,13 +4,31 @@ import pandas as pd
 import os
 
 app = Flask(__name__)
-app.secret_key = "loan_secret_key_123"   # Needed for sessions
+app.secret_key = "loan_secret_key_123"
 
 
 # -------------------------
 # LOAD MODEL
 # -------------------------
 model = joblib.load("loan_model.pkl")
+
+
+# -------------------------
+# FORCE RESET USERS CSV
+# -------------------------
+USERS_FILE = "users.csv"
+
+# Always recreate users.csv fresh on every deployment
+pd.DataFrame([{
+    "username": "admin",
+    "password": "12345"
+}]).to_csv(USERS_FILE, index=False)
+
+
+def validate_user(username, password):
+    df = pd.read_csv(USERS_FILE)
+    user = df[(df["username"] == username) & (df["password"] == password)]
+    return not user.empty
 
 
 # -------------------------
@@ -23,26 +41,6 @@ if not os.path.exists(HISTORY_FILE):
         "age", "income", "loan_amount", "credit_score",
         "dti_ratio", "education", "employment", "prediction"
     ]).to_csv(HISTORY_FILE, index=False)
-
-
-# -------------------------
-# USER LOGIN SYSTEM (CSV)
-# -------------------------
-
-USERS_FILE = "users.csv"
-
-# Create file with 1 default user if not exists
-if not os.path.exists(USERS_FILE):
-    pd.DataFrame([{
-        "username": "admin",
-        "password": "12345"
-    }]).to_csv(USERS_FILE, index=False)
-
-
-def validate_user(username, password):
-    df = pd.read_csv(USERS_FILE)
-    user = df[(df["username"] == username) & (df["password"] == password)]
-    return not user.empty
 
 
 # -------------------------
@@ -72,28 +70,22 @@ def logout():
     return redirect(url_for("login"))
 
 
-# -------------------------
-# LOGIN PROTECTOR
-# -------------------------
 def login_required():
-    if "user" not in session:
-        return False
-    return True
+    return "user" in session
 
 
 # -------------------------
-# HOME PAGE (protected)
+# HOME PAGE
 # -------------------------
 @app.route("/")
 def home():
     if not login_required():
         return redirect(url_for("login"))
-
     return render_template("index.html")
 
 
 # -------------------------
-# PREDICT ROUTE (protected)
+# PREDICT ROUTE
 # -------------------------
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
@@ -104,7 +96,6 @@ def predict():
         return redirect(url_for("home"))
 
     try:
-        # Collect data
         age = float(request.form["age"])
         income = float(request.form["income"])
         loan_amount = float(request.form["loan_amount"])
@@ -113,7 +104,6 @@ def predict():
         education = request.form["education"]
         employment = request.form["employment"]
 
-        # Create DataFrame for prediction
         input_data = pd.DataFrame([{
             "Age": age,
             "Income": income,
@@ -124,10 +114,8 @@ def predict():
             "EmploymentType": employment
         }])
 
-        # Predict
         pred = int(model.predict(input_data)[0])
 
-        # Save record to CSV
         pd.DataFrame([{
             "age": age,
             "income": income,
@@ -146,7 +134,7 @@ def predict():
 
 
 # -------------------------
-# DASHBOARD PAGE (protected)
+# DASHBOARD
 # -------------------------
 @app.route("/dashboard")
 def dashboard():
@@ -161,17 +149,8 @@ def dashboard():
 
     history = df.to_dict(orient="records")
 
-    return render_template(
-        "dashboard.html",
-        history=history,
-        safe=safe,
-        danger=danger,
-        total=total
-    )
+    return render_template("dashboard.html", history=history, safe=safe, danger=danger, total=total)
 
 
-# -------------------------
-# SERVER RUN
-# -------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
