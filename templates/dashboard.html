@@ -10,7 +10,7 @@
         body {
             font-family: "Poppins", sans-serif;
             background: #F5F0E8;
-            padding: 40px;
+            padding: 30px;
         }
 
         h2 {
@@ -34,6 +34,7 @@
             width: 200px;
             text-align: center;
             font-weight: 600;
+            font-size: 18px;
         }
 
         .safe { color: #2E7D32; }
@@ -43,16 +44,23 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 25px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         th, td {
-            padding: 12px;
-            background: #FAF7F2;
-            border-bottom: 1px solid #ddd;
+            padding: 14px;
+            border-bottom: 1px solid #eee;
         }
 
         th {
             background: #E9E1D5;
+            font-weight: 600;
+        }
+
+        td {
+            background: #FAF7F2;
         }
 
         .btn {
@@ -65,8 +73,8 @@
             font-size: 17px;
             border-radius: 10px;
             cursor: pointer;
+            transition: 0.25s;
         }
-
         .btn:hover {
             background: #583d2b;
         }
@@ -80,18 +88,17 @@
     <div class="stats">
         <div class="box safe">Safe Loans: {{ safe }}</div>
         <div class="box danger">Defaults: {{ danger }}</div>
-        <div class="box">Total Predictions: {{ total }}</div>
+        <div class="box">Total: {{ total }}</div>
     </div>
 
     <canvas id="pieChart" style="max-width: 400px; margin: auto;"></canvas>
 
     <script>
         const ctx = document.getElementById('pieChart');
-
         new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['Safe Loans', 'Defaults'],
+                labels: ['Safe', 'Default'],
                 datasets: [{
                     data: [{{ safe }}, {{ danger }}],
                     backgroundColor: ['#A8D5A2', '#F7A4A4']
@@ -100,27 +107,31 @@
         });
     </script>
 
-    <h3 style="margin-top: 40px; color: #3C2F2F;">📄 Recent Predictions</h3>
+    <h3 style="color:#3C2F2F; margin-top:40px;">📄 Recent Predictions</h3>
 
     {% if history %}
     <table>
         <tr>
-            <th>Loan</th>
+            <th>Age</th>
             <th>Income</th>
+            <th>Loan</th>
             <th>Credit</th>
+            <th>DTI</th>
             <th>Status</th>
         </tr>
 
         {% for row in history %}
         <tr>
-            <td>{{ row.loan }}</td>
+            <td>{{ row.age }}</td>
             <td>{{ row.income }}</td>
-            <td>{{ row.credit }}</td>
+            <td>{{ row.loan_amount }}</td>
+            <td>{{ row.credit_score }}</td>
+            <td>{{ row.dti_ratio }}</td>
             <td>
-                {% if row.prediction == 1 %}
-                    ❌ Default
-                {% else %}
+                {% if row.prediction == 0 %}
                     ✅ Safe
+                {% else %}
+                    ❌ Default
                 {% endif %}
             </td>
         </tr>
