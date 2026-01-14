@@ -5,48 +5,68 @@ import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"  # change later
+app.secret_key = "supersecretkey"  # change before production
 
 # Load ML Model
 model = joblib.load("loan_model.pkl")
 
 # -------------------------
-# Database Setup
+# Initialize Database
 # -------------------------
 def init_db():
     conn = sqlite3.connect("database.db")
     cur = conn.cursor()
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        email TEXT UNIQUE,
-        password TEXT
-    )""")
+    # Users table
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            email TEXT UNIQUE,
+            password TEXT
+        )
+    """)
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS predictions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        age FLOAT,
-        income FLOAT,
-        loan_amount FLOAT,
-        credit_score FLOAT,
-        dti_ratio FLOAT,
-        education TEXT,
-        employment TEXT,
-        prediction INTEGER
-    )""")
+    # Prediction history table
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS predictions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            age FLOAT,
+            income FLOAT,
+            loan_amount FLOAT,
+            credit_score FLOAT,
+            dti_ratio FLOAT,
+            education TEXT,
+            employment TEXT,
+            prediction INTEGER
+        )
+    """)
 
     conn.commit()
     conn.close()
 
 init_db()
 
-# -------------------------
-# Helper: Check Login
-# -------------------------
+# Helper function
 def is_logged_in():
     return "user_id" in session
+
+
+# -------------------------
+# LANDING PAGE (NEW)
+# -------------------------
+@app.route("/landing")
+def landing():
+    return render_template("landing.html")
+
+
+# -------------------------
+# HOME ROUTE → Redirect to Landing
+# -------------------------
+@app.route("/")
+def home():
+    return redirect(url_for("landing"))
 
 
 # -------------------------
@@ -93,7 +113,7 @@ def login():
             session["name"] = user[1]
             return redirect(url_for("dashboard"))
         else:
-            return "Invalid credentials"
+            return "Invalid email or password."
 
     return render_template("login.html")
 
@@ -105,16 +125,6 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("login"))
-
-
-# -------------------------
-# HOME → Redirect to login
-# -------------------------
-@app.route("/")
-def home():
-    if not is_logged_in():
-        return redirect(url_for("login"))
-    return redirect(url_for("dashboard"))
 
 
 # -------------------------
@@ -134,12 +144,14 @@ def dashboard():
     safe = len([d for d in data if d[10] == 0])
     danger = len([d for d in data if d[10] == 1])
 
-    return render_template("dashboard.html",
-                           name=session["name"],
-                           data=data,
-                           safe=safe,
-                           danger=danger,
-                           total=len(data))
+    return render_template(
+        "dashboard.html",
+        name=session["name"],
+        data=data,
+        safe=safe,
+        danger=danger,
+        total=len(data)
+    )
 
 
 # -------------------------
@@ -158,6 +170,7 @@ def predict():
     education = request.form["education"]
     employment = request.form["employment"]
 
+    # Create input for model
     input_data = pd.DataFrame([{
         "Age": age,
         "Income": income,
@@ -170,14 +183,14 @@ def predict():
 
     pred = int(model.predict(input_data)[0])
 
-    # Save to DB
+    # Save to database
     conn = sqlite3.connect("database.db")
     cur = conn.cursor()
-    cur.execute("""INSERT INTO predictions 
+    cur.execute("""
+        INSERT INTO predictions
         (user_id, age, income, loan_amount, credit_score, dti_ratio, education, employment, prediction)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                (session["user_id"], age, income, loan_amount,
-                 credit_score, dti_ratio, education, employment, pred))
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (session["user_id"], age, income, loan_amount, credit_score, dti_ratio, education, employment, pred))
     conn.commit()
     conn.close()
 
