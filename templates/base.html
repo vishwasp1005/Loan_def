@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #F5F0E8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav {
+            background: #6F4E37;
+            padding: 15px;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 450px;
+            margin: auto;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d8cfc5;
+            background: #FAF7F2;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            border-radius: 10px;
+            background: #CBA47A;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #b48a64;
+        }
+
+        .small {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        a {
+            color: #6F4E37;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% if session.get("user_id") %}
+    <div class="nav">
+        Loan Predictor • Hello {{ session.get("name") }}
+    </div>
+    {% else %}
+    <div class="nav">
+        Loan Predictor
+    </div>
+    {% endif %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>
