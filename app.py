@@ -6,23 +6,23 @@ import os
 app = Flask(__name__)
 app.secret_key = "loan_secret_key_123"
 
-
 # -------------------------
 # LOAD MODEL
 # -------------------------
 model = joblib.load("loan_model.pkl")
 
-
 # -------------------------
-# FORCE RESET USERS CSV
+# USERS CSV IN /tmp (WRITABLE)
 # -------------------------
-USERS_FILE = "users.csv"
+USERS_FILE = "/tmp/users.csv"
 
-# Always recreate users.csv fresh on every deployment
-pd.DataFrame([{
-    "username": "admin",
-    "password": "12345"
-}]).to_csv(USERS_FILE, index=False)
+# Create file only if NOT already created
+if not os.path.exists(USERS_FILE):
+    df = pd.DataFrame([{
+        "username": "admin",
+        "password": "12345"
+    }])
+    df.to_csv(USERS_FILE, index=False)
 
 
 def validate_user(username, password):
@@ -32,15 +32,19 @@ def validate_user(username, password):
 
 
 # -------------------------
-# CSV FILE FOR HISTORY
+# HISTORY FILE ALSO MOVES TO /tmp
 # -------------------------
-HISTORY_FILE = "history.csv"
+HISTORY_FILE = "/tmp/history.csv"
 
 if not os.path.exists(HISTORY_FILE):
     pd.DataFrame(columns=[
         "age", "income", "loan_amount", "credit_score",
         "dti_ratio", "education", "employment", "prediction"
     ]).to_csv(HISTORY_FILE, index=False)
+
+
+def login_required():
+    return "user" in session
 
 
 # -------------------------
@@ -70,10 +74,6 @@ def logout():
     return redirect(url_for("login"))
 
 
-def login_required():
-    return "user" in session
-
-
 # -------------------------
 # HOME PAGE
 # -------------------------
@@ -85,7 +85,7 @@ def home():
 
 
 # -------------------------
-# PREDICT ROUTE
+# PREDICT
 # -------------------------
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
@@ -104,6 +104,7 @@ def predict():
         education = request.form["education"]
         employment = request.form["employment"]
 
+        # Prediction DataFrame
         input_data = pd.DataFrame([{
             "Age": age,
             "Income": income,
@@ -116,6 +117,7 @@ def predict():
 
         pred = int(model.predict(input_data)[0])
 
+        # Save history
         pd.DataFrame([{
             "age": age,
             "income": income,
@@ -142,7 +144,6 @@ def dashboard():
         return redirect(url_for("login"))
 
     df = pd.read_csv(HISTORY_FILE)
-
     safe = len(df[df["prediction"] == 0])
     danger = len(df[df["prediction"] == 1])
     total = len(df)
@@ -152,5 +153,8 @@ def dashboard():
     return render_template("dashboard.html", history=history, safe=safe, danger=danger, total=total)
 
 
+# -------------------------
+# RUN SERVER
+# -------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
