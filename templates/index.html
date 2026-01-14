@@ -1,35 +1,118 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loan Default Prediction</title>
 
-<div class="card">
-    <h2>Loan Prediction</h2>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: #F5F0E8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    <form action="/predict" method="POST">
+        .card {
+            background: white;
+            width: 500px;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+        }
 
-        <input type="number" name="age" placeholder="Age" required>
-        <input type="number" name="income" placeholder="Income" required>
-        <input type="number" name="loan_amount" placeholder="Loan Amount" required>
-        <input type="number" name="credit_score" placeholder="Credit Score" required>
-        <input type="number" step="0.01" name="dti_ratio" placeholder="DTI Ratio" required>
+        h2 {
+            text-align: center;
+            color: #3C2F2F;
+            margin-bottom: 30px;
+        }
 
-        <select name="education" required>
-            <option disabled selected>Education Level</option>
-            <option>High School</option>
-            <option>Bachelor's</option>
-            <option>Master's</option>
-            <option>PhD</option>
-        </select>
+        label {
+            font-weight: 600;
+            color: #3C2F2F;
+        }
 
-        <select name="employment" required>
-            <option disabled selected>Employment Status</option>
-            <option>Full-time</option>
-            <option>Part-time</option>
-            <option>Self-employed</option>
-            <option>Unemployed</option>
-        </select>
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border: 1px solid #d8cfc5;
+            background: #FAF7F2;
+        }
 
-        <button type="submit">Predict</button>
-    </form>
-</div>
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #CBA47A;
+            border: none;
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-{% endblock %}
+        button:hover {
+            background: #b48a64;
+        }
+
+        .dashboard-btn {
+            margin-top: 15px;
+            background: #6F4E37;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>Loan Default Prediction</h2>
+
+        <form action="/predict" method="POST">
+
+            <label>Age</label>
+            <input type="number" name="age" required>
+
+            <label>Income</label>
+            <input type="number" name="income" required>
+
+            <label>Loan Amount</label>
+            <input type="number" name="loan_amount" required>
+
+            <label>Credit Score</label>
+            <input type="number" name="credit_score" required>
+
+            <label>DTI Ratio</label>
+            <input type="number" step="0.01" name="dti_ratio" required>
+
+            <label>Education Level</label>
+            <select name="education">
+                <option>High School</option>
+                <option>Bachelor's</option>
+                <option>Master's</option>
+                <option>PhD</option>
+            </select>
+
+            <label>Employment Status</label>
+            <select name="employment">
+                <option>Full-time</option>
+                <option>Part-time</option>
+                <option>Self-employed</option>
+                <option>Unemployed</option>
+            </select>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        <form action="/dashboard">
+            <button class="dashboard-btn">📊 View Dashboard</button>
+        </form>
+    </div>
+
+</body>
+</html>
