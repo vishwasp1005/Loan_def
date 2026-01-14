@@ -39,12 +39,13 @@
         label {
             font-weight: 600;
             color: #3C2F2F;
+            margin-top: 10px;
+            display: block;
         }
 
         input, select {
             width: 100%;
             padding: 12px;
-            margin-top: 6px;
             margin-bottom: 18px;
             border-radius: 8px;
             border: 1px solid #d8cfc5;
@@ -88,24 +89,23 @@
 
         <form action="/predict" method="POST">
 
-            <label>Loan Amount</label>
-            <input type="number" name="loan_amount" required>
+            <label>Age</label>
+            <input type="number" name="age" required>
 
             <label>Income</label>
             <input type="number" name="income" required>
 
-            <label>Age</label>
-            <input type="number" name="age" required>
+            <label>Loan Amount</label>
+            <input type="number" name="loan_amount" required>
 
             <label>Credit Score</label>
             <input type="number" name="credit_score" required>
 
             <label>DTI Ratio</label>
-<input type="number" step="0.01" name="dti_ratio" required>
+            <input type="number" step="0.01" name="dti_ratio" required>
 
-
-            <label>Education Level</label>
-            <select name="education">
+            <label>Education</label>
+            <select name="education" required>
                 <option>High School</option>
                 <option>Bachelor's</option>
                 <option>Master's</option>
@@ -113,9 +113,10 @@
             </select>
 
             <label>Employment Status</label>
-            <select name="employment">
-                <option>Employed</option>
-                <option>Self-Employed</option>
+            <select name="employment" required>
+                <option>Full-time</option>
+                <option>Part-time</option>
+                <option>Self-employed</option>
                 <option>Unemployed</option>
             </select>
 
@@ -129,4 +130,3 @@
 
 </body>
 </html>
-
