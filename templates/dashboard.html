@@ -1,144 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Prediction Dashboard</title>
+{% extends "base.html" %}
+{% block content %}
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="card">
+    <h2>Your Dashboard</h2>
 
-    <style>
-        body {
-            font-family: "Poppins", sans-serif;
-            background: #F5F0E8;
-            padding: 40px;
-        }
+    <p><b>Total Predictions:</b> {{ total }}</p>
+    <p><b>Safe Loans:</b> {{ safe }}</p>
+    <p><b>Defaults:</b> {{ danger }}</p>
 
-        h2 {
-            text-align: center;
-            color: #3C2F2F;
-            font-size: 28px;
-        }
+    <button onclick="window.location.href='/logout'">Logout</button>
+    <button onclick="window.location.href='/'" style="margin-top:10px;">Predict More</button>
+</div>
 
-        .top-boxes {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
+<div class="card" style="margin-top:20px;">
+    <h3>History</h3>
 
-        .box {
-            background: white;
-            padding: 20px 40px;
-            border-radius: 14px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-            text-align: center;
-        }
+    {% for row in data %}
+        <p>
+            Age: {{ row[2] }},  
+            Income: {{ row[3] }},
+            Loan: {{ row[4] }},
+            Credit: {{ row[5] }},
+            DTI: {{ row[6] }},
+            Result:
+            {% if row[10] == 0 %}
+                ✔ Safe
+            {% else %}
+                ❌ Default
+            {% endif %}
+        </p>
+        <hr>
+    {% endfor %}
+</div>
 
-        .safe-box { color: green; }
-        .danger-box { color: red; }
-
-        .chart-container {
-            width: 350px;
-            margin: auto;
-        }
-
-        table {
-            margin-top: 40px;
-            width: 100%;
-            background: white;
-            border-radius: 12px;
-            border-collapse: collapse;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: center;
-        }
-
-        th {
-            background: #EFE8DE;
-        }
-
-        .back-btn {
-            margin-top: 40px;
-            background: #6F4E37;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-
-    <h2>📊 Prediction Dashboard</h2>
-
-    <div class="top-boxes">
-        <div class="box safe-box">Safe Loans: {{ safe }}</div>
-        <div class="box danger-box">Defaults: {{ danger }}</div>
-        <div class="box">Total: {{ total }}</div>
-    </div>
-
-    <div class="chart-container">
-        <canvas id="pieChart"></canvas>
-    </div>
-
-    <script>
-        const data = {
-            labels: ["Safe", "Default"],
-            datasets: [{
-                data: [{{ safe }}, {{ danger }}],
-                backgroundColor: ["#9BD4A9", "#E59A9A"],
-            }]
-        };
-
-        new Chart(document.getElementById("pieChart"), {
-            type: "pie",
-            data: data
-        });
-    </script>
-
-    <h3>📄 Recent Predictions</h3>
-
-    <table>
-        <tr>
-            <th>Age</th>
-            <th>Income</th>
-            <th>Loan</th>
-            <th>Credit</th>
-            <th>DTI</th>
-            <th>Education</th>
-            <th>Employment</th>
-            <th>Status</th>
-        </tr>
-
-        {% for h in history %}
-        <tr>
-            <td>{{ h.age }}</td>
-            <td>{{ h.income }}</td>
-            <td>{{ h.loan_amount }}</td>
-            <td>{{ h.credit_score }}</td>
-            <td>{{ h.dti_ratio }}</td>
-            <td>{{ h.education }}</td>
-            <td>{{ h.employment }}</td>
-            <td>
-                {% if h.prediction == 0 %}
-                    ✔ Safe
-                {% else %}
-                    ❌ Default
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <form action="/">
-        <button class="back-btn">← Back to Form</button>
-    </form>
-
-</body>
-</html>
+{% endblock %}
