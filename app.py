@@ -35,7 +35,7 @@ USERS_FILE = "users.csv"
 if not os.path.exists(USERS_FILE):
     pd.DataFrame([{
         "username": "admin",
-        "password": "1234"
+        "password": "12345"
     }]).to_csv(USERS_FILE, index=False)
 
 
