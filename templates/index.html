@@ -8,7 +8,7 @@
         body {
             margin: 0;
             font-family: "Poppins", sans-serif;
-            background: #F5F0E8; 
+            background: #F5F0E8;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,26 +21,12 @@
             padding: 40px;
             border-radius: 18px;
             box-shadow: 0 6px 25px rgba(0,0,0,0.12);
-            animation: fadeIn 0.7s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
             text-align: center;
             color: #3C2F2F;
             margin-bottom: 30px;
-            font-size: 24px;
-        }
-
-        label {
-            font-weight: 600;
-            color: #3C2F2F;
-            margin-top: 10px;
-            display: block;
         }
 
         input, select {
@@ -50,7 +36,6 @@
             border-radius: 8px;
             border: 1px solid #d8cfc5;
             background: #FAF7F2;
-            font-size: 15px;
         }
 
         button {
@@ -59,74 +44,67 @@
             background: #CBA47A;
             border: none;
             color: white;
-            font-size: 17px;
             font-weight: 600;
             border-radius: 10px;
             cursor: pointer;
-            transition: 0.25s;
         }
 
         button:hover {
             background: #b48a64;
-            transform: scale(1.03);
         }
 
         .dashboard-btn {
             margin-top: 15px;
             background: #6F4E37;
         }
-
-        .dashboard-btn:hover {
-            background: #583d2b;
-        }
     </style>
 </head>
 
 <body>
 
-    <div class="card">
-        <h2>Loan Default Prediction</h2>
+<div class="card">
+    <h2>Loan Default Prediction</h2>
 
-        <form action="/predict" method="POST">
+    <form action="/predict" method="POST">
 
-            <label>Age</label>
-            <input type="number" name="age" required>
+        <label>Age</label>
+        <input type="number" name="age" required>
 
-            <label>Income</label>
-            <input type="number" name="income" required>
+        <label>Income</label>
+        <input type="number" name="income" required>
 
-            <label>Loan Amount</label>
-            <input type="number" name="loan_amount" required>
+        <label>Loan Amount</label>
+        <input type="number" name="loan_amount" required>
 
-            <label>Credit Score</label>
-            <input type="number" name="credit_score" required>
+        <label>Credit Score</label>
+        <input type="number" name="credit_score" required>
 
-            <label>DTI Ratio</label>
-            <input type="number" step="0.01" name="dti_ratio" required>
+        <label>DTI Ratio</label>
+        <input type="number" step="0.01" name="dti_ratio" required>
 
-            <label>Education</label>
-            <select name="education" required>
-                <option>High School</option>
-                <option>Bachelor's</option>
-                <option>Master's</option>
-                <option>PhD</option>
-            </select>
+        <label>Education</label>
+        <select name="education" required>
+            <option>High School</option>
+            <option>Bachelor's</option>
+            <option>Master's</option>
+            <option>PhD</option>
+        </select>
 
-            <label>Employment Status</label>
-            <select name="employment" required>
-                <option>Full-time</option>
-                <option>Part-time</option>
-                <option>Self-employed</option>
-                <option>Unemployed</option>
-            </select>
+        <label>Employment Status</label>
+        <select name="employment" required>
+            <option>Unemployed</option>
+            <option>Part-time</option>
+            <option>Self-Employed</option>
+            <option>Full-time</option>
+        </select>
 
-            <button type="submit">Predict</button>
-        </form>
+        <button type="submit">Predict</button>
+    </form>
 
-        <form action="/dashboard">
-            <button class="dashboard-btn">📊 View Dashboard</button>
-        </form>
-    </div>
+    <form action="/dashboard">
+        <button class="dashboard-btn">📊 View Dashboard</button>
+    </form>
+</div>
 
 </body>
 </html>
