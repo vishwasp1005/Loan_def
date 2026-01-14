@@ -1,70 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Prediction Result</title>
+{% extends "base.html" %}
+{% block content %}
 
-    <style>
-        body {
-            font-family: "Poppins", sans-serif;
-            background: #F5F0E8;
-            text-align: center;
-            padding-top: 80px;
-        }
+<div class="card">
+    <h2>Prediction Result</h2>
 
-        .card {
-            background: white;
-            width: 450px;
-            margin: auto;
-            padding: 40px;
-            border-radius: 18px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
-        }
+    {% if prediction == 0 %}
+        <p style="font-size:22px; color:green; font-weight:600;">
+            ✔ Loan is SAFE
+        </p>
+    {% else %}
+        <p style="font-size:22px; color:red; font-weight:600;">
+            ❌ High Default Risk
+        </p>
+    {% endif %}
 
-        h2 {
-            color: #3C2F2F;
-        }
+    <button onclick="window.location.href='/dashboard'">Go to Dashboard</button>
+</div>
 
-        .safe {
-            color: #1b8a3d;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .danger {
-            color: #d9534f;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        button {
-            margin-top: 25px;
-            padding: 14px 25px;
-            background: #6F4E37;
-            border: none;
-            color: white;
-            font-size: 16px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="card">
-        <h2>Loan Prediction Result</h2>
-
-        {% if prediction == 0 %}
-            <p class="safe">✔ The loan is SAFE</p>
-        {% else %}
-            <p class="danger">❌ Default Risk Detected</p>
-        {% endif %}
-
-        <form action="/">
-            <button>← Back to Form</button>
-        </form>
-    </div>
-
-</body>
-</html>
+{% endblock %}
