@@ -8,71 +8,44 @@
         body {
             font-family: "Poppins", sans-serif;
             background: #F5F0E8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            text-align: center;
+            padding-top: 80px;
         }
 
         .card {
-            width: 450px;
             background: white;
-            padding: 35px;
+            width: 450px;
+            margin: auto;
+            padding: 40px;
             border-radius: 18px;
             box-shadow: 0 6px 25px rgba(0,0,0,0.12);
-            animation: fadeIn 0.7s ease-in-out;
-            text-align: center;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
             color: #3C2F2F;
-            font-size: 26px;
-            margin-bottom: 22px;
-        }
-
-        .result-box {
-            padding: 22px;
-            border-radius: 12px;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 30px;
         }
 
         .safe {
-            background: #DFF4E2;
-            color: #2E7D32;
-        }
-        .danger {
-            background: #FFE2E2;
-            color: #C62828;
+            color: #1b8a3d;
+            font-size: 22px;
+            font-weight: bold;
         }
 
-        .btn {
-            width: 100%;
-            padding: 14px;
+        .danger {
+            color: #d9534f;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 14px 25px;
+            background: #6F4E37;
             border: none;
-            font-size: 17px;
+            color: white;
+            font-size: 16px;
             border-radius: 10px;
             cursor: pointer;
-            margin-bottom: 12px;
-            font-weight: 600;
-            color: white;
-            background: #CBA47A;
-            transition: 0.25s;
-        }
-        .btn:hover { background: #b48a64; transform: scale(1.03); }
-
-        .secondary-btn {
-            background: #6F4E37;
-        }
-        .secondary-btn:hover {
-            background: #583d2b;
         }
     </style>
 </head>
@@ -80,20 +53,16 @@
 <body>
 
     <div class="card">
-        <h2>Prediction Result</h2>
+        <h2>Loan Prediction Result</h2>
 
         {% if prediction == 0 %}
-            <div class="result-box safe">✅ Low Risk — Loan is Safe</div>
+            <p class="safe">✔ The loan is SAFE</p>
         {% else %}
-            <div class="result-box danger">❌ High Risk — Loan May Default</div>
+            <p class="danger">❌ Default Risk Detected</p>
         {% endif %}
 
         <form action="/">
-            <button class="btn secondary-btn">⬅ Back to Form</button>
-        </form>
-
-        <form action="/dashboard">
-            <button class="btn">📊 View Dashboard</button>
+            <button>← Back to Form</button>
         </form>
     </div>
 
