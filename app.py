@@ -1,204 +1,111 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for
 import joblib
 import pandas as pd
-import sqlite3
-from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"  # change before production
 
-# Load ML Model
+# -------------------------
+# LOAD MODEL
+# -------------------------
 model = joblib.load("loan_model.pkl")
 
 # -------------------------
-# Initialize Database
+# CSV FILE FOR HISTORY
 # -------------------------
-def init_db():
-    conn = sqlite3.connect("database.db")
-    cur = conn.cursor()
+HISTORY_FILE = "history.csv"
 
-    # Users table
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            email TEXT UNIQUE,
-            password TEXT
-        )
-    """)
-
-    # Prediction history table
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS predictions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER,
-            age FLOAT,
-            income FLOAT,
-            loan_amount FLOAT,
-            credit_score FLOAT,
-            dti_ratio FLOAT,
-            education TEXT,
-            employment TEXT,
-            prediction INTEGER
-        )
-    """)
-
-    conn.commit()
-    conn.close()
-
-init_db()
-
-# Helper function
-def is_logged_in():
-    return "user_id" in session
+# If CSV doesn't exist, create empty file
+if not os.path.exists(HISTORY_FILE):
+    pd.DataFrame(columns=[
+        "age", "income", "loan_amount", "credit_score",
+        "dti_ratio", "education", "employment", "prediction"
+    ]).to_csv(HISTORY_FILE, index=False)
 
 
 # -------------------------
-# LANDING PAGE (NEW)
-# -------------------------
-@app.route("/landing")
-def landing():
-    return render_template("landing.html")
-
-
-# -------------------------
-# HOME ROUTE → Redirect to Landing
+# HOME PAGE
 # -------------------------
 @app.route("/")
 def home():
-    return redirect(url_for("landing"))
+    return render_template("index.html")
 
 
 # -------------------------
-# SIGNUP
+# PREDICT ROUTE
 # -------------------------
-@app.route("/signup", methods=["GET", "POST"])
-def signup():
-    if request.method == "POST":
-        name = request.form["name"]
-        email = request.form["email"]
-        password = generate_password_hash(request.form["password"])
+@app.route("/predict", methods=["GET", "POST"])
+def predict():
+    if request.method == "GET":
+        return redirect(url_for("home"))
 
-        try:
-            conn = sqlite3.connect("database.db")
-            cur = conn.cursor()
-            cur.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-                        (name, email, password))
-            conn.commit()
-            conn.close()
-            return redirect(url_for("login"))
-        except:
-            return "Email already exists."
+    try:
+        # Collect data
+        age = float(request.form["age"])
+        income = float(request.form["income"])
+        loan_amount = float(request.form["loan_amount"])
+        credit_score = float(request.form["credit_score"])
+        dti_ratio = float(request.form["dti_ratio"])
+        education = request.form["education"]
+        employment = request.form["employment"]
 
-    return render_template("signup.html")
+        # Create DataFrame for prediction
+        input_data = pd.DataFrame([{
+            "Age": age,
+            "Income": income,
+            "LoanAmount": loan_amount,
+            "CreditScore": credit_score,
+            "DTIRatio": dti_ratio,
+            "Education": education,
+            "EmploymentType": employment
+        }])
 
+        # Predict
+        pred = int(model.predict(input_data)[0])
 
-# -------------------------
-# LOGIN
-# -------------------------
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
+        # Save record to CSV
+        pd.DataFrame([{
+            "age": age,
+            "income": income,
+            "loan_amount": loan_amount,
+            "credit_score": credit_score,
+            "dti_ratio": dti_ratio,
+            "education": education,
+            "employment": employment,
+            "prediction": pred
+        }]).to_csv(HISTORY_FILE, mode='a', header=False, index=False)
 
-        conn = sqlite3.connect("database.db")
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM users WHERE email=?", (email,))
-        user = cur.fetchone()
-        conn.close()
+        return render_template("result.html", prediction=pred)
 
-        if user and check_password_hash(user[3], password):
-            session["user_id"] = user[0]
-            session["name"] = user[1]
-            return redirect(url_for("dashboard"))
-        else:
-            return "Invalid email or password."
-
-    return render_template("login.html")
-
-
-# -------------------------
-# LOGOUT
-# -------------------------
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect(url_for("login"))
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 
 # -------------------------
-# DASHBOARD
+# DASHBOARD PAGE
 # -------------------------
 @app.route("/dashboard")
 def dashboard():
-    if not is_logged_in():
-        return redirect(url_for("login"))
+    # Load full history
+    df = pd.read_csv(HISTORY_FILE)
 
-    conn = sqlite3.connect("database.db")
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM predictions WHERE user_id=?", (session["user_id"],))
-    data = cur.fetchall()
-    conn.close()
+    safe = len(df[df["prediction"] == 0])
+    danger = len(df[df["prediction"] == 1])
+    total = len(df)
 
-    safe = len([d for d in data if d[10] == 0])
-    danger = len([d for d in data if d[10] == 1])
+    history = df.to_dict(orient="records")
 
     return render_template(
         "dashboard.html",
-        name=session["name"],
-        data=data,
+        history=history,
         safe=safe,
         danger=danger,
-        total=len(data)
+        total=total
     )
 
 
 # -------------------------
-# PREDICT
-# -------------------------
-@app.route("/predict", methods=["POST"])
-def predict():
-    if not is_logged_in():
-        return redirect(url_for("login"))
-
-    age = float(request.form["age"])
-    income = float(request.form["income"])
-    loan_amount = float(request.form["loan_amount"])
-    credit_score = float(request.form["credit_score"])
-    dti_ratio = float(request.form["dti_ratio"])
-    education = request.form["education"]
-    employment = request.form["employment"]
-
-    # Create input for model
-    input_data = pd.DataFrame([{
-        "Age": age,
-        "Income": income,
-        "LoanAmount": loan_amount,
-        "CreditScore": credit_score,
-        "DTIRatio": dti_ratio,
-        "Education": education,
-        "EmploymentType": employment
-    }])
-
-    pred = int(model.predict(input_data)[0])
-
-    # Save to database
-    conn = sqlite3.connect("database.db")
-    cur = conn.cursor()
-    cur.execute("""
-        INSERT INTO predictions
-        (user_id, age, income, loan_amount, credit_score, dti_ratio, education, employment, prediction)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (session["user_id"], age, income, loan_amount, credit_score, dti_ratio, education, employment, pred))
-    conn.commit()
-    conn.close()
-
-    return render_template("result.html", prediction=pred)
-
-
-# -------------------------
-# RUN
+# SERVER RUN (Render uses gunicorn)
 # -------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
