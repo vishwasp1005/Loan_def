@@ -6,43 +6,56 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body class="home-body fade-in">
+<body class="fade-in">
 
     {% include 'navbar.html' %}
 
-    <!-- HERO SECTION -->
     <section class="page-container">
 
         <div class="hero fade-in">
 
+            <!-- LEFT TEXT -->
             <div class="hero-text">
                 <div class="badge">AI-Powered Loan Risk Assessment</div>
 
                 <h1>
-                    Advanced Loan <br>
+                    Advanced Loan<br>
                     <span class="highlight">Default Prediction</span>
                 </h1>
 
-                <p>
-                    Analyze financial data using cutting-edge AI and instantly predict
-                    the risk of loan default with high accuracy.
-                </p>
+                <p>Analyze financial data using machine learning and instantly 
+                   predict the risk of loan default with high accuracy.</p>
 
                 <div class="hero-buttons">
-                    <a href="/predict" class="btn btn-primary btn-arrow">Start Prediction</a>
-                    <a href="/dashboard" class="btn btn-secondary">View History</a>
+                    <a href="/predict" class="btn-primary">Start Prediction</a>
+                    <a href="/dashboard" class="btn-secondary">View History</a>
                 </div>
 
                 <div class="stats">
-                    <div class="stat-box"><h2>97%</h2><p>Accuracy</p></div>
-                    <div class="stat-box"><h2>0.4s</h2><p>Prediction Time</p></div>
-                    <div class="stat-box"><h2>24/7</h2><p>Availability</p></div>
+
+                    <div class="stat-box fade-in">
+                        <h2>97%</h2>
+                        <p>Accuracy</p>
+                    </div>
+
+                    <div class="stat-box fade-in">
+                        <h2>0.4s</h2>
+                        <p>Prediction Time</p>
+                    </div>
+
+                    <div class="stat-box fade-in">
+                        <h2>24/7</h2>
+                        <p>Availability</p>
+                    </div>
+
                 </div>
             </div>
 
+            <!-- RIGHT IMAGE -->
             <div class="hero-image fade-in">
-                <img src="https://illustrations.popsy.co/purple/responsive-website.svg"
-                     alt="AI Illustration" style="width: 430px; max-width: 100%;">
+                <img src="https://illustrations.popsy.co/white/data-report.svg"
+                     alt="AI Illustration"
+                     style="width: 450px; max-width: 100%;">
             </div>
 
         </div>
