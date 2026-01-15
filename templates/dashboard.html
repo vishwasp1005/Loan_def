@@ -5,36 +5,17 @@
     <title>LoanShield - Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <style>
-        .chart-container {
-            display: flex;
-            gap: 30px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-        .chart-box {
-            background: var(--card);
-            flex: 1;
-            min-width: 350px;
-            padding: 25px;
-            border-radius: 18px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-        .icon {
-            font-size: 32px;
-        }
-    </style>
 </head>
 
 <body class="fade-in">
 
     {% include 'navbar.html' %}
 
-    <div class="page-container">
+    <section class="page-container fade-in">
 
         <h1 class="page-title">Dashboard Overview</h1>
 
+        <!-- TOP CARDS -->
         <div class="stats-container">
 
             <div class="stat-card green fade-in">
@@ -54,10 +35,11 @@
                 <h2>{{ total }}</h2>
                 <p>Total Predictions</p>
             </div>
+
         </div>
 
-
-        <div class="chart-container fade-in">
+        <!-- CHARTS -->
+        <div class="chart-container">
             <div class="chart-box">
                 <h3 style="text-align:center;">Loan Status Distribution</h3>
                 <canvas id="pieChart"></canvas>
@@ -69,8 +51,8 @@
             </div>
         </div>
 
-        <h2 style="margin-top:40px;">Recent Predictions</h2>
-
+        <!-- TABLE -->
+        <h2 style="margin-top: 45px;">Recent Predictions</h2>
         <table class="history-table fade-in">
             <tr>
                 <th>Age</th>
@@ -83,44 +65,43 @@
                 <th>Status</th>
             </tr>
 
-            {% for r in history %}
+            {% for row in history %}
             <tr>
-                <td>{{ r.age }}</td>
-                <td>{{ r.income }}</td>
-                <td>{{ r.loan_amount }}</td>
-                <td>{{ r.credit_score }}</td>
-                <td>{{ r.dti_ratio }}</td>
-                <td>{{ r.education }}</td>
-                <td>{{ r.employment }}</td>
-                <td class="{{ 'green' if r.prediction == 0 else 'red' }}">
-                    {{ "Safe" if r.prediction == 0 else "Default" }}
+                <td>{{ row.age }}</td>
+                <td>{{ row.income }}</td>
+                <td>{{ row.loan_amount }}</td>
+                <td>{{ row.credit_score }}</td>
+                <td>{{ row.dti_ratio }}</td>
+                <td>{{ row.education }}</td>
+                <td>{{ row.employment }}</td>
+                <td class="{{ 'green' if row.prediction == 0 else 'red' }}">
+                    {{ "Safe" if row.prediction == 0 else "Default" }}
                 </td>
             </tr>
             {% endfor %}
         </table>
 
-    </div>
+    </section>
 
 <script>
-new Chart(document.getElementById("pieChart"), {
-    type: "pie",
+new Chart(document.getElementById('pieChart'), {
+    type: 'pie',
     data: {
-        labels: ["Safe Loans", "Defaults"],
+        labels: ['Safe Loans', 'Default Risks'],
         datasets: [{
             data: [{{ safe }}, {{ danger }}],
-            backgroundColor: ["#76d77a", "#ff6b6b"]
+            backgroundColor: ['#76d77a', '#ff6b6b']
         }]
     }
 });
 
-new Chart(document.getElementById("barChart"), {
-    type: "bar",
+new Chart(document.getElementById('barChart'), {
+    type: 'bar',
     data: {
-        labels: ["Safe", "Default"],
+        labels: ['Safe', 'Default'],
         datasets: [{
-            label: "Count",
             data: [{{ safe }}, {{ danger }}],
-            backgroundColor: ["#6ad06d", "#ff7676"]
+            backgroundColor: ['#6ad06d', '#ff7676']
         }]
     }
 });
