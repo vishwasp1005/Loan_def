@@ -1,70 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Prediction Result</title>
+{% include 'sidebar.html' %}
 
-    <style>
-        body {
-            font-family: "Poppins", sans-serif;
-            background: #F5F0E8;
-            text-align: center;
-            padding-top: 80px;
-        }
-
-        .card {
-            background: white;
-            width: 450px;
-            margin: auto;
-            padding: 40px;
-            border-radius: 18px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
-        }
-
-        h2 {
-            color: #3C2F2F;
-        }
-
-        .safe {
-            color: #1b8a3d;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .danger {
-            color: #d9534f;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        button {
-            margin-top: 25px;
-            padding: 14px 25px;
-            background: #6F4E37;
-            border: none;
-            color: white;
-            font-size: 16px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-
+<div class="main">
     <div class="card">
-        <h2>Loan Prediction Result</h2>
+        <h2>Prediction Result</h2>
 
         {% if prediction == 0 %}
-            <p class="safe">✔ The loan is SAFE</p>
+            <h3 class="safe">✔ Safe – Low Risk of Default</h3>
         {% else %}
-            <p class="danger">❌ Default Risk Detected</p>
+            <h3 class="danger">⚠ High Risk of Default</h3>
         {% endif %}
 
-        <form action="/">
-            <button>← Back to Form</button>
-        </form>
+        <br>
+        <a href="/dashboard"><button>View Dashboard</button></a>
     </div>
-
-</body>
-</html>
+</div>
