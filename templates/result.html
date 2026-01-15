@@ -10,25 +10,30 @@
 
     {% include 'navbar.html' %}
 
-    <div class="result-container fade-in">
+    <div class="page-container fade-in">
 
-        {% if prediction == 0 %}
-        <div class="result-card result-safe">
-            <div class="emoji" style="font-size:70px;">🟢</div>
-            <h1>Loan Status: <strong>SAFE</strong></h1>
-            <p>This applicant shows low risk.</p>
-        </div>
-        {% else %}
-        <div class="result-card result-danger">
-            <div class="emoji" style="font-size:70px;">🔴</div>
-            <h1>Loan Status: <strong>DEFAULT RISK</strong></h1>
-            <p>This applicant shows high default risk.</p>
-        </div>
-        {% endif %}
+        <div class="result-container fade-in" style="max-width:600px;margin:auto;text-align:center;">
 
-        <div class="action-buttons" style="margin-top:30px;">
-            <a href="/predict" class="btn btn-primary btn-arrow">Predict Again</a>
-            <a href="/dashboard" class="btn btn-secondary">View Dashboard</a>
+            {% if prediction == 0 %}
+            <div class="result-card" style="background:#D4F8D4;border-left:10px solid #2E7D32;">
+                <div class="emoji" style="font-size:70px;">🟢</div>
+                <h1>Loan Status: <strong>SAFE</strong></h1>
+                <p>The applicant is unlikely to default based on the model.</p>
+            </div>
+
+            {% else %}
+            <div class="result-card" style="background:#FFD4D4;border-left:10px solid #D32F2F;">
+                <div class="emoji" style="font-size:70px;">🔴</div>
+                <h1>Loan Status: <strong>DEFAULT RISK</strong></h1>
+                <p>The applicant shows a high risk of loan default.</p>
+            </div>
+            {% endif %}
+
+            <div class="action-buttons" style="margin-top:25px;">
+                <a href="/predict" class="btn-primary">Predict Again</a>
+                <a href="/dashboard" class="btn-secondary">View Dashboard</a>
+            </div>
+
         </div>
 
     </div>
