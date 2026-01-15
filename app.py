@@ -4,7 +4,7 @@ import sqlite3
 import pandas as pd
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = "loan_secret_key_123"
 
 # -----------------------------
