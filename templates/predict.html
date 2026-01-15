@@ -2,37 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LoanShield - Predict</title>
+    <title>LoanShield - Predict Risk</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
-        .loader-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(4px);
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
+        .input-group {
+            position: relative;
         }
-
-        .loader {
-            width: 70px;
-            height: 70px;
-            border: 6px solid #d3c4b4;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #d8cfc5;
+            background: #faf7f2;
+            margin-bottom: 18px;
+            font-size: 15px;
         }
-
-        @keyframes spin { to { transform: rotate(360deg);} }
-
+        .predict-illustration img {
+            width: 420px;
+            max-width: 100%;
+            animation: fadeIn 1s ease;
+        }
         .predict-container {
-            margin-top: 20px;
-            display: flex;
             align-items: center;
-            gap: 40px;
         }
     </style>
 </head>
@@ -41,92 +34,73 @@
 
     {% include 'navbar.html' %}
 
-    <div class="loader-overlay" id="loadingScreen">
-        <div class="loader"></div>
-    </div>
-
     <div class="page-container fade-in">
 
         <h1 class="page-title">Loan Risk Prediction</h1>
 
         <div class="predict-container">
 
+            <!-- LEFT IMAGE -->
             <div class="predict-illustration fade-in">
-                <img src="https://illustrations.popsy.co/white/data-report.svg"
-                     style="width: 420px; max-width: 100%;">
+                <img src="https://illustrations.popsy.co/purple/responsive-website.svg" alt="">
             </div>
 
+            <!-- FORM -->
             <div class="form-card fade-in">
 
-                <form action="/predict" method="POST" onsubmit="showLoader(event)">
+                <form action="/predict" method="POST" onsubmit="showLoader()">
 
                     <div class="input-group">
-                        <input type="number" name="age" required placeholder=" ">
+                        <input type="number" name="age" required>
                         <label>Age</label>
                     </div>
 
                     <div class="input-group">
-                        <input type="number" name="income" required placeholder=" ">
+                        <input type="number" name="income" required>
                         <label>Income</label>
                     </div>
 
                     <div class="input-group">
-                        <input type="number" name="loan_amount" required placeholder=" ">
+                        <input type="number" name="loan_amount" required>
                         <label>Loan Amount</label>
                     </div>
 
                     <div class="input-group">
-                        <input type="number" name="credit_score" required placeholder=" ">
+                        <input type="number" name="credit_score" required>
                         <label>Credit Score</label>
                     </div>
 
                     <div class="input-group">
-                        <input type="number" name="dti_ratio" step="0.01" required placeholder=" ">
+                        <input type="number" name="dti_ratio" step="0.01" required>
                         <label>DTI Ratio</label>
                     </div>
 
                     <div class="input-group">
                         <select name="education" required>
-                            <option value="" hidden></option>
+                            <option disabled selected hidden>Choose Education</option>
                             <option>High School</option>
                             <option>Bachelor</option>
                             <option>Master</option>
                             <option>PhD</option>
                         </select>
-                        <label>Education</label>
                     </div>
 
                     <div class="input-group">
                         <select name="employment" required>
-                            <option value="" hidden></option>
+                            <option disabled selected hidden>Employment Type</option>
                             <option>Full-time</option>
                             <option>Part-time</option>
                             <option>Self-employed</option>
                             <option>Unemployed</option>
                         </select>
-                        <label>Employment</label>
                     </div>
 
-                    <button class="btn btn-primary btn-arrow full-btn" type="submit">
-                        Predict
-                    </button>
+                    <button type="submit" class="btn-primary full-btn">Predict</button>
 
                 </form>
+
             </div>
         </div>
     </div>
-
-<script>
-function showLoader(e) {
-    const btn = e.submitter;
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    btn.style.setProperty("--x", x + "px");
-    btn.style.setProperty("--y", y + "px");
-    document.getElementById("loadingScreen").style.display = "flex";
-}
-</script>
-
 </body>
 </html>
