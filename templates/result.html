@@ -1,16 +1,37 @@
-{% include 'sidebar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoanShield – Prediction Result</title>
 
-<div class="main">
-    <div class="card">
-        <h2>Prediction Result</h2>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
 
-        {% if prediction == 0 %}
-            <h3 class="safe">✔ Safe – Low Risk of Default</h3>
-        {% else %}
-            <h3 class="danger">⚠ High Risk of Default</h3>
-        {% endif %}
+<body>
 
-        <br>
-        <a href="/dashboard"><button>View Dashboard</button></a>
+    {% include 'sidebar.html' %}
+
+    <div class="main">
+
+        <div class="result-card">
+
+            {% if prediction == 0 %}
+                <h2 class="safe-text">✔ Loan is SAFE</h2>
+                <p class="desc">This borrower is unlikely to default based on the model prediction.</p>
+            {% else %}
+                <h2 class="danger-text">⚠ HIGH RISK – Might Default</h2>
+                <p class="desc">The model predicts a high chance of loan default.</p>
+            {% endif %}
+
+            <div class="btn-row">
+                <a class="btn" href="/">🔙 Back to Form</a>
+                <a class="btn btn-dashboard" href="/dashboard">📊 Go to Dashboard</a>
+            </div>
+
+        </div>
+
     </div>
-</div>
+
+</body>
+</html>
