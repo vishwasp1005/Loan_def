@@ -3,6 +3,10 @@
 --------------------------------*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: "Poppins", sans-serif;
@@ -22,7 +26,7 @@ body {
 
 
 /* ------------------------------
-   NAVBAR (USED ON ALL PAGES)
+   PREMIUM NAVBAR
 --------------------------------*/
 .navbar {
     width: 100%;
@@ -34,24 +38,26 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(14px);
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(20px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.navbar .logo {
-    font-size: 26px;
+.logo {
+    font-size: 28px;
     font-weight: 700;
     color: #6A4C36;
 }
 
-.navbar .nav-links {
+/* NAV LINKS */
+.nav-links {
     display: flex;
     list-style: none;
     gap: 35px;
+    transition: 0.4s ease;
 }
 
-.navbar .nav-links a {
+.nav-links li a {
     text-decoration: none;
     font-weight: 500;
     color: #333;
@@ -59,10 +65,11 @@ body {
     transition: 0.3s;
 }
 
-.navbar .nav-links a:hover {
+.nav-links li a:hover {
     color: #C7A27C;
 }
 
+/* Logout button */
 .logout-btn {
     padding: 9px 16px;
     background: #c44747;
@@ -73,10 +80,52 @@ body {
 
 
 /* ------------------------------
-   PAGE LAYOUT (ALL INSIDE PAGES)
+   MOBILE NAVBAR
+--------------------------------*/
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 6px;
+}
+
+.hamburger span {
+    width: 28px;
+    height: 3px;
+    background: #6A4C36;
+    border-radius: 3px;
+}
+
+@media(max-width: 850px){
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        width: 200px;
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
+        border-radius: 12px 0 0 12px;
+        display: none;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+}
+
+
+/* ------------------------------
+   PAGE SPACING
 --------------------------------*/
 .page-container {
-    padding-top: 120px;   /* navbar space */
+    padding-top: 130px; /* space for navbar */
     padding-left: 60px;
     padding-right: 60px;
 }
@@ -85,16 +134,12 @@ body {
 /* ------------------------------
    HOME PAGE HERO
 --------------------------------*/
-.home-body {
-    background: linear-gradient(135deg, #f7f4ee, #f1e9df);
-}
-
 .hero {
-    margin-top: 80px;
     padding: 40px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 40px;
 }
 
 .hero-text {
@@ -105,20 +150,19 @@ body {
     font-size: 54px;
     font-weight: 700;
     color: #3A2F2F;
-    line-height: 1.2;
 }
 
-.hero-text .highlight {
+.highlight {
     color: #B68258;
 }
 
 .badge {
     background: #EAD4BF;
     padding: 8px 18px;
-    display: inline-block;
     border-radius: 20px;
     font-size: 14px;
     color: #523A28;
+    display: inline-block;
 }
 
 .hero-text p {
@@ -131,25 +175,24 @@ body {
     margin: 25px 0;
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
     padding: 12px 25px;
-    text-decoration: none;
     border-radius: 10px;
     font-weight: 600;
     font-size: 16px;
+    text-decoration: none;
     display: inline-block;
-    transition: 0.3s;
 }
 
 .btn-primary {
     background: #C7A27C;
     color: white;
-    margin-right: 10px;
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
     background: #b28d63;
+    transform: translateY(-3px);
 }
 
 .btn-secondary {
@@ -162,24 +205,25 @@ body {
     color: white;
 }
 
+/* Hero stats */
 .stats {
     display: flex;
-    margin-top: 30px;
+    margin-top: 25px;
     gap: 25px;
 }
 
 .stat-box {
     background: white;
+    width: 140px;
     padding: 20px;
     text-align: center;
     border-radius: 15px;
-    width: 140px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 
 /* ------------------------------
-   FORM CARD (PREDICT PAGE)
+   PREDICT FORM PAGE
 --------------------------------*/
 .center-box {
     display: flex;
@@ -192,7 +236,8 @@ body {
     width: 480px;
     padding: 35px;
     border-radius: 18px;
-    box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+    animation: fadeIn 0.7s ease;
 }
 
 .form-card input,
@@ -216,34 +261,27 @@ body {
 .result-box {
     max-width: 600px;
     margin: auto;
+    text-align: center;
 }
 
 .result {
-    padding: 25px;
-    font-size: 26px;
-    text-align: center;
+    padding: 28px;
+    font-size: 28px;
     border-radius: 15px;
-    margin: 20px 0;
+    margin: 35px 0;
 }
 
-.result.safe {
-    background: #D4F8D4;
-    color: #2E7D32;
-}
-
-.result.danger {
-    background: #FFD4D4;
-    color: #D32F2F;
-}
+.safe { background: #D4F8D4; color: #2E7D32; }
+.danger { background: #FFD4D4; color: #D32F2F; }
 
 
 /* ------------------------------
-   DASHBOARD
+   DASHBOARD PAGE
 --------------------------------*/
 .stats-container {
     display: flex;
     gap: 25px;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
 }
 
 .stat-card {
@@ -252,7 +290,7 @@ body {
     border-radius: 18px;
     background: #fff;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .stat-card.green { background: #D4F8D4; }
@@ -261,39 +299,26 @@ body {
 .history-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
 .history-table th, .history-table td {
-    padding: 12px;
+    padding: 14px;
     border-bottom: 1px solid #e5e5e5;
+}
+
+.history-table tr:hover {
+    background: #F5EFE6;
 }
 
 
 /* ------------------------------
-   RESPONSIVE
+   RESPONSIVE FIXES
 --------------------------------*/
 @media (max-width: 900px) {
-    .hero {
-        flex-direction: column;
-        text-align: center;
-    }
-    .hero-text {
-        width: 100%;
-    }
+    .hero { flex-direction: column; text-align: center; }
+    .hero-text, .hero-image { width: 100%; }
 }
 
 @media (max-width: 600px) {
-    .navbar {
-        padding: 15px 25px;
-    }
-
-    .nav-links {
-        gap: 20px;
-    }
-
-    .page-container {
-        padding-left: 25px;
-        padding-right: 25px;
-    }
+    .page-container { padding-left: 20px; padding-right: 20px; }
 }
