@@ -2,66 +2,30 @@
 <html>
 <head>
     <title>Login - LoanShield</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #f3eee6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .box {
-            background: white;
-            padding: 30px;
-            width: 350px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #ccc;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            border: 1px solid #bbb;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #c89b6d;
-            border: none;
-            color: white;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body>
-    <div class="box">
-        <h2 style="text-align:center;">Login</h2>
 
-        {% if error %}
+<body style="justify-content:center;align-items:center;">
+
+<div class="auth-card">
+    <h2>Login</h2>
+
+    {% if error %}
         <p class="error">{{ error }}</p>
-        {% endif %}
+    {% endif %}
 
-        <form method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
+    <form method="POST">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Enter username" required>
 
-        <p style="text-align:center;">
-    Don't have an account? <a href="/signup">Sign Up</a>
-</p>
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter password" required>
 
-    </div>
+        <button type="submit">Login</button>
+    </form>
+
+    <p style="text-align:center;">Default Login: <b>admin / 12345</b></p>
+</div>
+
 </body>
 </html>
