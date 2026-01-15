@@ -42,10 +42,13 @@ if not os.path.exists(USERS_FILE):
 
 
 # -------------------------
-# HARD-CODED LOGIN (Render Safe)
+# USER VALIDATION (checks users.csv)
 # -------------------------
 def validate_user(username, password):
-    return username == "admin" and password == "12345"
+    df = pd.read_csv(USERS_FILE)
+    user = df[(df["username"] == username) & (df["password"] == password)]
+    return not user.empty
+
 
 
 # -------------------------
