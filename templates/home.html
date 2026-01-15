@@ -6,50 +6,80 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body class="home-body">
+<body class="home-body fade-in">
 
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="logo">LoanShield</div>
-        <ul class="nav-links">
+        <ul class="nav-links" id="navLinks">
             <li><a href="/">Home</a></li>
             <li><a href="/predict">Predict</a></li>
             <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/logout" class="logout-btn">Logout</a></li>
         </ul>
+
+        <!-- MOBILE NAV -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
     </nav>
 
-    <section class="hero">
-        <div class="hero-text">
-            <div class="badge">AI-Powered Loan Risk Assessment</div>
-            <h1>Advanced Loan<br><span class="highlight">Default Predictions</span></h1>
 
-            <p>
-                Using machine learning to analyze key financial indicators
-                and instantly predict the risk of loan default with accuracy.
-            </p>
+    <!-- HERO SECTION -->
+    <section class="page-container">
+        <div class="hero fade-in">
 
-            <div class="hero-buttons">
-                <a href="/predict" class="btn-primary">Start Prediction →</a>
-                <a href="/dashboard" class="btn-secondary">View History</a>
+            <!-- LEFT SIDE TEXT -->
+            <div class="hero-text">
+                <div class="badge">AI-Powered Loan Risk Assessment</div>
+
+                <h1>
+                    Advanced Loan<br>
+                    <span class="highlight">Default Prediction</span>
+                </h1>
+
+                <p>
+                    Analyze financial data using cutting-edge AI and instantly predict
+                    the risk of loan default with high accuracy.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="/predict" class="btn-primary">Start Prediction →</a>
+                    <a href="/dashboard" class="btn-secondary">View History</a>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-box fade-in">
+                        <h2>97%</h2>
+                        <p>Accuracy</p>
+                    </div>
+                    <div class="stat-box fade-in">
+                        <h2>0.4s</h2>
+                        <p>Prediction Time</p>
+                    </div>
+                    <div class="stat-box fade-in">
+                        <h2>24/7</h2>
+                        <p>Availability</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="stats">
-                <div class="stat-box">
-                    <h2>97%</h2><p>Accuracy</p>
-                </div>
-                <div class="stat-box">
-                    <h2>&lt;1s</h2><p>Speed</p>
-                </div>
-                <div class="stat-box">
-                    <h2>24/7</h2><p>Access</p>
-                </div>
+            <!-- RIGHT SIDE IMAGE -->
+            <div class="hero-image fade-in">
+                <img src="https://illustrations.popsy.co/purple/responsive-website.svg" 
+                     alt="AI Illustration"
+                     style="width: 450px; max-width: 100%; animation: fadeIn 1.4s ease;">
             </div>
-        </div>
 
-        <div class="hero-image">
-            <div class="card-visual"></div>
         </div>
     </section>
+
+
+<script>
+function toggleMenu(){
+    document.getElementById("navLinks").classList.toggle("active");
+}
+</script>
 
 </body>
 </html>
