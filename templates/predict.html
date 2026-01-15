@@ -2,55 +2,183 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LoanShield - Predict</title>
+    <title>LoanShield - Predict Risk</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* ---- FLOATING FORM FIELD ---- */
+        .input-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 14px;
+            padding-left: 14px;
+            border-radius: 10px;
+            border: 1px solid #d8cfc5;
+            background: #faf7f2;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s ease;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 6px;
+            color: #7a6f69;
+            font-size: 14px;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label,
+        .input-group select:focus + label {
+            top: -8px;
+            left: 12px;
+            font-size: 12px;
+            color: #b68258;
+        }
+
+        /* -------------- GRID FORM LAYOUT -------------- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        @media(max-width: 760px){
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---- LOADING OVERLAY ---- */
+        .loader-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            width: 70px;
+            height: 70px;
+            border: 6px solid #d3c4b4;
+            border-top-color: #b68258;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+
 </head>
 
-<body class="page-body">
-  {% include 'navbar.html' %}
+<body class="fade-in">
 
+    {% include 'navbar.html' %}
 
-    <div class="main-content">
-        <h1 class="page-title">Loan Default Prediction</h1>
+    <!-- LOADING ANIMATION -->
+    <div class="loader-overlay" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
 
-        <div class="form-card">
-            <form action="/predict" method="POST">
+    <div class="page-container fade-in">
 
-                <label>Age</label>
-                <input type="number" name="age" required>
+        <h1 class="page-title">Loan Risk Prediction</h1>
 
-                <label>Income</label>
-                <input type="number" name="income" required>
+        <div class="predict-container">
 
-                <label>Loan Amount</label>
-                <input type="number" name="loan_amount" required>
+            <!-- LEFT: Illustration -->
+            <div class="predict-illustration fade-in">
+                <img src="https://illustrations.popsy.co/white/data-report.svg"
+                     style="width: 420px; max-width: 100%; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.1));">
+            </div>
 
-                <label>Credit Score</label>
-                <input type="number" name="credit_score" required>
+            <!-- RIGHT: FORM -->
+            <div class="form-card fade-in">
 
-                <label>DTI Ratio</label>
-                <input type="number" step="0.01" name="dti_ratio" required>
+                <form action="/predict" method="POST" onsubmit="showLoader()">
 
-                <label>Education</label>
-                <select name="education">
-                    <option>High School</option>
-                    <option>Bachelor</option>
-                    <option>Master</option>
-                    <option>PhD</option>
-                </select>
+                    <div class="form-grid">
 
-                <label>Employment</label>
-                <select name="employment">
-                    <option>Full-time</option>
-                    <option>Part-time</option>
-                    <option>Self-employed</option>
-                    <option>Unemployed</option>
-                </select>
+                        <div class="input-group">
+                            <input type="number" name="age" required placeholder=" ">
+                            <label>Age</label>
+                        </div>
 
-                <button type="submit" class="btn-primary full-btn">Predict</button>
-            </form>
+                        <div class="input-group">
+                            <input type="number" name="income" required placeholder=" ">
+                            <label>Income</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="number" name="loan_amount" required placeholder=" ">
+                            <label>Loan Amount</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="number" name="credit_score" required placeholder=" ">
+                            <label>Credit Score</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="number" step="0.01" name="dti_ratio" required placeholder=" ">
+                            <label>DTI Ratio</label>
+                        </div>
+
+                        <div class="input-group">
+                            <select name="education" required>
+                                <option value="" disabled selected hidden></option>
+                                <option>High School</option>
+                                <option>Bachelor</option>
+                                <option>Master</option>
+                                <option>PhD</option>
+                            </select>
+                            <label>Education</label>
+                        </div>
+
+                        <div class="input-group">
+                            <select name="employment" required>
+                                <option value="" disabled selected hidden></option>
+                                <option>Full-time</option>
+                                <option>Part-time</option>
+                                <option>Self-employed</option>
+                                <option>Unemployed</option>
+                            </select>
+                            <label>Employment</label>
+                        </div>
+
+                    </div> <!-- form-grid -->
+
+                    <button type="submit" class="btn-primary full-btn" style="margin-top: 15px;">
+                        Predict →
+                    </button>
+
+                </form>
+            </div>
         </div>
     </div>
+
+<script>
+function showLoader() {
+    document.getElementById("loadingScreen").style.display = "flex";
+}
+</script>
 
 </body>
 </html>
