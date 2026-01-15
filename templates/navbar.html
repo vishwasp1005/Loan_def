@@ -1,29 +1,29 @@
 <nav class="navbar fade-in">
-    <div class="logo">LoanShield</div>
+    <div class="nav-container">
 
-    <!-- Hamburger (Mobile) -->
-    <div class="hamburger" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
+        <!-- Logo -->
+        <div class="logo">LoanShield</div>
+
+        <!-- Hamburger Menu -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="navMenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/predict">Predict</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a class="logout-btn" href="/logout">Logout</a></li>
+        </ul>
+
     </div>
-
-    <!-- Navigation Menu -->
-    <ul class="nav-links" id="navMenu">
-        <li><a class="btn-link" href="/">Home</a></li>
-        <li><a class="btn-link" href="/predict">Predict</a></li>
-        <li><a class="btn-link" href="/dashboard">Dashboard</a></li>
-        <li><a class="logout-btn btn" href="/logout">Logout</a></li>
-        <li><span class="dark-toggle" onclick="toggleDarkMode()">🌙</span></li>
-    </ul>
 </nav>
 
 <script>
 function toggleMenu() {
     document.getElementById("navMenu").classList.toggle("active");
-}
-
-function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
 }
 </script>
