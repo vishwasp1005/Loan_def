@@ -8,7 +8,6 @@ body {
     font-family: "Poppins", sans-serif;
     background: #F7F5F2;
     color: #2F2E2E;
-    display: flex;
 }
 
 /* Smooth fade animation */
@@ -23,19 +22,21 @@ body {
 
 
 /* ------------------------------
-   NAVBAR (HOME PAGE)
+   NAVBAR (USED ON ALL PAGES)
 --------------------------------*/
 .navbar {
     width: 100%;
-    padding: 20px 60px;
+    padding: 18px 60px;
     position: fixed;
     top: 0;
+    left: 0;
+    z-index: 999;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .navbar .logo {
@@ -46,8 +47,8 @@ body {
 
 .navbar .nav-links {
     display: flex;
-    gap: 40px;
     list-style: none;
+    gap: 35px;
 }
 
 .navbar .nav-links a {
@@ -63,73 +64,21 @@ body {
 }
 
 .logout-btn {
-    padding: 8px 15px;
-    background: #b54848;
+    padding: 9px 16px;
+    background: #c44747;
     border-radius: 8px;
     color: white !important;
+    font-weight: 600;
 }
 
 
 /* ------------------------------
-   SIDEBAR (INSIDE APP)
+   PAGE LAYOUT (ALL INSIDE PAGES)
 --------------------------------*/
-.sidebar {
-    width: 220px;
-    height: 100vh;
-    background: rgba(255,255,255,0.55);
-    backdrop-filter: blur(20px);
-    box-shadow: 2px 0 12px rgba(0,0,0,0.1);
-    padding-top: 40px;
-    position: fixed;
-    animation: slideLeft 0.5s ease;
-}
-
-@keyframes slideLeft {
-    from { transform: translateX(-40px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-.sidebar .brand {
-    font-size: 24px;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 40px;
-    color: #6A4C36;
-}
-
-.side-link {
-    display: block;
-    padding: 14px 25px;
-    font-size: 16px;
-    color: #333;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.side-link:hover {
-    background: #EBDCC8;
-    color: #523A28;
-}
-
-.logout {
-    color: #B04141 !important;
-}
-
-
-/* ------------------------------
-   MAIN CONTENT
---------------------------------*/
-.main-content {
-    margin-left: 240px;
-    padding: 40px;
-    width: calc(100% - 240px);
-}
-
-.page-title {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 30px;
-    animation: fadeIn 0.8s;
+.page-container {
+    padding-top: 120px;   /* navbar space */
+    padding-left: 60px;
+    padding-right: 60px;
 }
 
 
@@ -141,8 +90,8 @@ body {
 }
 
 .hero {
-    margin-top: 120px;
-    padding: 40px 60px;
+    margin-top: 80px;
+    padding: 40px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -153,7 +102,7 @@ body {
 }
 
 .hero-text h1 {
-    font-size: 60px;
+    font-size: 54px;
     font-weight: 700;
     color: #3A2F2F;
     line-height: 1.2;
@@ -224,28 +173,26 @@ body {
     padding: 20px;
     text-align: center;
     border-radius: 15px;
-    width: 120px;
+    width: 140px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    animation: fadeIn 1.2s ease;
-}
-
-.stat-box h2 {
-    margin: 0;
-    font-size: 28px;
-    color: #6A4C36;
 }
 
 
 /* ------------------------------
-   PREDICT PAGE FORM
+   FORM CARD (PREDICT PAGE)
 --------------------------------*/
+.center-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
 .form-card {
     background: white;
-    width: 450px;
+    width: 480px;
     padding: 35px;
     border-radius: 18px;
     box-shadow: 0 6px 25px rgba(0,0,0,0.1);
-    animation: fadeIn 0.7s ease;
 }
 
 .form-card input,
@@ -268,6 +215,7 @@ body {
 --------------------------------*/
 .result-box {
     max-width: 600px;
+    margin: auto;
 }
 
 .result {
@@ -276,7 +224,6 @@ body {
     text-align: center;
     border-radius: 15px;
     margin: 20px 0;
-    animation: fadeIn 1s;
 }
 
 .result.safe {
@@ -291,7 +238,7 @@ body {
 
 
 /* ------------------------------
-   DASHBOARD CARDS + TABLE
+   DASHBOARD
 --------------------------------*/
 .stats-container {
     display: flex;
@@ -304,9 +251,8 @@ body {
     padding: 25px;
     border-radius: 18px;
     background: #fff;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     text-align: center;
-    animation: fadeIn 0.8s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
 .stat-card.green { background: #D4F8D4; }
@@ -320,33 +266,34 @@ body {
 
 .history-table th, .history-table td {
     padding: 12px;
-    text-align: left;
     border-bottom: 1px solid #e5e5e5;
 }
-
-.history-table tr:hover {
-    background: #F5EFE6;
-}
-
-.green { color: #2E7D32; font-weight: 600; }
-.red { color: #C62828; font-weight: 600; }
 
 
 /* ------------------------------
    RESPONSIVE
 --------------------------------*/
 @media (max-width: 900px) {
-    .sidebar { display: none; }
-    .main-content { margin-left: 0; width: 100%; }
-}
-
-@media (max-width: 700px) {
     .hero {
         flex-direction: column;
         text-align: center;
     }
-
-    .hero-text, .hero-image {
+    .hero-text {
         width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        padding: 15px 25px;
+    }
+
+    .nav-links {
+        gap: 20px;
+    }
+
+    .page-container {
+        padding-left: 25px;
+        padding-right: 25px;
     }
 }
