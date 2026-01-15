@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>LoanShield - Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-    <!-- CHART.JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -15,20 +13,16 @@
             margin-top: 40px;
             flex-wrap: wrap;
         }
-
         .chart-box {
-            background: white;
+            background: var(--card);
             flex: 1;
             min-width: 350px;
             padding: 25px;
             border-radius: 18px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            animation: fadeIn 0.9s;
         }
-
         .icon {
             font-size: 32px;
-            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -41,7 +35,6 @@
 
         <h1 class="page-title">Dashboard Overview</h1>
 
-        <!-- TOP CARDS -->
         <div class="stats-container">
 
             <div class="stat-card green fade-in">
@@ -61,13 +54,10 @@
                 <h2>{{ total }}</h2>
                 <p>Total Predictions</p>
             </div>
-
         </div>
 
 
-        <!-- CHARTS -->
-        <div class="chart-container">
-
+        <div class="chart-container fade-in">
             <div class="chart-box">
                 <h3 style="text-align:center;">Loan Status Distribution</h3>
                 <canvas id="pieChart"></canvas>
@@ -77,14 +67,11 @@
                 <h3 style="text-align:center;">Safe vs Default Trend</h3>
                 <canvas id="barChart"></canvas>
             </div>
-
         </div>
 
+        <h2 style="margin-top:40px;">Recent Predictions</h2>
 
-        <!-- TABLE -->
-        <h2 style="margin-top: 50px;">Recent Predictions</h2>
-
-        <table class="history-table">
+        <table class="history-table fade-in">
             <tr>
                 <th>Age</th>
                 <th>Income</th>
@@ -96,17 +83,17 @@
                 <th>Status</th>
             </tr>
 
-            {% for row in history %}
-            <tr class="fade-in">
-                <td>{{ row.age }}</td>
-                <td>{{ row.income }}</td>
-                <td>{{ row.loan_amount }}</td>
-                <td>{{ row.credit_score }}</td>
-                <td>{{ row.dti_ratio }}</td>
-                <td>{{ row.education }}</td>
-                <td>{{ row.employment }}</td>
-                <td class="{{ 'green' if row.prediction == 0 else 'red' }}">
-                    {{ "Safe" if row.prediction == 0 else "Default" }}
+            {% for r in history %}
+            <tr>
+                <td>{{ r.age }}</td>
+                <td>{{ r.income }}</td>
+                <td>{{ r.loan_amount }}</td>
+                <td>{{ r.credit_score }}</td>
+                <td>{{ r.dti_ratio }}</td>
+                <td>{{ r.education }}</td>
+                <td>{{ r.employment }}</td>
+                <td class="{{ 'green' if r.prediction == 0 else 'red' }}">
+                    {{ "Safe" if r.prediction == 0 else "Default" }}
                 </td>
             </tr>
             {% endfor %}
@@ -114,38 +101,30 @@
 
     </div>
 
+<script>
+new Chart(document.getElementById("pieChart"), {
+    type: "pie",
+    data: {
+        labels: ["Safe Loans", "Defaults"],
+        datasets: [{
+            data: [{{ safe }}, {{ danger }}],
+            backgroundColor: ["#76d77a", "#ff6b6b"]
+        }]
+    }
+});
 
-    <!-- CHART SCRIPTS -->
-    <script>
-        const safe = {{ safe }};
-        const danger = {{ danger }};
-
-        /* PIE CHART */
-        new Chart(document.getElementById('pieChart'), {
-            type: 'pie',
-            data: {
-                labels: ['Safe Loans', 'Defaults'],
-                datasets: [{
-                    data: [safe, danger],
-                    backgroundColor: ['#76d77a', '#ff6b6b']
-                }]
-            }
-        });
-
-        /* BAR CHART */
-        new Chart(document.getElementById('barChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Safe', 'Default'],
-                datasets: [{
-                    label: 'Count',
-                    data: [safe, danger],
-                    backgroundColor: ['#6ad06d', '#ff7676']
-                }]
-            },
-            options: { responsive: true }
-        });
-    </script>
+new Chart(document.getElementById("barChart"), {
+    type: "bar",
+    data: {
+        labels: ["Safe", "Default"],
+        datasets: [{
+            label: "Count",
+            data: [{{ safe }}, {{ danger }}],
+            backgroundColor: ["#6ad06d", "#ff7676"]
+        }]
+    }
+});
+</script>
 
 </body>
 </html>
