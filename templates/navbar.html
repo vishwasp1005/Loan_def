@@ -1,10 +1,29 @@
-<nav class="top-nav">
-    <div class="logo">LoanShield</div>
+<nav class="navbar fade-in">
+    <div class="nav-container">
 
-    <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/predict">Predict</a></li>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/logout" class="logout">Logout</a></li>
-    </ul>
+        <!-- Logo -->
+        <div class="logo">LoanShield</div>
+
+        <!-- Hamburger (Mobile) -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Navigation Menu -->
+        <ul class="nav-links" id="navMenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/predict">Predict</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a class="logout-btn" href="/logout">Logout</a></li>
+        </ul>
+
+    </div>
 </nav>
+
+<script>
+function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("active");
+}
+</script>
