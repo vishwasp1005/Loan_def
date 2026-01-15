@@ -1,59 +1,81 @@
-{% include 'sidebar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoanShield – Dashboard</title>
 
-<div class="main">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
 
-    <div class="metrics">
-        <div class="metric-box">
-            <h3 class="safe">{{ safe }}</h3>
-            <p>Safe Loans</p>
+<body>
+
+    {% include 'sidebar.html' %}
+
+    <div class="main">
+
+        <h1 class="page-title">📊 Prediction Dashboard</h1>
+
+        <div class="stats-container">
+
+            <div class="stat-card safe">
+                <h3>Safe Loans</h3>
+                <p>{{ safe }}</p>
+            </div>
+
+            <div class="stat-card danger">
+                <h3>Defaults</h3>
+                <p>{{ danger }}</p>
+            </div>
+
+            <div class="stat-card total">
+                <h3>Total Predictions</h3>
+                <p>{{ total }}</p>
+            </div>
+
         </div>
 
-        <div class="metric-box">
-            <h3 class="danger">{{ danger }}</h3>
-            <p>High Risk Loans</p>
+        <h2 class="section-title">📄 Recent Predictions</h2>
+
+        <div class="table-wrapper">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Age</th>
+                        <th>Income</th>
+                        <th>Loan</th>
+                        <th>Credit</th>
+                        <th>DTI</th>
+                        <th>Education</th>
+                        <th>Employment</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in history %}
+                    <tr>
+                        <td>{{ row.age }}</td>
+                        <td>{{ row.income }}</td>
+                        <td>{{ row.loan_amount }}</td>
+                        <td>{{ row.credit_score }}</td>
+                        <td>{{ row.dti_ratio }}</td>
+                        <td>{{ row.education }}</td>
+                        <td>{{ row.employment }}</td>
+                        <td>
+                            {% if row.prediction == 0 %}
+                                <span class="tag safe-tag">Safe</span>
+                            {% else %}
+                                <span class="tag danger-tag">Default</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
-        <div class="metric-box">
-            <h3>{{ total }}</h3>
-            <p>Total Predictions</p>
-        </div>
     </div>
 
-    <div class="card">
-        <h2>Prediction History</h2>
-
-        <table width="100%" cellpadding="10" class="history-table">
-            <tr>
-                <th>Age</th>
-                <th>Income</th>
-                <th>Loan</th>
-                <th>Credit</th>
-                <th>DTI</th>
-                <th>Education</th>
-                <th>Employment</th>
-                <th>Status</th>
-            </tr>
-
-            {% for h in history %}
-            <tr>
-                <td>{{ h.age }}</td>
-                <td>{{ h.income }}</td>
-                <td>{{ h.loan_amount }}</td>
-                <td>{{ h.credit_score }}</td>
-                <td>{{ h.dti_ratio }}</td>
-                <td>{{ h.education }}</td>
-                <td>{{ h.employment }}</td>
-
-                <td>
-                    {% if h.prediction == 0 %}
-                        <span class="safe">Safe</span>
-                    {% else %}
-                        <span class="danger">Risk</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-</div>
+</body>
+</html>
