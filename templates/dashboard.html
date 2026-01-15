@@ -2,81 +2,150 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoanShield – Dashboard</title>
-
+    <title>LoanShield - Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- CHART.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .chart-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .chart-box {
+            background: white;
+            flex: 1;
+            min-width: 350px;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            animation: fadeIn 0.9s;
+        }
+
+        .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
-<body>
+<body class="fade-in">
 
-{% include 'navbar.html' %}
+    {% include 'navbar.html' %}
 
+    <div class="page-container">
 
-    <div class="main">
+        <h1 class="page-title">Dashboard Overview</h1>
 
-        <h1 class="page-title">📊 Prediction Dashboard</h1>
-
+        <!-- TOP CARDS -->
         <div class="stats-container">
 
-            <div class="stat-card safe">
-                <h3>Safe Loans</h3>
-                <p>{{ safe }}</p>
+            <div class="stat-card green fade-in">
+                <div class="icon">✔️</div>
+                <h2>{{ safe }}</h2>
+                <p>Safe Loans</p>
             </div>
 
-            <div class="stat-card danger">
-                <h3>Defaults</h3>
-                <p>{{ danger }}</p>
+            <div class="stat-card red fade-in">
+                <div class="icon">⚠️</div>
+                <h2>{{ danger }}</h2>
+                <p>Default Risks</p>
             </div>
 
-            <div class="stat-card total">
-                <h3>Total Predictions</h3>
-                <p>{{ total }}</p>
+            <div class="stat-card fade-in">
+                <div class="icon">📊</div>
+                <h2>{{ total }}</h2>
+                <p>Total Predictions</p>
             </div>
 
         </div>
 
-        <h2 class="section-title">📄 Recent Predictions</h2>
 
-        <div class="table-wrapper">
-            <table class="styled-table">
-                <thead>
-                    <tr>
-                        <th>Age</th>
-                        <th>Income</th>
-                        <th>Loan</th>
-                        <th>Credit</th>
-                        <th>DTI</th>
-                        <th>Education</th>
-                        <th>Employment</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+        <!-- CHARTS -->
+        <div class="chart-container">
 
-                <tbody>
-                    {% for row in history %}
-                    <tr>
-                        <td>{{ row.age }}</td>
-                        <td>{{ row.income }}</td>
-                        <td>{{ row.loan_amount }}</td>
-                        <td>{{ row.credit_score }}</td>
-                        <td>{{ row.dti_ratio }}</td>
-                        <td>{{ row.education }}</td>
-                        <td>{{ row.employment }}</td>
-                        <td>
-                            {% if row.prediction == 0 %}
-                                <span class="tag safe-tag">Safe</span>
-                            {% else %}
-                                <span class="tag danger-tag">Default</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="chart-box">
+                <h3 style="text-align:center;">Loan Status Distribution</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <h3 style="text-align:center;">Safe vs Default Trend</h3>
+                <canvas id="barChart"></canvas>
+            </div>
+
         </div>
+
+
+        <!-- TABLE -->
+        <h2 style="margin-top: 50px;">Recent Predictions</h2>
+
+        <table class="history-table">
+            <tr>
+                <th>Age</th>
+                <th>Income</th>
+                <th>Loan</th>
+                <th>Credit</th>
+                <th>DTI</th>
+                <th>Education</th>
+                <th>Employment</th>
+                <th>Status</th>
+            </tr>
+
+            {% for row in history %}
+            <tr class="fade-in">
+                <td>{{ row.age }}</td>
+                <td>{{ row.income }}</td>
+                <td>{{ row.loan_amount }}</td>
+                <td>{{ row.credit_score }}</td>
+                <td>{{ row.dti_ratio }}</td>
+                <td>{{ row.education }}</td>
+                <td>{{ row.employment }}</td>
+                <td class="{{ 'green' if row.prediction == 0 else 'red' }}">
+                    {{ "Safe" if row.prediction == 0 else "Default" }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
 
     </div>
+
+
+    <!-- CHART SCRIPTS -->
+    <script>
+        const safe = {{ safe }};
+        const danger = {{ danger }};
+
+        /* PIE CHART */
+        new Chart(document.getElementById('pieChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Safe Loans', 'Defaults'],
+                datasets: [{
+                    data: [safe, danger],
+                    backgroundColor: ['#76d77a', '#ff6b6b']
+                }]
+            }
+        });
+
+        /* BAR CHART */
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Safe', 'Default'],
+                datasets: [{
+                    label: 'Count',
+                    data: [safe, danger],
+                    backgroundColor: ['#6ad06d', '#ff7676']
+                }]
+            },
+            options: { responsive: true }
+        });
+    </script>
 
 </body>
 </html>
