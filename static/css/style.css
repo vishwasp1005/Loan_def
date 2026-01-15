@@ -1,386 +1,319 @@
-/* --------------------------------------------------
-   GLOBAL STYLES & VARIABLES
--------------------------------------------------- */
+/* ------------------------------
+   GLOBAL STYLES
+--------------------------------*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-:root {
-    --bg: #F7F5F2;
-    --text: #2F2E2E;
-    --card: #ffffff;
-    --nav: rgba(255,255,255,0.75);
-    --primary: #C7A27C;
-    --primary-dark: #b38d63;
-}
-
-.dark-mode {
-    --bg: #1f1f1f;
-    --text: #e5e5e5;
-    --card: #2a2a2a;
-    --nav: rgba(25,25,25,0.85);
-    --primary: #e1b78d;
-    --primary-dark: #c89d74;
-}
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
+    background: #F7F5F2;
     font-family: "Poppins", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    transition: background 0.4s ease, color 0.4s ease;
+    color: #2F2E2E;
+    overflow-x: hidden;
 }
 
-/* Fade animation */
+/* Smooth fade */
 .fade-in {
     animation: fadeIn 0.8s ease-in-out;
 }
-
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --------------------------------------------------
-   NAVBAR
--------------------------------------------------- */
+/* ------------------------------
+   PREMIUM NAVBAR
+--------------------------------*/
 .navbar {
     width: 100%;
     padding: 18px 60px;
     position: fixed;
-    top: 0; left: 0;
-    z-index: 999;
-    background: var(--nav);
-    backdrop-filter: blur(20px);
+    top: 0;
+    left: 0;
+    z-index: 2000;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-    transition: background 0.3s ease;
+
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 .logo {
     font-size: 28px;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: #6A4C36;
 }
 
-/* NAV LINKS */
+/* Nav Links */
 .nav-links {
-    display: flex;
     list-style: none;
+    display: flex;
     gap: 35px;
 }
 
-.nav-links a {
+.nav-links li a {
     text-decoration: none;
-    font-size: 16px;
     font-weight: 500;
-    color: var(--text);
+    color: #333;
+    font-size: 16px;
+    position: relative;
     transition: 0.3s;
 }
 
-.nav-links a:hover {
-    color: var(--primary);
-}
-
-/* Dark Mode Icon */
-.dark-toggle {
-    cursor: pointer;
-    font-size: 22px;
+/* Underline Animation */
+.nav-links li a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: #C7A27C;
+    left: 0;
+    bottom: -4px;
     transition: 0.3s;
 }
-
-.dark-toggle:hover {
-    transform: scale(1.12);
+.nav-links li a:hover::after {
+    width: 100%;
 }
 
-/* Mobile navbar */
+/* Logout button */
+.logout-btn {
+    background: #C55E5E;
+    padding: 9px 16px;
+    color: white !important;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.25s;
+}
+.logout-btn:hover {
+    background: #aa4a4a;
+    transform: translateY(-2px);
+}
+
+/* ------------------------------
+   MOBILE NAV
+--------------------------------*/
 .hamburger {
     display: none;
-    flex-direction: column;
-    gap: 6px;
-    cursor: pointer;
 }
+@media(max-width: 850px) {
 
-.hamburger span {
-    width: 28px;
-    height: 3px;
-    background: var(--primary-dark);
-    border-radius: 5px;
-}
-
-@media(max-width: 850px){
-    .hamburger { display: flex; }
-
-    .nav-links {
-        position: absolute;
-        top: 70px; right: 0;
-        width: 220px;
-        background: var(--nav);
-        backdrop-filter: blur(20px);
-        padding: 20px;
+    .hamburger {
+        display: flex;
         flex-direction: column;
-        gap: 20px;
-        border-radius: 14px 0 0 14px;
-        display: none;
+        gap: 6px;
+        cursor: pointer;
+    }
+    .hamburger span {
+        width: 28px;
+        height: 3px;
+        background: #6A4C36;
+        border-radius: 3px;
     }
 
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 75px;
+        right: 20px;
+        background: rgba(255,255,255,0.95);
+        padding: 20px;
+        border-radius: 12px;
+        gap: 20px;
+        width: 180px;
+    }
     .nav-links.active {
         display: flex;
     }
 }
 
-/* --------------------------------------------------
-   BUTTON SYSTEM
--------------------------------------------------- */
-.btn {
-    padding: 12px 26px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    text-decoration: none;
-    display: inline-block;
-    letter-spacing: .3px;
-    position: relative;
-    overflow: hidden;
-    transition: .25s ease;
-}
-
-/* Hover Glow */
-.btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
-
-/* Ripple Effect */
-.btn::after {
-    content: "";
-    position: absolute;
-    width: 0; height: 0;
-    background: rgba(255,255,255,0.5);
-    border-radius: 50%;
-    opacity: 0;
-    transform: translate(-50%, -50%);
-    transition: 0.5s ease;
-}
-
-.btn:active::after {
-    width: 250px; height: 250px;
-    opacity: 0.5;
-    top: var(--y);
-    left: var(--x);
-}
-
-/* PRIMARY BUTTON */
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-}
-
-/* SECONDARY BUTTON */
-.btn-secondary {
-    border: 2px solid var(--primary);
-    color: var(--primary);
-    background: transparent;
-}
-
-.btn-secondary:hover {
-    background: var(--primary);
-    color: white;
-}
-
-/* ARROW SLIDE */
-.btn-arrow {
-    padding-right: 40px !important;
-}
-
-.btn-arrow::before {
-    content: "→";
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: .25s ease;
-}
-
-.btn-arrow:hover::before {
-    right: 10px;
-}
-
-/* --------------------------------------------------
-   PAGE CONTAINER
--------------------------------------------------- */
+/* ------------------------------
+   GLOBAL PAGE SPACING
+--------------------------------*/
 .page-container {
     padding-top: 130px;
     padding-left: 60px;
     padding-right: 60px;
 }
 
-/* --------------------------------------------------
-   HOME PAGE
--------------------------------------------------- */
+/* ------------------------------
+   BUTTON STYLES (GLOBAL)
+--------------------------------*/
+.btn-primary,
+.btn-secondary {
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Primary Button */
+.btn-primary {
+    background: #C7A27C;
+    color: white;
+    position: relative;
+}
+
+/* Glow hover */
+.btn-primary:hover {
+    background: #b28d63;
+    box-shadow: 0 8px 20px rgba(199,162,124,0.35);
+    transform: translateY(-2px);
+}
+
+/* Arrow slide */
+.btn-primary::after {
+    content: "→";
+    margin-left: 8px;
+    transition: 0.3s;
+    opacity: 0;
+}
+.btn-primary:hover::after {
+    opacity: 1;
+    margin-left: 14px;
+}
+
+/* Secondary Button */
+.btn-secondary {
+    border: 2px solid #C7A27C;
+    color: #C7A27C;
+}
+.btn-secondary:hover {
+    background: #C7A27C;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ------------------------------
+   HOME PAGE HERO
+--------------------------------*/
 .hero {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
     align-items: center;
-    padding: 40px 0;
+    gap: 40px;
 }
 
 .hero-text {
-    width: 55%;
+    width: 50%;
 }
 
-.hero h1 {
-    font-size: 54px;
+.hero-text h1 {
+    font-size: 58px;
     font-weight: 700;
 }
 
-.highlight { color: var(--primary); }
-
-.stat-box {
-    background: var(--card);
-    padding: 22px;
-    width: 150px;
-    text-align: center;
-    border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+.highlight {
+    color: #B68258;
 }
 
-/* --------------------------------------------------
-   PREDICT FORM
--------------------------------------------------- */
+.badge {
+    padding: 8px 18px;
+    background: #EAD4BF;
+    border-radius: 18px;
+    display: inline-block;
+}
+
+/* Stats */
+.stats {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+.stat-box {
+    background: white;
+    padding: 20px;
+    width: 140px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ------------------------------
+   PREDICT PAGE
+--------------------------------*/
 .predict-container {
     display: flex;
-    gap: 40px;
+    justify-content: space-between;
     align-items: center;
+    gap: 60px;
 }
 
 .form-card {
-    background: var(--card);
+    background: white;
     padding: 35px;
-    border-radius: 18px;
+    border-radius: 20px;
     width: 480px;
-    box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
-/* Floating Inputs */
-.input-group { position: relative; margin-bottom: 22px; }
-
-.input-group input,
-.input-group select {
+.full-btn {
     width: 100%;
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px solid #d8cfc5;
-    background: #faf7f2;
-    outline: none;
-    font-size: 15px;
-    transition: .3s;
 }
 
-.input-group label {
-    position: absolute;
-    top: 50%;
-    left: 14px;
-    transform: translateY(-50%);
-    background: var(--card);
-    padding: 0 6px;
-    font-size: 14px;
-    color: #8c837a;
-    pointer-events: none;
-    transition: .3s ease;
-}
-
-.input-group input:focus + label,
-.input-group input:not(:placeholder-shown) + label,
-.input-group select:focus + label {
-    top: -8px;
-    left: 12px;
-    font-size: 12px;
-    color: var(--primary);
-}
-
-/* --------------------------------------------------
-   RESULT PAGE
--------------------------------------------------- */
-.result-container {
-    max-width: 650px;
-    margin: 150px auto;
-    text-align: center;
-}
-
+/* ------------------------------
+   RESULTS PAGE
+--------------------------------*/
 .result-card {
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+    text-align: center;
+    box-shadow: 0 6px 26px rgba(0,0,0,0.09);
 }
 
-.result-safe { background: #D4F8D4; border-left: 10px solid #2E7D32; }
-.result-danger { background: #FFD4D4; border-left: 10px solid #D32F2F; }
-
-/* --------------------------------------------------
+/* ------------------------------
    DASHBOARD
--------------------------------------------------- */
+--------------------------------*/
 .stats-container {
     display: flex;
     gap: 25px;
-    margin-bottom: 35px;
 }
-
 .stat-card {
-    flex: 1;
     padding: 25px;
-    border-radius: 18px;
-    background: var(--card);
+    flex: 1;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.green { background: #D4F8D4; }
+.red   { background: #FFD4D4; }
+
+/* Charts */
+.chart-box {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
+/* Table */
 .history-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 30px;
+    margin-top: 20px;
 }
-
-.history-table td, .history-table th {
-    padding: 14px;
+.history-table th, .history-table td {
+    padding: 12px;
     border-bottom: 1px solid #e5e5e5;
 }
 
-.history-table tr:hover {
-    background: rgba(0,0,0,0.03);
-}
-
-/* --------------------------------------------------
-   LOGIN PAGE
--------------------------------------------------- */
-.auth-card {
-    width: 380px;
-    padding: 35px;
-    border-radius: 18px;
-    background: var(--card);
-    box-shadow: 0 6px 25px rgba(0,0,0,0.1);
-}
-
-/* --------------------------------------------------
-   RESPONSIVE
--------------------------------------------------- */
+/* ------------------------------
+   RESPONSIVE FIXES
+--------------------------------*/
 @media(max-width: 900px){
-    .hero { flex-direction: column; text-align: center; }
-    .predict-container { flex-direction: column; }
+    .hero { flex-direction: column; }
     .hero-text, .hero-image { width: 100%; }
-}
 
-@media(max-width: 600px){
-    .page-container { padding: 120px 20px; }
+    .predict-container { flex-direction: column; }
 }
