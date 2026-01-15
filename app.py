@@ -12,9 +12,8 @@ app.secret_key = "loan_secret_key_123"
 # -----------------------------
 model = joblib.load("loan_model.pkl")
 
-
 # -----------------------------
-# CREATE / CONNECT DATABASE
+# DATABASE SETUP
 # -----------------------------
 DB_NAME = "database.db"
 
@@ -22,7 +21,7 @@ def init_db():
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
 
-    # Table for USERS
+    # USER table
     c.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,12 +30,12 @@ def init_db():
         )
     """)
 
-    # Insert default admin if not exists
+    # Default admin
     c.execute("SELECT * FROM users WHERE username=?", ("admin",))
     if not c.fetchone():
         c.execute("INSERT INTO users (username, password) VALUES (?, ?)", ("admin", "12345"))
 
-    # Table for HISTORY
+    # HISTORY table
     c.execute("""
         CREATE TABLE IF NOT EXISTS history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,23 +55,22 @@ def init_db():
 
 init_db()
 
+# -----------------------------
+# LOGIN CHECK
+# -----------------------------
+def login_required():
+    return "user" in session
 
-# -----------------------------
-# AUTH HELPERS
-# -----------------------------
 def validate_user(username, password):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-
     c.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
     user = c.fetchone()
-
     conn.close()
     return user is not None
 
-
 # -----------------------------
-# LOGIN
+# AUTH ROUTES
 # -----------------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -83,15 +81,12 @@ def login():
         if validate_user(username, password):
             session["user"] = username
             return redirect(url_for("home"))
-        else:
-            return render_template("login.html", error="Invalid username or password")
+
+        return render_template("login.html", error="Invalid username or password")
 
     return render_template("login.html")
 
 
-# -----------------------------
-# SIGNUP
-# -----------------------------
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -105,41 +100,42 @@ def signup():
             conn.commit()
             conn.close()
             return redirect(url_for("login"))
-
         except:
             return render_template("signup.html", error="Username already exists!")
 
     return render_template("signup.html")
 
 
-# -----------------------------
-# LOGOUT
-# -----------------------------
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
 
-
 # -----------------------------
-# LOGIN PROTECTION
-# -----------------------------
-def login_required():
-    return "user" in session
-
-
-# -----------------------------
-# HOME PAGE
+# LANDING PAGE (Home)
 # -----------------------------
 @app.route("/")
 def home():
     if not login_required():
         return redirect(url_for("login"))
-    return render_template("index.html")
+
+    # NEW landing page replaces old index.html
+    return render_template("home.html")
 
 
 # -----------------------------
-# PREDICT
+# PREDICTION PAGE (FORM)
+# -----------------------------
+@app.route("/predict", methods=["GET"])
+def predict_form():
+    if not login_required():
+        return redirect(url_for("login"))
+
+    return render_template("predict.html")
+
+
+# -----------------------------
+# PREDICTION HANDLING
 # -----------------------------
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -155,6 +151,7 @@ def predict():
         education = request.form["education"]
         employment = request.form["employment"]
 
+        # ML input format
         data = pd.DataFrame([{
             "Age": age,
             "Income": income,
@@ -167,7 +164,7 @@ def predict():
 
         prediction = int(model.predict(data)[0])
 
-        # Save to SQLite
+        # Save result
         conn = sqlite3.connect(DB_NAME)
         c = conn.cursor()
         c.execute("""
@@ -205,7 +202,7 @@ def dashboard():
 
 
 # -----------------------------
-# RUN
+# RUN APP
 # -----------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
