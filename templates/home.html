@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LoanShield - Smart Loan Default Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="home-body">
+
+    <nav class="navbar">
+        <div class="logo">LoanShield</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/predict">Predict</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/logout" class="logout-btn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-text">
+            <div class="badge">AI-Powered Loan Risk Assessment</div>
+            <h1>Advanced Loan<br><span class="highlight">Default Predictions</span></h1>
+
+            <p>
+                Using machine learning to analyze key financial indicators
+                and instantly predict the risk of loan default with accuracy.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="/predict" class="btn-primary">Start Prediction →</a>
+                <a href="/dashboard" class="btn-secondary">View History</a>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <h2>97%</h2><p>Accuracy</p>
+                </div>
+                <div class="stat-box">
+                    <h2>&lt;1s</h2><p>Speed</p>
+                </div>
+                <div class="stat-box">
+                    <h2>24/7</h2><p>Access</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <div class="card-visual"></div>
+        </div>
+    </section>
+
+</body>
+</html>
