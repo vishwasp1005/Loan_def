@@ -5,8 +5,8 @@
     <title>LoanShield - Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-    <!-- CHART.JS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FIXED CHART.JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
         .chart-container {
@@ -29,6 +29,11 @@
         .icon {
             font-size: 32px;
             margin-bottom: 10px;
+        }
+
+        /* FIX CANVAS HEIGHT */
+        canvas {
+            height: 300px !important;
         }
     </style>
 </head>
@@ -64,7 +69,6 @@
 
         </div>
 
-
         <!-- CHARTS -->
         <div class="chart-container">
 
@@ -79,7 +83,6 @@
             </div>
 
         </div>
-
 
         <!-- TABLE -->
         <h2 style="margin-top: 50px;">Recent Predictions</h2>
@@ -114,13 +117,11 @@
 
     </div>
 
-
     <!-- CHART SCRIPTS -->
     <script>
         const safe = {{ safe }};
         const danger = {{ danger }};
 
-        /* PIE CHART */
         new Chart(document.getElementById('pieChart'), {
             type: 'pie',
             data: {
@@ -132,7 +133,6 @@
             }
         });
 
-        /* BAR CHART */
         new Chart(document.getElementById('barChart'), {
             type: 'bar',
             data: {
@@ -142,8 +142,7 @@
                     data: [safe, danger],
                     backgroundColor: ['#6ad06d', '#ff7676']
                 }]
-            },
-            options: { responsive: true }
+            }
         });
     </script>
 
