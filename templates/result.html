@@ -4,36 +4,105 @@
     <meta charset="UTF-8">
     <title>LoanShield - Result</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .result-container {
+            max-width: 600px;
+            margin: 140px auto;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-card {
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 6px 28px rgba(0,0,0,0.1);
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .result-safe {
+            background: #D4F8D4;
+            color: #1b6f26;
+            border-left: 10px solid #2E7D32;
+        }
+
+        .result-danger {
+            background: #FFD4D4;
+            color: #B21C1C;
+            border-left: 10px solid #D32F2F;
+        }
+
+        .emoji {
+            font-size: 70px;
+            margin-bottom: 15px;
+        }
+
+        .action-buttons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #C7A27C;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #b38d63;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 2px solid #C7A27C;
+            color: #C7A27C;
+        }
+        .btn-secondary:hover {
+            background: #C7A27C;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 
-<body class="fade-in">
+<body class="page-body">
 
     {% include 'navbar.html' %}
 
-    <div class="page-container fade-in">
+    <div class="result-container">
 
-        <div class="result-container fade-in" style="max-width:600px;margin:auto;text-align:center;">
+        {% if prediction == 0 %}
+        <div class="result-card result-safe">
+            <div class="emoji">🟢</div>
+            <h1>Loan Status: <strong>SAFE</strong></h1>
+            <p>The applicant is unlikely to default based on the model’s analysis.</p>
+        </div>
 
-            {% if prediction == 0 %}
-            <div class="result-card" style="background:#D4F8D4;border-left:10px solid #2E7D32;">
-                <div class="emoji" style="font-size:70px;">🟢</div>
-                <h1>Loan Status: <strong>SAFE</strong></h1>
-                <p>The applicant is unlikely to default based on the model.</p>
-            </div>
+        {% else %}
+        <div class="result-card result-danger">
+            <div class="emoji">🔴</div>
+            <h1>Loan Status: <strong>DEFAULT RISK</strong></h1>
+            <p>The applicant shows a high risk of loan default. Proceed carefully.</p>
+        </div>
+        {% endif %}
 
-            {% else %}
-            <div class="result-card" style="background:#FFD4D4;border-left:10px solid #D32F2F;">
-                <div class="emoji" style="font-size:70px;">🔴</div>
-                <h1>Loan Status: <strong>DEFAULT RISK</strong></h1>
-                <p>The applicant shows a high risk of loan default.</p>
-            </div>
-            {% endif %}
-
-            <div class="action-buttons" style="margin-top:25px;">
-                <a href="/predict" class="btn-primary">Predict Again</a>
-                <a href="/dashboard" class="btn-secondary">View Dashboard</a>
-            </div>
-
+        <div class="action-buttons">
+            <a href="/predict" class="btn btn-primary">Predict Again</a>
+            <a href="/dashboard" class="btn btn-secondary">View Dashboard</a>
         </div>
 
     </div>
