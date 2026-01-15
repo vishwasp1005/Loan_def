@@ -7,36 +7,31 @@
 
     <style>
         body {
-            height: 100vh;
+            background: linear-gradient(135deg, #f7f5f0, #e9dfd2);
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #f7f5f0, #e9dfd2);
+            height: 100vh;
         }
         .auth-card {
             width: 380px;
             padding: 35px;
-            background: var(--card);
-            border-radius: 18px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
-            animation: fadeIn 0.7s ease;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(14px);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
             text-align: center;
         }
         .auth-card input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 8px;
-            border-radius: 10px;
-            border: 1px solid #d3c4b4;
-            background: #faf7f2;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="auth-card">
-    <h2>Welcome Back</h2>
+<div class="auth-card fade-in">
+    <h2>Login to LoanShield</h2>
 
     {% if error %}
         <p class="error">{{ error }}</p>
@@ -49,12 +44,10 @@
         <label>Password</label>
         <input type="password" name="password" required>
 
-        <button class="btn btn-primary btn-arrow" style="width:100%; margin-top:20px;">
-            Login
-        </button>
+        <button class="btn-primary full-btn" type="submit">Login</button>
     </form>
 
-    <p style="margin-top:20px;">Default: <b>admin / 12345</b></p>
+    <p style="margin-top:15px;">Default: <b>admin / 12345</b></p>
 </div>
 
 </body>
