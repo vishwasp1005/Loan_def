@@ -1,14 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login - LoanShield</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <meta charset="UTF-8">
+    <title>LoanShield - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f7f5f0, #e9dfd2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .auth-card {
+            width: 380px;
+            padding: 35px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            animation: fadeSlide 0.6s ease;
+            text-align: center;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-card h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #6A4C36;
+            font-weight: 700;
+        }
+
+        .auth-card label {
+            float: left;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a3e3e;
+            margin-top: 12px;
+        }
+
+        .auth-card input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #d5c7b8;
+            background: #FAF7F2;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .auth-card button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #C7A27C;
+            border: none;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .auth-card button:hover {
+            background: #b28d63;
+            transform: translateY(-2px);
+        }
+
+        .error {
+            padding: 10px;
+            background: #ffd4d4;
+            color: #b92828;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            50% { transform: translateX(4px); }
+            75% { transform: translateX(-4px); }
+            100% { transform: translateX(0); }
+        }
+
+        .default-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6A4C36;
+        }
+    </style>
 </head>
 
-<body style="justify-content:center;align-items:center;">
+<body>
 
 <div class="auth-card">
-    <h2>Login</h2>
+    <h2>Welcome Back</h2>
 
     {% if error %}
         <p class="error">{{ error }}</p>
@@ -24,7 +120,7 @@
         <button type="submit">Login</button>
     </form>
 
-    <p style="text-align:center;">Default Login: <b>admin / 12345</b></p>
+    <p class="default-info">Default Login: <b>admin / 12345</b></p>
 </div>
 
 </body>
