@@ -1,52 +1,123 @@
 <footer class="footer fade-in">
-
     <div class="footer-container">
 
-        <!-- Left: Logo -->
-        <div class="footer-logo">
-            LoanShield
+        <!-- Left Side -->
+        <div class="footer-section">
+            <h3 class="footer-title">LoanShield</h3>
+            <p class="footer-text">Smart AI-powered loan risk prediction platform.</p>
         </div>
 
-        <!-- Center: Footer Links -->
-        <div class="footer-links">
-            <a href="#" onclick="openAbout()">About Us</a>
-            <a href="#" onclick="openContact()">Contact Us</a>
+        <!-- Middle - Links -->
+        <div class="footer-section footer-links">
+            <a href="#" onclick="alert('About Page Coming Soon!')" class="footer-link">About Us</a>
+            <a href="#" onclick="alert('Contact Page Coming Soon!')" class="footer-link">Contact Us</a>
         </div>
 
-        <!-- Right: Quote -->
-        <div class="footer-quote">
-            “Designed & Developed by Vishwas Patel”
+        <!-- Right Side -->
+        <div class="footer-section">
+            <p class="footer-credit">Designed & Developed by <b>Vishwas Patel</b></p>
         </div>
 
     </div>
-
 </footer>
 
-<!-- FOOTER POPUPS -->
-<div id="footerPopup" class="footer-popup">
-    <div class="popup-card" id="popupCard">
-        <span class="close-btn" onclick="closePopup()">✖</span>
-        <h2 id="popupTitle"></h2>
-        <p id="popupContent"></p>
-    </div>
-</div>
 
-<script>
-function openAbout() {
-    document.getElementById("popupTitle").innerText = "About Us";
-    document.getElementById("popupContent").innerText =
-        "LoanShield is an AI-powered loan prediction system designed to help analyze loan safety with high accuracy.";
-    document.getElementById("footerPopup").style.display = "flex";
+<style>
+/* ------------------------------------------------
+   PREMIUM FOOTER (Glass + Glow + Icons)
+--------------------------------------------------*/
+.footer {
+    width: 100%;
+    margin-top: 60px;
+    padding: 28px 20px;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 -6px 18px rgba(0,0,0,0.08);
+    border-top: 1px solid rgba(255,255,255,0.45);
+
+    animation: fadeInFooter 0.8s ease;
 }
 
-function openContact() {
-    document.getElementById("popupTitle").innerText = "Contact Us";
-    document.getElementById("popupContent").innerHTML =
-        "Email: support@loanshield.ai<br>Phone: +91 98765 43210";
-    document.getElementById("footerPopup").style.display = "flex";
+@keyframes fadeInFooter {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-function closePopup() {
-    document.getElementById("footerPopup").style.display = "none";
+.footer-container {
+    max-width: 1300px;
+    margin: auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 20px;
 }
-</script>
+
+.footer-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #8B5E2E;
+}
+
+.footer-text {
+    color: #5C4A3A;
+    font-size: 14px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* Links */
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.footer-link {
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: #704f2b;
+    transition: 0.25s ease;
+}
+
+.footer-link:hover {
+    color: #C7A27C;
+    text-shadow: 0 0 10px rgba(199,162,124,0.35);
+    transform: translateY(-2px);
+}
+
+/* Designer Credit */
+.footer-credit {
+    text-align: right;
+    color: #5F4A32;
+    font-size: 14px;
+}
+
+.footer-credit b {
+    color: #A7703B;
+}
+
+/* ---------------------------------------------
+   MOBILE OPTIMIZATION
+----------------------------------------------*/
+@media(max-width: 780px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-links {
+        margin: 10px 0;
+    }
+
+    .footer-credit {
+        text-align: center;
+    }
+}
+</style>
