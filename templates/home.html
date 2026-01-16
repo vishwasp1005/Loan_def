@@ -7,14 +7,14 @@
 
     <style>
         /* ----------------------------
-           HOME PAGE EXTRA ENHANCEMENTS
+           HOME PAGE VISUAL ENHANCEMENTS
         -----------------------------*/
 
-        /* Soft animated background gradient */
+        /* Soft animated background */
         body.home-body {
             background: linear-gradient(135deg, #f8f4ef, #f6ece3, #fbf7f2);
             background-size: 400% 400%;
-            animation: bgShift 18s ease infinite;
+            animation: bgShift 16s ease infinite;
         }
 
         @keyframes bgShift {
@@ -23,97 +23,97 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Improved hero layout */
+        /* HERO */
         .hero {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             padding: 40px 0;
-            gap: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
         }
 
+        /* Text animation */
         .hero-text {
             flex: 1;
-            animation: fadeSlide 0.9s ease;
+            animation: fadeLeft 0.9s ease;
         }
 
-        @keyframes fadeSlide {
+        @keyframes fadeLeft {
             from { opacity: 0; transform: translateX(-35px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Title glow animation */
         .hero-text h1 {
-            line-height: 1.2;
             animation: titleGlow 3s ease-in-out infinite;
+            line-height: 1.15;
         }
 
         @keyframes titleGlow {
-            0% { text-shadow: 0 0 0px rgba(183, 130, 88, 0.2); }
-            50% { text-shadow: 0 0 14px rgba(183, 130, 88, 0.35); }
-            100% { text-shadow: 0 0 0px rgba(183, 130, 88, 0.2); }
+            0% { text-shadow: 0 0 0px rgba(183,130,88,0.2); }
+            50% { text-shadow: 0 0 18px rgba(183,130,88,0.45); }
+            100% { text-shadow: 0 0 0px rgba(183,130,88,0.2); }
         }
 
-        /* Button glow */
-        .btn-primary, .btn-secondary {
-            transition: 0.3s ease;
-        }
-        .btn-primary:hover {
-            box-shadow: 0 8px 18px rgba(183,130,88,0.35);
-        }
-        .btn-secondary:hover {
-            box-shadow: 0 8px 18px rgba(183,130,88,0.25);
-        }
-
-        /* Floating hero image */
+        /* Hero Image */
         .hero-image img {
-            filter: drop-shadow(0 10px 22px rgba(0,0,0,0.15));
+            width: 480px;
+            max-width: 100%;
+            filter: drop-shadow(0 12px 25px rgba(0,0,0,0.18));
             animation: floatImg 4.4s ease-in-out infinite;
         }
 
         @keyframes floatImg {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-10px); }
         }
 
-        /* Mobile improvements */
-        @media(max-width: 950px) {
+        /* Stats glow */
+        .stat-box {
+            transition: 0.3s ease;
+        }
+        .stat-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 20px rgba(183,130,88,0.2);
+        }
+
+        /* ----------------------------
+           MOBILE RESPONSIVE
+        -----------------------------*/
+        @media(max-width: 950px){
             .hero {
                 flex-direction: column-reverse;
                 text-align: center;
+                gap: 30px;
             }
-
-            .hero-text {
-                width: 100%;
-            }
-
             .hero-image img {
-                width: 340px !important;
+                width: 330px !important;
             }
         }
 
-        @media(max-width: 600px) {
+        @media(max-width: 600px){
             .hero-text h1 {
-                font-size: 38px;
+                font-size: 37px;
+            }
+            .hero {
+                padding-top: 10px;
             }
             .stats {
                 justify-content: center;
             }
         }
-    </style>
 
+    </style>
 </head>
 
 <body class="home-body fade-in">
 
-    <!-- NAVBAR -->
     {% include 'navbar.html' %}
 
-    <!-- HERO SECTION -->
     <section class="page-container">
+
         <div class="hero fade-in">
 
-            <!-- LEFT SIDE TEXT -->
+            <!-- LEFT TEXT -->
             <div class="hero-text">
                 <div class="badge fade-in">AI-Powered Loan Risk Assessment</div>
 
@@ -148,14 +148,13 @@
                 </div>
             </div>
 
-            <!-- RIGHT SIDE IMAGE -->
+            <!-- RIGHT IMAGE -->
             <div class="hero-image fade-in">
-                <img src="{{ url_for('static', filename='img/home.png') }}"
-                     alt="Home Illustration"
-                     style="width: 480px; max-width:100%;">
+                <img src="{{ url_for('static', filename='img/home.png') }}" alt="Home Illustration">
             </div>
 
         </div>
+
     </section>
 
 </body>
