@@ -13,15 +13,17 @@
 
         <!-- Navigation Menu -->
         <ul class="nav-links" id="navMenu">
+
             <li><a href="/" class="nav-item {{ 'active' if request.path == '/' else '' }}">Home</a></li>
+
             <li><a href="/predict" class="nav-item {{ 'active' if request.path == '/predict' else '' }}">Predict</a></li>
+
             <li><a href="/dashboard" class="nav-item {{ 'active' if request.path == '/dashboard' else '' }}">Dashboard</a></li>
 
             <li>
-                <a class="logout-btn" href="/logout">
-                    Logout
-                </a>
+                <a class="logout-btn" href="/logout">Logout</a>
             </li>
+
         </ul>
 
     </div>
