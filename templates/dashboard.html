@@ -11,7 +11,7 @@
     <style>
 
         /* -----------------------------------------
-           PREMIUM BACKGROUND (Same as Home/Predict)
+           PREMIUM BACKGROUND 
         ------------------------------------------ */
         body {
             background: linear-gradient(135deg, #f8f4ef, #f6ece3, #fbf7f2);
@@ -30,7 +30,7 @@
         ------------------------------------------ */
         .dashboard-wrapper {
             animation: fadeIn 0.9s ease;
-            padding-bottom: 70px; /* space for footer */
+            padding-bottom: 120px; /* FOOTER SPACE FIX */
         }
 
         /* -----------------------------------------
@@ -46,7 +46,7 @@
         .stat-card {
             flex: 1;
             min-width: 230px;
-            background: rgba(255,255,255,0.75);
+            background: rgba(255,255,255,0.78);
             backdrop-filter: blur(16px);
             border-radius: 20px;
             padding: 28px 25px;
@@ -76,14 +76,14 @@
         ------------------------------------------ */
         .chart-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px,1fr));
+            grid-template-columns: repeat(auto-fit, minmax(330px,1fr));
             gap: 35px;
             margin-top: 35px;
         }
 
         .chart-box {
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(16px);
+            background: rgba(255,255,255,0.78);
+            backdrop-filter: blur(14px);
             padding: 25px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.10);
@@ -98,7 +98,7 @@
         }
 
         canvas {
-            height: 300px !important;
+            height: 260px !important; /* MOBILE FIX */
         }
 
         /* -----------------------------------------
@@ -107,7 +107,7 @@
         .table-wrapper {
             margin-top: 40px;
             overflow-x: auto;
-            padding-bottom: 15px;
+            padding-bottom: 25px;
         }
 
         .history-table {
@@ -142,14 +142,29 @@
 
 
         /* -----------------------------------------
-           RESPONSIVE FIXES
+           RESPONSIVE FIXES 
         ------------------------------------------ */
         @media(max-width: 760px){
+
             h1.page-title {
                 text-align: center;
             }
+
             .stats-container {
                 flex-direction: column;
+                gap: 18px;
+            }
+
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+
+            canvas {
+                height: 220px !important;
+            }
+
+            .dashboard-wrapper {
+                padding-bottom: 150px !important;
             }
         }
 
@@ -268,7 +283,6 @@
         });
     </script>
 
-    <!-- ⭐ FOOTER ADDED (No component removed) -->
     {% include 'footer.html' %}
 
 </body>
