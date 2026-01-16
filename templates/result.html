@@ -27,14 +27,14 @@
         --------------------------------------- */
         .result-container {
             max-width: 650px;
-            margin: 150px auto;
+            margin: 150px auto 80px auto; /* added bottom margin for footer */
             text-align: center;
             animation: fadeIn 0.8s ease;
             padding: 0 20px;
         }
 
         /* --------------------------------------
-           RESULT CARD (Glassmorphism)
+           RESULT CARD (Glass + Glow)
         --------------------------------------- */
         .result-card {
             padding: 50px;
@@ -44,11 +44,11 @@
             box-shadow: 0 18px 40px rgba(0,0,0,0.12);
             position: relative;
             overflow: hidden;
-            animation: popIn 0.5s ease;
+            animation: popIn 0.55s ease;
         }
 
         @keyframes popIn {
-            from { transform: scale(0.87); opacity: 0; }
+            from { transform: scale(0.85); opacity: 0; }
             to   { transform: scale(1); opacity: 1; }
         }
 
@@ -81,24 +81,24 @@
         }
 
         /* --------------------------------------
-           EMOJI float animation
+           EMOJI float
         --------------------------------------- */
         .emoji {
-            font-size: 90px;
+            font-size: 95px;
             margin-bottom: 15px;
             animation: floatEmoji 2.4s ease-in-out infinite;
         }
 
         @keyframes floatEmoji {
             0%, 100% { transform: translateY(0); }
-            50%      { transform: translateY(-14px); }
+            50%      { transform: translateY(-12px); }
         }
 
         /* --------------------------------------
-           BUTTONS
+           ACTION BUTTONS
         --------------------------------------- */
         .action-buttons {
-            margin-top: 30px;
+            margin-top: 32px;
             display: flex;
             justify-content: center;
             gap: 18px;
@@ -117,7 +117,7 @@
         .btn-primary {
             background: #C7A27C;
             color: white;
-            box-shadow: 0 4px 12px rgba(183, 130, 88, 0.35);
+            box-shadow: 0 4px 12px rgba(183,130,88,0.35);
         }
         .btn-primary:hover {
             background: #b48b65;
@@ -137,12 +137,13 @@
         }
 
         /* --------------------------------------
-           MOBILE OPTIMIZATION
+           MOBILE FIXES
         --------------------------------------- */
         @media(max-width: 600px){
+
             .result-container {
                 margin-top: 130px;
-                padding: 0 14px;
+                margin-bottom: 110px; /* perfect mobile bottom spacing */
             }
 
             .result-card {
@@ -188,6 +189,9 @@
         </div>
 
     </div>
+
+    <!-- ⭐ FOOTER ADDED (no component removed) -->
+    {% include 'footer.html' %}
 
 </body>
 </html>
