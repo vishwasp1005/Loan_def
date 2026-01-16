@@ -8,7 +8,7 @@
     <style>
 
         /* -----------------------------------------
-           GLOBAL PAGE BACKGROUND (Matches Home Page)
+           GLOBAL PAGE BACKGROUND 
         ------------------------------------------ */
         body {
             background: linear-gradient(135deg, #f8f4ef, #f6ece3, #fbf7f2);
@@ -24,7 +24,7 @@
 
 
         /* -----------------------------------------
-           FLOATING INPUTS
+           FLOATING INPUTS 
         ------------------------------------------ */
         .input-group {
             position: relative;
@@ -56,7 +56,6 @@
             transition: 0.3s ease;
         }
 
-        /* Input float */
         .input-group input:focus + label,
         .input-group input:not(:placeholder-shown) + label {
             top: -8px;
@@ -65,7 +64,6 @@
             color: #b68258;
         }
 
-        /* Select float */
         .input-group select:focus + label,
         .input-group select.filled + label {
             top: -8px;
@@ -90,7 +88,7 @@
 
 
         /* -----------------------------------------
-           PREMIUM MAIN LAYOUT
+           PREDICT CONTAINER 
         ------------------------------------------ */
         .predict-container {
             display: flex;
@@ -106,7 +104,7 @@
 
 
         /* -----------------------------------------
-           GLASS FORM CARD
+           FORM CARD 
         ------------------------------------------ */
         .form-card {
             background: rgba(255, 255, 255, 0.75);
@@ -119,6 +117,8 @@
 
         .btn-primary {
             transition: 0.25s ease;
+            width: 100%;
+            text-align: center;
         }
         .btn-primary:hover {
             box-shadow: 0 12px 22px rgba(183,130,88,0.35);
@@ -127,7 +127,7 @@
 
 
         /* -----------------------------------------
-           FLOATING ILLUSTRATION
+           ILLUSTRATION 
         ------------------------------------------ */
         .predict-illustration img {
             width: 480px;
@@ -143,32 +143,43 @@
 
 
         /* -----------------------------------------
-           MOBILE FIXES
+           MOBILE FIXES (MAIN FIX ADDED)
         ------------------------------------------ */
         @media (max-width: 950px) {
             .predict-container {
-                flex-direction: column-reverse;
+                flex-direction: column-reverse !important;
                 text-align: center;
-                gap: 30px;
+                gap: 25px;
             }
             .predict-illustration img {
-                width: 330px;
+                width: 300px;
             }
         }
 
         @media (max-width: 600px) {
+
             .page-title {
                 font-size: 26px;
                 text-align: center;
             }
+
             .form-card {
                 padding: 28px;
+            }
+
+            .predict-container {
+                padding-bottom: 25px;
+            }
+
+            /* Fix bottom spacing so footer doesn't overlap */
+            .page-container {
+                padding-bottom: 90px !important;
             }
         }
 
 
         /* -----------------------------------------
-           LOADER
+           LOADER 
         ------------------------------------------ */
         .loader-overlay {
             display: none;
@@ -302,7 +313,6 @@ function showLoader() {
 }
 </script>
 
-<!-- ⭐ FOOTER ADDED WITHOUT REMOVING ANYTHING -->
 {% include 'footer.html' %}
 
 </body>
