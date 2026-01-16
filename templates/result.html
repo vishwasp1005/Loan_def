@@ -7,147 +7,154 @@
 
     <style>
 
-        /* ------------------------------
-           Animated Background
-        ------------------------------ */
+        /* --------------------------------------
+           PREMIUM BACKGROUND (same as others)
+        --------------------------------------- */
         body {
             background: linear-gradient(135deg, #f8f4ef, #f5ece3, #f9f6f0);
             background-size: 400% 400%;
-            animation: bgShift 16s ease infinite;
+            animation: bgShift 18s ease infinite;
         }
 
         @keyframes bgShift {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-
-        /* ------------------------------
-           Wrapper
-        ------------------------------ */
+        /* --------------------------------------
+           MAIN WRAPPER
+        --------------------------------------- */
         .result-container {
             max-width: 650px;
             margin: 150px auto;
             text-align: center;
             animation: fadeIn 0.8s ease;
+            padding: 0 20px;
         }
 
-
-        /* ------------------------------
-           Result Card
-        ------------------------------ */
+        /* --------------------------------------
+           RESULT CARD (Glassmorphism)
+        --------------------------------------- */
         .result-card {
             padding: 50px;
             border-radius: 22px;
             background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             box-shadow: 0 18px 40px rgba(0,0,0,0.12);
-            animation: popIn 0.6s ease;
             position: relative;
             overflow: hidden;
+            animation: popIn 0.5s ease;
         }
 
-        /* Light glow from corner */
+        @keyframes popIn {
+            from { transform: scale(0.87); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+
+        /* Corner glow */
         .result-card::after {
             content: "";
             position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle, rgba(255,255,255,0.4), transparent);
+            top: -30px;
+            right: -25px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%);
+            filter: blur(12px);
             border-radius: 50%;
         }
 
-        /* Animation */
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.85); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-
-        /* ------------------------------
-           Safe & Danger Design
-        ------------------------------ */
+        /* --------------------------------------
+           SAFE & DANGER THEMES
+        --------------------------------------- */
         .result-safe {
             border-left: 14px solid #2E7D32;
-            background: rgba(212, 248, 212, 0.78);
+            background: rgba(212,248,212,0.78);
             color: #1b6f26;
         }
 
         .result-danger {
             border-left: 14px solid #D32F2F;
-            background: rgba(255, 212, 212, 0.78);
+            background: rgba(255,212,212,0.78);
             color: #B21C1C;
         }
 
-
-        /* ------------------------------
-           Emoji Bounce
-        ------------------------------ */
+        /* --------------------------------------
+           EMOJI float animation
+        --------------------------------------- */
         .emoji {
-            font-size: 85px;
+            font-size: 90px;
             margin-bottom: 15px;
-            animation: bounce 2s infinite ease-in-out;
+            animation: floatEmoji 2.4s ease-in-out infinite;
         }
 
-        @keyframes bounce {
+        @keyframes floatEmoji {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50%      { transform: translateY(-14px); }
         }
 
-
-        /* ------------------------------
-           Action Buttons
-        ------------------------------ */
+        /* --------------------------------------
+           BUTTONS
+        --------------------------------------- */
         .action-buttons {
             margin-top: 30px;
             display: flex;
             justify-content: center;
             gap: 18px;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 12px 25px;
+            padding: 13px 28px;
             border-radius: 10px;
             font-weight: 600;
             text-decoration: none;
-            transition: 0.25s ease;
             display: inline-block;
+            transition: 0.25s ease;
         }
 
         .btn-primary {
             background: #C7A27C;
             color: white;
+            box-shadow: 0 4px 12px rgba(183, 130, 88, 0.35);
         }
-
         .btn-primary:hover {
             background: #b48b65;
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.12);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.15);
         }
 
         .btn-secondary {
             border: 2px solid #C7A27C;
             color: #C7A27C;
         }
-
         .btn-secondary:hover {
             background: #C7A27C;
             color: white;
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.12);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.15);
         }
 
-
-        /* ------------------------------
-           Mobile Fix
-        ------------------------------ */
-        @media(max-width: 680px){
+        /* --------------------------------------
+           MOBILE OPTIMIZATION
+        --------------------------------------- */
+        @media(max-width: 600px){
             .result-container {
-                margin-top: 120px;
-                padding: 0 18px;
+                margin-top: 130px;
+                padding: 0 14px;
+            }
+
+            .result-card {
+                padding: 35px 25px;
+            }
+
+            .emoji {
+                font-size: 70px;
+            }
+
+            h1 {
+                font-size: 24px;
             }
         }
 
@@ -164,14 +171,14 @@
         <div class="result-card result-safe">
             <div class="emoji">🟢</div>
             <h1>Loan Status: <strong>SAFE</strong></h1>
-            <p>The applicant is unlikely to default based on the model’s prediction.</p>
+            <p>The applicant is unlikely to default based on the model’s analysis.</p>
         </div>
 
         {% else %}
         <div class="result-card result-danger">
             <div class="emoji">🔴</div>
             <h1>Loan Status: <strong>DEFAULT RISK</strong></h1>
-            <p>The applicant shows a high probability of loan default. Review cautiously.</p>
+            <p>The applicant shows a high risk of loan default. Please evaluate carefully.</p>
         </div>
         {% endif %}
 
