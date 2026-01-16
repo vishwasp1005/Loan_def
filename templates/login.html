@@ -16,6 +16,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;   /* IMPORTANT for footer support */
 
             font-family: "Poppins", sans-serif;
 
@@ -32,13 +33,13 @@
 
 
         /* --------------------------------------
-            LOGIN CARD (Glass + Glow)
+            LOGIN CARD
         ---------------------------------------*/
         .auth-card {
             width: 390px;
             padding: 40px;
-
             border-radius: 22px;
+
             background: rgba(255,255,255,0.70);
             backdrop-filter: blur(18px);
 
@@ -48,6 +49,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            margin-top: 40px; /* spacing from top */
         }
 
         @keyframes fadeUp {
@@ -55,7 +57,7 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* soft corner glow */
+        /* soft glow */
         .auth-card::after {
             content: "";
             position: absolute;
@@ -71,9 +73,6 @@
         }
 
 
-        /* --------------------------------------
-            HEADING
-        ---------------------------------------*/
         .auth-card h2 {
             font-size: 32px;
             margin-bottom: 25px;
@@ -88,9 +87,6 @@
         }
 
 
-        /* --------------------------------------
-            LABELS
-        ---------------------------------------*/
         .auth-card label {
             float: left;
             font-size: 14px;
@@ -99,9 +95,6 @@
             margin-top: 14px;
         }
 
-        /* --------------------------------------
-            INPUTS
-        ---------------------------------------*/
         .auth-card input {
             width: 100%;
             padding: 12px;
@@ -111,7 +104,6 @@
             background: #faf7f2;
             border-radius: 10px;
             font-size: 15px;
-
             transition: 0.25s;
         }
 
@@ -120,10 +112,6 @@
             box-shadow: 0 0 0 4px rgba(199,162,124,0.25);
         }
 
-
-        /* --------------------------------------
-            BUTTON
-        ---------------------------------------*/
         .auth-card button {
             margin-top: 28px;
             width: 100%;
@@ -147,10 +135,6 @@
             box-shadow: 0 12px 25px rgba(0,0,0,0.15);
         }
 
-
-        /* --------------------------------------
-            ERROR MESSAGE
-        ---------------------------------------*/
         .error {
             padding: 12px;
             background: #ffd4d4;
@@ -168,24 +152,18 @@
             75%  { transform: translateX(-4px); }
         }
 
-
-        /* --------------------------------------
-            DEFAULT INFO
-        ---------------------------------------*/
         .default-info {
             margin-top: 20px;
             font-size: 14px;
             color: #6A4C36;
         }
 
-
-        /* --------------------------------------
-            MOBILE RESPONSIVE
-        ---------------------------------------*/
+        /* spacing for footer on mobile */
         @media(max-width: 450px){
             .auth-card {
                 width: 88%;
                 padding: 32px;
+                margin-top: 60px;
             }
 
             .auth-card h2 {
@@ -217,6 +195,9 @@
 
     <p class="default-info">Default Login: <b>admin / 12345</b></p>
 </div>
+
+<!-- ⭐ FOOTER INCLUDED HERE ⭐ -->
+{% include 'footer.html' %}
 
 </body>
 </html>
