@@ -225,6 +225,34 @@ def dashboard():
         total=total
     )
 
+@app.route("/about")
+def about():
+    if not login_required():
+        return redirect(url_for("login"))
+    return render_template("about.html")
+
+
+@app.route("/contact")
+def contact():
+    if not login_required():
+        return redirect(url_for("login"))
+    return render_template("contact.html")
+
+
+@app.route("/send_message", methods=["POST"])
+def send_message():
+    name = request.form["name"]
+    email = request.form["email"]
+    message = request.form["message"]
+
+    print("📩 New Contact Message")
+    print("Name:", name)
+    print("Email:", email)
+    print("Message:", message)
+
+    return render_template("contact.html", sent=True)
+
+
 
 # -------------------------------------------------
 # RUN SERVER
