@@ -13,10 +13,15 @@
 
         <!-- Navigation Menu -->
         <ul class="nav-links" id="navMenu">
-            <li><a href="/">Home</a></li>
-            <li><a href="/predict">Predict</a></li>
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li><a class="logout-btn" href="/logout">Logout</a></li>
+            <li><a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a></li>
+            <li><a href="/predict" class="{{ 'active' if request.path == '/predict' else '' }}">Predict</a></li>
+            <li><a href="/dashboard" class="{{ 'active' if request.path == '/dashboard' else '' }}">Dashboard</a></li>
+
+            <li>
+                <a class="logout-btn" href="/logout">
+                    Logout
+                </a>
+            </li>
         </ul>
 
     </div>
