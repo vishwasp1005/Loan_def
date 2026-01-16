@@ -10,14 +10,15 @@
 
     <style>
 
-        /* ------------------------------
-            BACKGROUND ANIMATION
-        ------------------------------ */
+        /* -----------------------------------------
+           PREMIUM BACKGROUND (same as home/predict)
+        ------------------------------------------ */
         body {
             background: linear-gradient(135deg, #f8f4ef, #f6ece3, #fbf7f2);
             background-size: 400% 400%;
             animation: bgShift 16s ease infinite;
         }
+
         @keyframes bgShift {
             0%   { background-position: 0% 50%; }
             50%  { background-position: 100% 50%; }
@@ -25,66 +26,77 @@
         }
 
 
-        /* ------------------------------
-            WRAPPER
-        ------------------------------ */
+        /* -----------------------------------------
+           PAGE WRAPPER
+        ------------------------------------------ */
         .dashboard-wrapper {
-            animation: fadeIn 0.8s ease;
+            animation: fadeIn 0.9s ease;
         }
 
 
-        /* ------------------------------
-            STAT CARDS (Top Three)
-        ------------------------------ */
+        /* -----------------------------------------
+           TOP STAT CARDS
+        ------------------------------------------ */
+        .stats-container {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
         .stat-card {
+            flex: 1;
+            min-width: 230px;
             background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(18px);
+            backdrop-filter: blur(16px);
             border-radius: 20px;
             padding: 28px 25px;
             text-align: center;
-            box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
             transition: 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .stat-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 16px 35px rgba(0,0,0,0.15);
+            box-shadow: 0 18px 35px rgba(0,0,0,0.18);
         }
 
         .stat-card .icon {
-            font-size: 36px;
-            margin-bottom: 8px;
+            font-size: 38px;
+            margin-bottom: 10px;
             animation: floatIcon 3s ease-in-out infinite;
         }
 
         @keyframes floatIcon {
             0%,100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+            50%     { transform: translateY(-6px); }
         }
 
 
-        /* ------------------------------
-            CHART BOXES
-        ------------------------------ */
+        /* -----------------------------------------
+           CHART SECTION
+        ------------------------------------------ */
         .chart-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 30px;
-            margin-top: 45px;
+            gap: 35px;
+            margin-top: 35px;
         }
 
         .chart-box {
             background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(16px);
             padding: 25px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.10);
-            animation: fadeIn 0.9s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+            animation: fadeIn 1s ease;
         }
 
         .chart-box h3 {
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             font-size: 20px;
             color: #4d3e3e;
         }
@@ -94,18 +106,24 @@
         }
 
 
-        /* ------------------------------
-            TABLE STYLING
-        ------------------------------ */
+        /* -----------------------------------------
+           TABLE STYLING
+        ------------------------------------------ */
+        .table-wrapper {
+            margin-top: 40px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
         .history-table {
             width: 100%;
-            margin-top: 25px;
             border-collapse: separate;
             border-spacing: 0 12px;
+            min-width: 850px;
         }
 
         .history-table th {
-            background: #ede7e0;
+            background: #e7dfd6;
             padding: 14px;
             text-align: left;
             font-weight: 600;
@@ -120,15 +138,22 @@
         }
 
         .history-table tr:hover td {
-            background: #f4eee7;
+            background: #f0e9e1;
             transition: 0.3s ease;
         }
 
+        .green { color: #1b7a31; font-weight: 700; }
+        .red { color: #b22e2e; font-weight: 700; }
 
-        /* ------------------------------
-            RESPONSIVE FIX
-        ------------------------------ */
-        @media(max-width: 760px){
+
+        /* -----------------------------------------
+           MOBILE RESPONSIVE
+        ------------------------------------------ */
+        @media(max-width: 760px) {
+            .stats-container {
+                flex-direction: column;
+            }
+
             h1.page-title {
                 text-align: center;
             }
@@ -186,33 +211,35 @@
         <!-- TABLE -->
         <h2 style="margin-top: 55px; margin-bottom: 10px;">Recent Predictions</h2>
 
-        <table class="history-table">
-            <tr>
-                <th>Age</th>
-                <th>Income</th>
-                <th>Loan</th>
-                <th>Credit</th>
-                <th>DTI</th>
-                <th>Education</th>
-                <th>Employment</th>
-                <th>Status</th>
-            </tr>
+        <div class="table-wrapper">
+            <table class="history-table">
+                <tr>
+                    <th>Age</th>
+                    <th>Income</th>
+                    <th>Loan</th>
+                    <th>Credit</th>
+                    <th>DTI</th>
+                    <th>Education</th>
+                    <th>Employment</th>
+                    <th>Status</th>
+                </tr>
 
-            {% for row in history %}
-            <tr class="fade-in">
-                <td>{{ row.age }}</td>
-                <td>{{ row.income }}</td>
-                <td>{{ row.loan_amount }}</td>
-                <td>{{ row.credit_score }}</td>
-                <td>{{ row.dti_ratio }}</td>
-                <td>{{ row.education }}</td>
-                <td>{{ row.employment }}</td>
-                <td class="{{ 'green' if row.prediction == 0 else 'red' }}">
-                    {{ "Safe" if row.prediction == 0 else "Default" }}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+                {% for row in history %}
+                <tr class="fade-in">
+                    <td>{{ row.age }}</td>
+                    <td>{{ row.income }}</td>
+                    <td>{{ row.loan_amount }}</td>
+                    <td>{{ row.credit_score }}</td>
+                    <td>{{ row.dti_ratio }}</td>
+                    <td>{{ row.education }}</td>
+                    <td>{{ row.employment }}</td>
+                    <td class="{{ 'green' if row.prediction == 0 else 'red' }}">
+                        {{ "Safe" if row.prediction == 0 else "Default" }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
 
     </div>
 
@@ -228,7 +255,7 @@
                 labels: ['Safe Loans', 'Defaults'],
                 datasets: [{
                     data: [safe, danger],
-                    backgroundColor: ['#5fc96b', '#ff6b6b']
+                    backgroundColor: ['#50c86d', '#ff6b6b']
                 }]
             }
         });
@@ -241,7 +268,7 @@
                 datasets: [{
                     label: 'Loan Predictions',
                     data: [safe, danger],
-                    backgroundColor: ['#6ad06d', '#ff7676']
+                    backgroundColor: ['#52d06d', '#ff7878']
                 }]
             }
         });
