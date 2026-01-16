@@ -12,6 +12,7 @@ body {
     font-family: "Poppins", sans-serif;
     background: #F7F5F2;
     color: #2F2E2E;
+    overflow-x: hidden;   /* NEW: prevent horizontal scroll */
 }
 
 /* Smooth fade animation */
@@ -41,6 +42,14 @@ body {
     background: rgba(255,255,255,0.75);
     backdrop-filter: blur(20px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* NEW — fixes navbar width issue */
+.nav-container{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .logo {
@@ -130,6 +139,11 @@ body {
     padding-right: 60px;
 }
 
+/* NEW — Fix extra white space on Predict page */
+.predict-container{
+    margin-top:20px;
+}
+
 
 /* ------------------------------
    HOME PAGE HERO
@@ -205,6 +219,14 @@ body {
     color: white;
 }
 
+/* NEW — Hero image fix */
+.hero-image img{
+    width:420px;
+    max-width:100%;
+    display:block;
+}
+
+
 /* Hero stats */
 .stats {
     display: flex;
@@ -225,6 +247,19 @@ body {
 /* ------------------------------
    PREDICT FORM PAGE
 --------------------------------*/
+.predict-container{
+    display:flex;
+    gap:40px;
+    align-items:center;
+}
+
+/* NEW — fix predict image not showing */
+.predict-illustration img{
+    width:420px;
+    max-width:100%;
+    display:block;
+}
+
 .center-box {
     display: flex;
     justify-content: center;
@@ -317,6 +352,11 @@ body {
 @media (max-width: 900px) {
     .hero { flex-direction: column; text-align: center; }
     .hero-text, .hero-image { width: 100%; }
+
+    .predict-container{
+        flex-direction:column;
+        text-align:center;
+    }
 }
 
 @media (max-width: 600px) {
