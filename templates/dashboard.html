@@ -9,31 +9,95 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
-        .chart-container {
-            display: flex;
-            gap: 30px;
-            margin-top: 40px;
-            flex-wrap: wrap;
+
+        /* DASHBOARD LAYOUT */
+        .dashboard-wrapper {
+            animation: fadeIn 0.8s ease;
         }
 
-        .chart-box {
-            background: white;
-            flex: 1;
-            min-width: 350px;
-            padding: 25px;
+        /* STAT CARDS ENHANCEMENTS */
+        .stat-card {
+            position: relative;
+            overflow: hidden;
             border-radius: 18px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            animation: fadeIn 0.9s;
+            padding: 30px 20px;
+            background: white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: 0.3s ease;
         }
 
-        .icon {
-            font-size: 32px;
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        }
+
+        .stat-card .icon {
+            font-size: 36px;
             margin-bottom: 10px;
         }
 
-        /* FIX CANVAS HEIGHT */
+        /* CHARTS DESIGN */
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .chart-box {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            animation: fadeIn 0.9s ease;
+        }
+
+        .chart-box h3 {
+            margin-bottom: 18px;
+            font-size: 20px;
+            text-align: center;
+            color: #4e3f3f;
+        }
+
         canvas {
             height: 300px !important;
+        }
+
+        /* TABLE DESIGN */
+        .history-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .history-table th {
+            background: #ede7e0;
+            padding: 15px;
+            text-align: left;
+            border-radius: 10px 10px 0 0;
+            font-weight: 600;
+        }
+
+        .history-table td {
+            background: white;
+            padding: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .history-table tr {
+            transition: 0.3s ease;
+        }
+
+        .history-table tr:hover td {
+            background: #f4eee7;
+        }
+
+        /* RESPONSIVE FIX */
+        @media(max-width: 760px){
+            h1.page-title {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -42,7 +106,7 @@
 
     {% include 'navbar.html' %}
 
-    <div class="page-container">
+    <div class="page-container dashboard-wrapper">
 
         <h1 class="page-title">Dashboard Overview</h1>
 
@@ -73,19 +137,19 @@
         <div class="chart-container">
 
             <div class="chart-box">
-                <h3 style="text-align:center;">Loan Status Distribution</h3>
+                <h3>Loan Status Distribution</h3>
                 <canvas id="pieChart"></canvas>
             </div>
 
             <div class="chart-box">
-                <h3 style="text-align:center;">Safe vs Default Trend</h3>
+                <h3>Safe vs Default Trend</h3>
                 <canvas id="barChart"></canvas>
             </div>
 
         </div>
 
         <!-- TABLE -->
-        <h2 style="margin-top: 50px;">Recent Predictions</h2>
+        <h2 style="margin-top: 55px; margin-bottom: 10px;">Recent Predictions</h2>
 
         <table class="history-table">
             <tr>
@@ -122,27 +186,30 @@
         const safe = {{ safe }};
         const danger = {{ danger }};
 
+        /* PIE CHART */
         new Chart(document.getElementById('pieChart'), {
             type: 'pie',
             data: {
                 labels: ['Safe Loans', 'Defaults'],
                 datasets: [{
                     data: [safe, danger],
-                    backgroundColor: ['#76d77a', '#ff6b6b']
+                    backgroundColor: ['#5fc96b', '#ff6b6b']
                 }]
             }
         });
 
+        /* BAR CHART */
         new Chart(document.getElementById('barChart'), {
             type: 'bar',
             data: {
                 labels: ['Safe', 'Default'],
                 datasets: [{
-                    label: 'Count',
+                    label: 'Loan Predictions',
                     data: [safe, danger],
                     backgroundColor: ['#6ad06d', '#ff7676']
                 }]
-            }
+            },
+            options: { responsive: true }
         });
     </script>
 
