@@ -12,8 +12,35 @@ body {
     font-family: "Poppins", sans-serif;
     background: #F7F5F2;
     color: #2F2E2E;
-    overflow-x: hidden;   /* NEW: prevent horizontal scroll */
+    overflow-x: hidden;
+    position: relative;
 }
+
+/* ---------------- NEW PARALLAX BACKGROUND ---------------- */
+body::before {
+    content: "";
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    top: -150px;
+    right: -150px;
+    background: radial-gradient(circle, rgba(199,162,124,0.35), transparent 70%);
+    filter: blur(60px);
+    z-index: -1;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    bottom: -200px;
+    left: -200px;
+    background: radial-gradient(circle, rgba(234,212,191,0.3), transparent 70%);
+    filter: blur(80px);
+    z-index: -1;
+}
+
 
 /* Smooth fade animation */
 .fade-in {
@@ -44,7 +71,11 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* NEW — fixes navbar width issue */
+.navbar:hover {
+    backdrop-filter: blur(30px);
+    transition: 0.3s ease;
+}
+
 .nav-container{
     width:100%;
     display:flex;
@@ -56,6 +87,11 @@ body {
     font-size: 28px;
     font-weight: 700;
     color: #6A4C36;
+    transition: 0.3s ease;
+}
+
+.logo:hover {
+    transform: translateY(-2px);
 }
 
 /* NAV LINKS */
@@ -76,15 +112,21 @@ body {
 
 .nav-links li a:hover {
     color: #C7A27C;
+    transform: translateY(-2px);
 }
 
-/* Logout button */
 .logout-btn {
     padding: 9px 16px;
     background: #c44747;
     border-radius: 8px;
     color: white !important;
     font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: #a83838;
+    transform: translateY(-2px);
 }
 
 
@@ -122,6 +164,7 @@ body {
         gap: 20px;
         border-radius: 12px 0 0 12px;
         display: none;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
     .nav-links.active {
@@ -134,12 +177,11 @@ body {
    PAGE SPACING
 --------------------------------*/
 .page-container {
-    padding-top: 130px; /* space for navbar */
+    padding-top: 130px;
     padding-left: 60px;
     padding-right: 60px;
 }
 
-/* NEW — Fix extra white space on Predict page */
 .predict-container{
     margin-top:20px;
 }
@@ -164,6 +206,7 @@ body {
     font-size: 54px;
     font-weight: 700;
     color: #3A2F2F;
+    animation: fadeIn 1s ease;
 }
 
 .highlight {
@@ -189,6 +232,7 @@ body {
     margin: 25px 0;
 }
 
+/* ---------------- BUTTON GLOW + RIPPLE ---------------- */
 .btn-primary,
 .btn-secondary {
     padding: 12px 25px;
@@ -197,16 +241,38 @@ body {
     font-size: 16px;
     text-decoration: none;
     display: inline-block;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primary {
     background: #C7A27C;
     color: white;
+    box-shadow: 0 0 10px rgba(199,162,124,0.4);
 }
 
 .btn-primary:hover {
     background: #b28d63;
-    transform: translateY(-3px);
+}
+
+/* Ripple effect */
+.btn-primary:active::after,
+.btn-secondary:active::after {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: ripple 0.5s ease-out;
+}
+
+@keyframes ripple {
+    from { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 0; }
 }
 
 .btn-secondary {
@@ -219,7 +285,6 @@ body {
     color: white;
 }
 
-/* NEW — Hero image fix */
 .hero-image img{
     width:420px;
     max-width:100%;
@@ -253,7 +318,6 @@ body {
     align-items:center;
 }
 
-/* NEW — fix predict image not showing */
 .predict-illustration img{
     width:420px;
     max-width:100%;
@@ -285,9 +349,7 @@ body {
     border-radius: 8px;
 }
 
-.full-btn {
-    width: 100%;
-}
+.full-btn { width: 100%; }
 
 
 /* ------------------------------
@@ -297,13 +359,6 @@ body {
     max-width: 600px;
     margin: auto;
     text-align: center;
-}
-
-.result {
-    padding: 28px;
-    font-size: 28px;
-    border-radius: 15px;
-    margin: 35px 0;
 }
 
 .safe { background: #D4F8D4; color: #2E7D32; }
@@ -336,18 +391,13 @@ body {
     border-collapse: collapse;
 }
 
-.history-table th, .history-table td {
-    padding: 14px;
-    border-bottom: 1px solid #e5e5e5;
-}
-
 .history-table tr:hover {
     background: #F5EFE6;
 }
 
 
 /* ------------------------------
-   RESPONSIVE FIXES
+   MOBILE RESPONSIVE
 --------------------------------*/
 @media (max-width: 900px) {
     .hero { flex-direction: column; text-align: center; }
