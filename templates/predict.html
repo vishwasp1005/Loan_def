@@ -47,20 +47,40 @@
             color: #b68258;
         }
 
-        /* -------------- GRID FORM LAYOUT -------------- */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
+        /* Layout: clean professional two-column */
+        .predict-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+            margin-top: 40px;
         }
 
-        @media(max-width: 760px){
-            .form-grid {
-                grid-template-columns: 1fr;
+        /* Illustration styling */
+        .predict-illustration img {
+            width: 480px;
+            max-width: 100%;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive Fix */
+        @media(max-width: 900px){
+            .predict-container {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            .predict-illustration img {
+                width: 350px;
             }
         }
 
-        /* ---- LOADING OVERLAY ---- */
+        /* Loader */
         .loader-overlay {
             display: none;
             position: fixed;
@@ -85,7 +105,6 @@
             to { transform: rotate(360deg); }
         }
     </style>
-
 </head>
 
 <body class="fade-in">
@@ -101,20 +120,11 @@
 
         <h1 class="page-title">Loan Risk Prediction</h1>
 
+        <!-- MAIN CONTAINER -->
         <div class="predict-container">
 
-           <!-- LEFT: Illustration -->
-<div class="predict-illustration fade-in">
-    <img src="{{ url_for('static', filename='img/predict.png') }}"
-         alt="Predict Illustration"
-         style="width: 420px; max-width:100%;">
-</div>
-
-
-
-
-            <!-- RIGHT: FORM -->
-            <div class="form-card fade-in">
+            <!-- LEFT: FORM -->
+            <div class="form-card fade-in" style="flex: 1;">
 
                 <form action="/predict" method="POST" onsubmit="showLoader()">
 
@@ -167,7 +177,7 @@
                             <label>Employment</label>
                         </div>
 
-                    </div> <!-- form-grid -->
+                    </div>
 
                     <button type="submit" class="btn-primary full-btn" style="margin-top: 15px;">
                         Predict →
@@ -175,6 +185,13 @@
 
                 </form>
             </div>
+
+            <!-- RIGHT: IMAGE -->
+            <div class="predict-illustration fade-in" style="flex: 1; text-align:center;">
+                <img src="{{ url_for('static', filename='img/predict.png') }}"
+                     alt="Predict Illustration">
+            </div>
+
         </div>
     </div>
 
