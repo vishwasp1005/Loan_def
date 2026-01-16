@@ -398,52 +398,101 @@ body::after {
     }
 }
 
-/* ----------------------------------------------------
-   FOOTER (New Component – does NOT remove anything)
------------------------------------------------------*/
+/* ----------------------------------
+   FOOTER
+---------------------------------- */
 .footer {
-    margin-top: 80px;
     width: 100%;
-    background: rgba(255,255,255,0.65);
-    backdrop-filter: blur(14px);
-    padding: 25px 20px;
-    text-align: center;
-    border-top: 1px solid rgba(0,0,0,0.07);
-    box-shadow: 0 -4px 18px rgba(0,0,0,0.08);
+    margin-top: 80px;
+    padding: 35px 0;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255,255,255,0.35);
+    box-shadow: 0 -6px 22px rgba(0,0,0,0.08);
 }
 
-.footer p {
-    margin: 6px 0;
-    font-size: 14px;
-    color: #5A4A3B;
+.footer-container {
+    max-width: 1300px;
+    margin: auto;
+    padding: 0 30px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
 }
 
-.footer a {
-    color: #B68258;
+.footer-logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #8B5E2E;
+    text-shadow: 0 0 8px rgba(198,148,86,0.4);
+}
+
+.footer-links a {
+    margin: 0 12px;
     text-decoration: none;
+    color: #4f3d32;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #C7A27C;
+}
+
+.footer-quote {
+    font-size: 14px;
+    color: #6A4C36;
     font-weight: 600;
 }
 
-.footer a:hover {
-    color: #8B5E2E;
+
+/* ----------------------------------
+   FOOTER POPUP
+---------------------------------- */
+.footer-popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
-/* ----------------------------------------------------
-   MOBILE — REMOVE EMPTY SPACE ON ALL PAGES
------------------------------------------------------*/
-.page-container {
-    min-height: calc(100vh - 250px); /* auto-fill screen height */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+.popup-card {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(22px);
+    padding: 30px;
+    width: 90%;
+    max-width: 420px;
+    border-radius: 18px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.2);
+    animation: fadeIn 0.35s ease;
+    text-align: center;
 }
 
-/* Pages with big empty bottom = fix center on phone */
-@media(max-width: 600px){
-    .hero,
-    .predict-container,
-    .result-container,
-    .dashboard-wrapper {
-        padding-bottom: 40px;
+.close-btn {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+}
+
+/* MOBILE */
+@media(max-width: 600px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+    .footer-links a {
+        display: inline-block;
+        margin: 8px 10px;
     }
 }
+
