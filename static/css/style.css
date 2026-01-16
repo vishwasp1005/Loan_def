@@ -412,3 +412,69 @@ body::after {
 @media (max-width: 600px) {
     .page-container { padding-left: 20px; padding-right: 20px; }
 }
+
+/* ------------------------------
+   NAVBAR ENHANCEMENTS
+--------------------------------*/
+
+/* Active page indicator */
+.nav-links .active {
+    color: #B68258 !important;
+    font-weight: 600;
+    position: relative;
+}
+
+.nav-links .active::after {
+    content: "";
+    position: absolute;
+    height: 3px;
+    width: 28px;
+    background: #C7A27C;
+    bottom: -6px;
+    left: 0;
+    border-radius: 10px;
+    animation: slideIn 0.35s ease;
+}
+
+@keyframes slideIn {
+    from { width: 0; opacity: 0; }
+    to { width: 28px; opacity: 1; }
+}
+
+/* Mobile nav slide animation */
+.nav-links.active {
+    animation: slideDown 0.35s ease forwards;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hamburger animation */
+.hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+}
+
+.hamburger span {
+    transition: 0.4s ease;
+}
+
+/* Smooth hover effect */
+.nav-item {
+    position: relative;
+}
+
+.nav-item:hover {
+    color: #B68258;
+    transition: 0.2s ease;
+}
+
