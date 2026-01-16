@@ -5,7 +5,7 @@
         <div class="logo">LoanShield</div>
 
         <!-- Hamburger (Mobile) -->
-        <div class="hamburger" onclick="toggleMenu()">
+        <div class="hamburger" onclick="toggleMenu()" id="hamburgerBtn">
             <span></span>
             <span></span>
             <span></span>
@@ -13,9 +13,9 @@
 
         <!-- Navigation Menu -->
         <ul class="nav-links" id="navMenu">
-            <li><a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a></li>
-            <li><a href="/predict" class="{{ 'active' if request.path == '/predict' else '' }}">Predict</a></li>
-            <li><a href="/dashboard" class="{{ 'active' if request.path == '/dashboard' else '' }}">Dashboard</a></li>
+            <li><a href="/" class="nav-item {{ 'active' if request.path == '/' else '' }}">Home</a></li>
+            <li><a href="/predict" class="nav-item {{ 'active' if request.path == '/predict' else '' }}">Predict</a></li>
+            <li><a href="/dashboard" class="nav-item {{ 'active' if request.path == '/dashboard' else '' }}">Dashboard</a></li>
 
             <li>
                 <a class="logout-btn" href="/logout">
@@ -29,6 +29,10 @@
 
 <script>
 function toggleMenu() {
-    document.getElementById("navMenu").classList.toggle("active");
+    const nav = document.getElementById("navMenu");
+    const burger = document.getElementById("hamburgerBtn");
+
+    nav.classList.toggle("active");
+    burger.classList.toggle("open");
 }
 </script>
