@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact - LoanShield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f4ef, #f4ece3, #f9f6f0);
+            background-size: 400% 400%;
+            animation: bgShift 18s ease infinite;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .contact-container {
+            max-width: 900px;
+            margin: 150px auto;
+            padding: 40px;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(18px);
+            border-radius: 22px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .contact-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #7a5633;
+            margin-bottom: 20px;
+        }
+
+        .contact-text {
+            text-align: center;
+            color: #574d46;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 18px;
+            border: 1px solid #d6ccc3;
+            border-radius: 10px;
+            background: #faf7f2;
+            transition: 0.25s;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: #c7a27c;
+            box-shadow: 0 0 0 4px rgba(199,162,124,0.25);
+        }
+
+        .contact-btn {
+            padding: 14px 24px;
+            width: 100%;
+            background: #C7A27C;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: #b48b65;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+        }
+
+        .social-icons {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .social-icons a {
+            font-size: 32px;
+            margin: 0 12px;
+            color: #7A5633;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #C7A27C;
+            transform: translateY(-4px);
+        }
+
+        @media(max-width: 600px){
+            .contact-container { padding: 25px; }
+        }
+    </style>
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="contact-container fade-in">
+
+    <h1 class="contact-title">Contact Us</h1>
+    <p class="contact-text">Have questions? Reach out and we will get back to you shortly.</p>
+
+    <form class="contact-form" method="POST" action="/send_message">
+        <input type="text" name="name" placeholder="Your Name" required>
+
+        <input type="email" name="email" placeholder="Your Email" required>
+
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+
+        <button type="submit" class="contact-btn">Send Message</button>
+    </form>
+
+    <div class="social-icons">
+        <a href="https://instagram.com" target="_blank">📷</a>
+        <a href="https://linkedin.com" target="_blank">🔗</a>
+    </div>
+
+</div>
+
+{% include 'footer.html' %}
+
+</body>
+</html>
