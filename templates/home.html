@@ -6,47 +6,102 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
-        /* Extra UI Enhancement Only for Home Page */
+        /* ----------------------------
+           HOME PAGE EXTRA ENHANCEMENTS
+        -----------------------------*/
 
+        /* Soft animated background gradient */
+        body.home-body {
+            background: linear-gradient(135deg, #f8f4ef, #f6ece3, #fbf7f2);
+            background-size: 400% 400%;
+            animation: bgShift 18s ease infinite;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Improved hero layout */
         .hero {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 40px 0;
-            gap: 40px;
+            gap: 45px;
         }
 
         .hero-text {
             flex: 1;
-            animation: fadeSlide 0.8s ease;
+            animation: fadeSlide 0.9s ease;
         }
 
         @keyframes fadeSlide {
-            from { opacity: 0; transform: translateX(-30px); }
+            from { opacity: 0; transform: translateX(-35px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
+        /* Title glow animation */
+        .hero-text h1 {
+            line-height: 1.2;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 0px rgba(183, 130, 88, 0.2); }
+            50% { text-shadow: 0 0 14px rgba(183, 130, 88, 0.35); }
+            100% { text-shadow: 0 0 0px rgba(183, 130, 88, 0.2); }
+        }
+
+        /* Button glow */
+        .btn-primary, .btn-secondary {
+            transition: 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 8px 18px rgba(183,130,88,0.35);
+        }
+        .btn-secondary:hover {
+            box-shadow: 0 8px 18px rgba(183,130,88,0.25);
+        }
+
+        /* Floating hero image */
         .hero-image img {
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
-            animation: floatImg 4s ease-in-out infinite;
+            filter: drop-shadow(0 10px 22px rgba(0,0,0,0.15));
+            animation: floatImg 4.4s ease-in-out infinite;
         }
 
         @keyframes floatImg {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-12px); }
         }
 
-        /* Responsive Fix */
-        @media(max-width: 950px){
+        /* Mobile improvements */
+        @media(max-width: 950px) {
             .hero {
                 flex-direction: column-reverse;
                 text-align: center;
             }
+
             .hero-text {
                 width: 100%;
             }
+
+            .hero-image img {
+                width: 340px !important;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .hero-text h1 {
+                font-size: 38px;
+            }
+            .stats {
+                justify-content: center;
+            }
         }
     </style>
+
 </head>
 
 <body class="home-body fade-in">
@@ -72,21 +127,21 @@
                     the risk of loan default with high accuracy.
                 </p>
 
-                <div class="hero-buttons">
+                <div class="hero-buttons fade-in">
                     <a href="/predict" class="btn-primary">Start Prediction →</a>
                     <a href="/dashboard" class="btn-secondary">View History</a>
                 </div>
 
-                <div class="stats">
-                    <div class="stat-box fade-in">
+                <div class="stats fade-in">
+                    <div class="stat-box">
                         <h2>97%</h2>
                         <p>Accuracy</p>
                     </div>
-                    <div class="stat-box fade-in">
+                    <div class="stat-box">
                         <h2>0.4s</h2>
                         <p>Prediction Time</p>
                     </div>
-                    <div class="stat-box fade-in">
+                    <div class="stat-box">
                         <h2>24/7</h2>
                         <p>Availability</p>
                     </div>
