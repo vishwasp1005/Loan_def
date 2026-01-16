@@ -283,10 +283,10 @@
         </div>
     </div>
 
-<!-- SELECT FLOAT LABEL FIX -->
+<!-- FLOAT LABEL FIX -->
 <script>
 document.querySelectorAll('.input-group select').forEach(select => {
-    select.addEventListener('change', function() {
+    select.addEventListener('change', function () {
         if (this.value !== "") {
             this.classList.add("filled");
         } else {
@@ -301,6 +301,9 @@ function showLoader() {
     document.getElementById("loadingScreen").style.display = "flex";
 }
 </script>
+
+<!-- ⭐ FOOTER ADDED WITHOUT REMOVING ANYTHING -->
+{% include 'footer.html' %}
 
 </body>
 </html>
