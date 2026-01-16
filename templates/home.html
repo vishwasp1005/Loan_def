@@ -4,26 +4,55 @@
     <meta charset="UTF-8">
     <title>LoanShield - Smart Loan Default Prediction</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* Extra UI Enhancement Only for Home Page */
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+            animation: fadeSlide 0.8s ease;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .hero-image img {
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
+            animation: floatImg 4s ease-in-out infinite;
+        }
+
+        @keyframes floatImg {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive Fix */
+        @media(max-width: 950px){
+            .hero {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            .hero-text {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body class="home-body fade-in">
 
     <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="logo">LoanShield</div>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="/">Home</a></li>
-            <li><a href="/predict">Predict</a></li>
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li><a href="/logout" class="logout-btn">Logout</a></li>
-        </ul>
-
-        <!-- MOBILE NAV -->
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span><span></span><span></span>
-        </div>
-    </nav>
-
+    {% include 'navbar.html' %}
 
     <!-- HERO SECTION -->
     <section class="page-container">
@@ -31,14 +60,14 @@
 
             <!-- LEFT SIDE TEXT -->
             <div class="hero-text">
-                <div class="badge">AI-Powered Loan Risk Assessment</div>
+                <div class="badge fade-in">AI-Powered Loan Risk Assessment</div>
 
-                <h1>
+                <h1 class="fade-in">
                     Advanced Loan<br>
                     <span class="highlight">Default Prediction</span>
                 </h1>
 
-                <p>
+                <p class="fade-in">
                     Analyze financial data using cutting-edge AI and instantly predict
                     the risk of loan default with high accuracy.
                 </p>
@@ -64,23 +93,15 @@
                 </div>
             </div>
 
-           <!-- RIGHT SIDE IMAGE -->
-<div class="hero-image fade-in">
-    <img src="{{ url_for('static', filename='img/home.png') }}"
-         alt="Home Illustration"
-         style="width: 480px; max-width:100%;">
-</div>
-
+            <!-- RIGHT SIDE IMAGE -->
+            <div class="hero-image fade-in">
+                <img src="{{ url_for('static', filename='img/home.png') }}"
+                     alt="Home Illustration"
+                     style="width: 480px; max-width:100%;">
+            </div>
 
         </div>
     </section>
-
-
-<script>
-function toggleMenu(){
-    document.getElementById("navLinks").classList.toggle("active");
-}
-</script>
 
 </body>
 </html>
