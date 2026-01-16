@@ -470,3 +470,64 @@ body::after {
         padding-bottom: 130px !important;  /* Prevent content hiding behind footer */
     }
 }
+
+/* MOBILE FIX FOR HERO SECTION */
+@media(max-width: 768px){
+
+    .page-container {
+        padding-bottom: 80px !important;
+    }
+
+    .hero {
+        flex-direction: column-reverse !important;
+        text-align: center;
+        margin-top: 0 !important;
+        gap: 15px !important;
+        padding: 10px 0 !important;
+    }
+
+    .hero-image img {
+        width: 260px !important;
+        margin: 0 auto;
+        transform: translateY(-10px);
+    }
+
+    .hero-text h1 {
+        font-size: 28px !important;
+        line-height: 1.25;
+    }
+
+    .hero-text p {
+        font-size: 14px !important;
+        margin-top: 5px !important;
+    }
+
+    .hero-buttons {
+        margin-top: 10px !important;
+    }
+
+    .stats {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 15px !important;
+        flex-wrap: wrap;
+    }
+
+    .stat-box {
+        width: 90px;
+        padding: 10px 5px !important;
+        background: rgba(255,255,255,0.6);
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .stat-box h2 {
+        font-size: 18px !important;
+    }
+
+    .stat-box p {
+        font-size: 12px !important;
+    }
+}
+
