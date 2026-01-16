@@ -7,15 +7,16 @@
 
     <style>
 
-        /* ------------------------------
-           Animated Background
-        ------------------------------ */
+        /* --------------------------------------
+            PREMIUM ANIMATED BACKGROUND
+        ---------------------------------------*/
         body {
             margin: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+
             font-family: "Poppins", sans-serif;
 
             background: linear-gradient(135deg, #f8f4ef, #f3ebe3, #f7f2e8);
@@ -30,23 +31,23 @@
         }
 
 
-        /* ------------------------------
-           Login Card
-        ------------------------------ */
+        /* --------------------------------------
+            LOGIN CARD (Glass + Glow)
+        ---------------------------------------*/
         .auth-card {
             width: 390px;
             padding: 40px;
+
             border-radius: 22px;
+            background: rgba(255,255,255,0.70);
+            backdrop-filter: blur(18px);
 
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(14px);
-
-            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
 
             animation: fadeUp 0.7s ease;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
         @keyframes fadeUp {
@@ -54,42 +55,53 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* Glow corner light */
+        /* soft corner glow */
         .auth-card::after {
             content: "";
             position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 170px;
-            height: 170px;
-            background: radial-gradient(circle, rgba(255,255,255,0.45), transparent);
+            top: -25px;
+            right: -25px;
+            width: 190px;
+            height: 190px;
+            background: radial-gradient(circle,
+                      rgba(255,255,255,0.45),
+                      transparent 70%);
             border-radius: 50%;
-            pointer-events: none;
+            filter: blur(10px);
         }
 
 
-        /* ------------------------------
-           Headings & Labels
-        ------------------------------ */
+        /* --------------------------------------
+            HEADING
+        ---------------------------------------*/
         .auth-card h2 {
-            font-size: 30px;
+            font-size: 32px;
             margin-bottom: 25px;
             font-weight: 700;
             color: #6A4C36;
+            animation: glowText 3s ease-in-out infinite;
         }
 
+        @keyframes glowText {
+            0%,100% { text-shadow: 0 0 0px rgba(199,162,124,0.25); }
+            50%     { text-shadow: 0 0 12px rgba(199,162,124,0.45); }
+        }
+
+
+        /* --------------------------------------
+            LABELS
+        ---------------------------------------*/
         .auth-card label {
             float: left;
             font-size: 14px;
             font-weight: 600;
-            color: #4e403a;
-            margin-top: 12px;
+            color: #4f433c;
+            margin-top: 14px;
         }
 
-
-        /* ------------------------------
-           Input Fields
-        ------------------------------ */
+        /* --------------------------------------
+            INPUTS
+        ---------------------------------------*/
         .auth-card input {
             width: 100%;
             padding: 12px;
@@ -105,23 +117,24 @@
 
         .auth-card input:focus {
             border-color: #c7a27c;
-            box-shadow: 0 0 0 3px rgba(199,162,124,0.25);
+            box-shadow: 0 0 0 4px rgba(199,162,124,0.25);
         }
 
 
-        /* ------------------------------
-           Login Button
-        ------------------------------ */
+        /* --------------------------------------
+            BUTTON
+        ---------------------------------------*/
         .auth-card button {
-            margin-top: 25px;
+            margin-top: 28px;
             width: 100%;
-            padding: 12px;
+            padding: 13px;
+
             font-size: 17px;
+            border: none;
+            border-radius: 12px;
 
             background: #C7A27C;
             color: white;
-            border: none;
-            border-radius: 12px;
             font-weight: 600;
 
             cursor: pointer;
@@ -131,15 +144,15 @@
         .auth-card button:hover {
             background: #b48b65;
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
         }
 
 
-        /* ------------------------------
-           Error Message
-        ------------------------------ */
+        /* --------------------------------------
+            ERROR MESSAGE
+        ---------------------------------------*/
         .error {
-            padding: 10px;
+            padding: 12px;
             background: #ffd4d4;
             color: #b92828;
             border-radius: 10px;
@@ -150,28 +163,33 @@
 
         @keyframes shake {
             0%,100% { transform: translateX(0); }
-            25% { transform: translateX(-4px); }
-            50% { transform: translateX(4px); }
-            75% { transform: translateX(-4px); }
+            25%  { transform: translateX(-4px); }
+            50%  { transform: translateX(4px); }
+            75%  { transform: translateX(-4px); }
         }
 
 
-        /* ------------------------------
-           Default Info
-        ------------------------------ */
+        /* --------------------------------------
+            DEFAULT INFO
+        ---------------------------------------*/
         .default-info {
-            margin-top: 18px;
+            margin-top: 20px;
             font-size: 14px;
             color: #6A4C36;
         }
 
-        /* ------------------------------
-            Mobile Fix
-        ------------------------------ */
+
+        /* --------------------------------------
+            MOBILE RESPONSIVE
+        ---------------------------------------*/
         @media(max-width: 450px){
             .auth-card {
-                width: 90%;
-                padding: 30px;
+                width: 88%;
+                padding: 32px;
+            }
+
+            .auth-card h2 {
+                font-size: 26px;
             }
         }
 
