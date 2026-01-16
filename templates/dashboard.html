@@ -5,100 +5,135 @@
     <title>LoanShield - Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-    <!-- FIXED CHART.JS CDN -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
 
-        /* DASHBOARD LAYOUT */
+        /* ------------------------------
+            BACKGROUND ANIMATION
+        ------------------------------ */
+        body {
+            background: linear-gradient(135deg, #f8f4ef, #f6ece3, #fbf7f2);
+            background-size: 400% 400%;
+            animation: bgShift 16s ease infinite;
+        }
+        @keyframes bgShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+
+        /* ------------------------------
+            WRAPPER
+        ------------------------------ */
         .dashboard-wrapper {
             animation: fadeIn 0.8s ease;
         }
 
-        /* STAT CARDS ENHANCEMENTS */
+
+        /* ------------------------------
+            STAT CARDS (Top Three)
+        ------------------------------ */
         .stat-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 18px;
-            padding: 30px 20px;
-            background: white;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(18px);
+            border-radius: 20px;
+            padding: 28px 25px;
+            text-align: center;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.10);
             transition: 0.3s ease;
         }
 
         .stat-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            box-shadow: 0 16px 35px rgba(0,0,0,0.15);
         }
 
         .stat-card .icon {
             font-size: 36px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            animation: floatIcon 3s ease-in-out infinite;
         }
 
-        /* CHARTS DESIGN */
+        @keyframes floatIcon {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+
+        /* ------------------------------
+            CHART BOXES
+        ------------------------------ */
         .chart-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
             gap: 30px;
-            margin-top: 40px;
+            margin-top: 45px;
         }
 
         .chart-box {
-            background: #ffffff;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(15px);
             padding: 25px;
-            border-radius: 18px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.10);
             animation: fadeIn 0.9s ease;
         }
 
         .chart-box h3 {
-            margin-bottom: 18px;
-            font-size: 20px;
             text-align: center;
-            color: #4e3f3f;
+            margin-bottom: 16px;
+            font-size: 20px;
+            color: #4d3e3e;
         }
 
         canvas {
             height: 300px !important;
         }
 
-        /* TABLE DESIGN */
+
+        /* ------------------------------
+            TABLE STYLING
+        ------------------------------ */
         .history-table {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 25px;
             border-collapse: separate;
-            border-spacing: 0 10px;
+            border-spacing: 0 12px;
         }
 
         .history-table th {
             background: #ede7e0;
-            padding: 15px;
+            padding: 14px;
             text-align: left;
-            border-radius: 10px 10px 0 0;
             font-weight: 600;
+            border-radius: 12px 12px 0 0;
         }
 
         .history-table td {
-            background: white;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(12px);
             padding: 14px;
             border-bottom: 1px solid #eee;
         }
 
-        .history-table tr {
+        .history-table tr:hover td {
+            background: #f4eee7;
             transition: 0.3s ease;
         }
 
-        .history-table tr:hover td {
-            background: #f4eee7;
-        }
 
-        /* RESPONSIVE FIX */
+        /* ------------------------------
+            RESPONSIVE FIX
+        ------------------------------ */
         @media(max-width: 760px){
             h1.page-title {
                 text-align: center;
             }
         }
+
     </style>
 </head>
 
@@ -208,8 +243,7 @@
                     data: [safe, danger],
                     backgroundColor: ['#6ad06d', '#ff7676']
                 }]
-            },
-            options: { responsive: true }
+            }
         });
     </script>
 
