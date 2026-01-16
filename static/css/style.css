@@ -3,21 +3,23 @@
 --------------------------------*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
     font-family: "Poppins", sans-serif;
     background: #F7F5F2;
     color: #2F2E2E;
-    overflow-x: hidden;
-    transition: background 0.25s ease, color 0.25s ease;
+    overflow-x: hidden;   /* NEW: prevent horizontal scroll */
 }
 
 /* Smooth fade animation */
 .fade-in {
     animation: fadeIn 0.8s ease-in-out;
 }
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
@@ -25,39 +27,35 @@ body {
 
 
 /* ------------------------------
-   NAVBAR (UPGRADED)
+   PREMIUM NAVBAR
 --------------------------------*/
 .navbar {
     width: 100%;
     padding: 18px 60px;
     position: fixed;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     z-index: 999;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(25px);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    transition: 0.3s ease;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.nav-container {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* NEW — fixes navbar width issue */
+.nav-container{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .logo {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 700;
     color: #6A4C36;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 3px rgba(0,0,0,0.1);
 }
 
 /* NAV LINKS */
@@ -70,26 +68,15 @@ body {
 
 .nav-links li a {
     text-decoration: none;
-    font-weight: 600;
-    color: #3b3b3b;
+    font-weight: 500;
+    color: #333;
     font-size: 16px;
-    padding: 8px 5px;
-    position: relative;
-    transition: 0.25s ease;
+    transition: 0.3s;
 }
 
-/* underline hover */
-.nav-links li a::after {
-    content: "";
-    width: 0%;
-    height: 2px;
-    background: #C7A27C;
-    position: absolute;
-    left: 0; bottom: -3px;
-    transition: width 0.25s ease;
+.nav-links li a:hover {
+    color: #C7A27C;
 }
-.nav-links li a:hover { color: #C7A27C; }
-.nav-links li a:hover::after { width: 100%; }
 
 /* Logout button */
 .logout-btn {
@@ -98,11 +85,6 @@ body {
     border-radius: 8px;
     color: white !important;
     font-weight: 600;
-    transition: 0.3s;
-}
-.logout-btn:hover {
-    background: #a53434;
-    transform: translateY(-3px);
 }
 
 
@@ -112,54 +94,101 @@ body {
 .hamburger {
     display: none;
     flex-direction: column;
-    gap: 6px;
     cursor: pointer;
-    transition: 0.3s;
+    gap: 6px;
 }
+
 .hamburger span {
     width: 28px;
     height: 3px;
     background: #6A4C36;
     border-radius: 3px;
-    transition: 0.3s ease;
 }
 
 @media(max-width: 850px){
-    .hamburger { display: flex; }
+    .hamburger {
+        display: flex;
+    }
 
     .nav-links {
         position: absolute;
-        top: 80px; right: 20px;
-        background: rgba(255,255,255,0.96);
-        backdrop-filter: blur(12px);
-        width: 210px;
+        top: 70px;
+        right: 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        width: 200px;
         padding: 20px;
         flex-direction: column;
-        gap: 18px;
-        border-radius: 15px;
+        gap: 20px;
+        border-radius: 12px 0 0 12px;
         display: none;
-
-        box-shadow: 0 8px 20px rgba(0,0,0,0.09);
-        animation: fadeIn 0.25s ease;
     }
 
-    .nav-links.active { display: flex; }
+    .nav-links.active {
+        display: flex;
+    }
 }
 
 
 /* ------------------------------
-   GLOBAL PAGE SPACING
+   PAGE SPACING
 --------------------------------*/
 .page-container {
-    padding-top: 130px;
+    padding-top: 130px; /* space for navbar */
     padding-left: 60px;
     padding-right: 60px;
 }
 
+/* NEW — Fix extra white space on Predict page */
+.predict-container{
+    margin-top:20px;
+}
+
 
 /* ------------------------------
-   BUTTONS (UPGRADED)
+   HOME PAGE HERO
 --------------------------------*/
+.hero {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-text {
+    width: 50%;
+}
+
+.hero-text h1 {
+    font-size: 54px;
+    font-weight: 700;
+    color: #3A2F2F;
+}
+
+.highlight {
+    color: #B68258;
+}
+
+.badge {
+    background: #EAD4BF;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #523A28;
+    display: inline-block;
+}
+
+.hero-text p {
+    margin: 20px 0;
+    font-size: 18px;
+    color: #5A5A5A;
+}
+
+.hero-buttons {
+    margin: 25px 0;
+}
+
 .btn-primary,
 .btn-secondary {
     padding: 12px 25px;
@@ -168,105 +197,168 @@ body {
     font-size: 16px;
     text-decoration: none;
     display: inline-block;
-    transition: 0.3s ease;
 }
 
-/* Glow & lift */
-.btn-primary:hover,
-.btn-secondary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-}
-
-/* Primary */
 .btn-primary {
     background: #C7A27C;
     color: white;
 }
+
 .btn-primary:hover {
     background: #b28d63;
+    transform: translateY(-3px);
 }
 
-/* Secondary */
 .btn-secondary {
     border: 2px solid #C7A27C;
     color: #C7A27C;
 }
+
 .btn-secondary:hover {
     background: #C7A27C;
     color: white;
 }
 
+/* NEW — Hero image fix */
+.hero-image img{
+    width:420px;
+    max-width:100%;
+    display:block;
+}
 
-/* ------------------------------
-   HOME HERO IMPROVED
---------------------------------*/
-.hero {
-    padding: 40px 20px;
+
+/* Hero stats */
+.stats {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 45px;
+    margin-top: 25px;
+    gap: 25px;
 }
 
-.hero-image img {
-    width: 430px;
-    max-width: 100%;
-    filter: drop-shadow(0 8px 18px rgba(0,0,0,0.15));
+.stat-box {
+    background: white;
+    width: 140px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 
 /* ------------------------------
-   PREDICT PAGE
+   PREDICT FORM PAGE
 --------------------------------*/
-.predict-container {
+.predict-container{
     display:flex;
-    gap:45px;
+    gap:40px;
     align-items:center;
 }
 
+/* NEW — fix predict image not showing */
 .predict-illustration img{
     width:420px;
     max-width:100%;
-    filter: drop-shadow(0 10px 22px rgba(0,0,0,0.14));
+    display:block;
 }
 
+.center-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
 
-/* ------------------------------
-   FORM CARD
---------------------------------*/
 .form-card {
     background: white;
     width: 480px;
     padding: 35px;
     border-radius: 18px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.12);
     animation: fadeIn 0.7s ease;
+}
+
+.form-card input,
+.form-card select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #d8cfc5;
+    background: #FAF7F2;
+    border-radius: 8px;
+}
+
+.full-btn {
+    width: 100%;
 }
 
 
 /* ------------------------------
-   DASHBOARD
+   RESULT PAGE
 --------------------------------*/
-.stat-card {
-    transition: 0.3s ease;
+.result-box {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
 }
-.stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+
+.result {
+    padding: 28px;
+    font-size: 28px;
+    border-radius: 15px;
+    margin: 35px 0;
+}
+
+.safe { background: #D4F8D4; color: #2E7D32; }
+.danger { background: #FFD4D4; color: #D32F2F; }
+
+
+/* ------------------------------
+   DASHBOARD PAGE
+--------------------------------*/
+.stats-container {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.stat-card {
+    flex: 1;
+    padding: 25px;
+    border-radius: 18px;
+    background: #fff;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.stat-card.green { background: #D4F8D4; }
+.stat-card.red { background: #FFD4D4; }
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-table th, .history-table td {
+    padding: 14px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.history-table tr:hover {
+    background: #F5EFE6;
 }
 
 
 /* ------------------------------
    RESPONSIVE FIXES
 --------------------------------*/
-@media(max-width: 900px){
-    .hero,
-    .predict-container {
-        flex-direction: column;
+@media (max-width: 900px) {
+    .hero { flex-direction: column; text-align: center; }
+    .hero-text, .hero-image { width: 100%; }
+
+    .predict-container{
+        flex-direction:column;
         text-align:center;
     }
 }
-@media(max-width: 600px){
+
+@media (max-width: 600px) {
     .page-container { padding-left: 20px; padding-right: 20px; }
 }
