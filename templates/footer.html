@@ -1,0 +1,52 @@
+<footer class="footer fade-in">
+
+    <div class="footer-container">
+
+        <!-- Left: Logo -->
+        <div class="footer-logo">
+            LoanShield
+        </div>
+
+        <!-- Center: Footer Links -->
+        <div class="footer-links">
+            <a href="#" onclick="openAbout()">About Us</a>
+            <a href="#" onclick="openContact()">Contact Us</a>
+        </div>
+
+        <!-- Right: Quote -->
+        <div class="footer-quote">
+            “Designed & Developed by Vishwas Patel”
+        </div>
+
+    </div>
+
+</footer>
+
+<!-- FOOTER POPUPS -->
+<div id="footerPopup" class="footer-popup">
+    <div class="popup-card" id="popupCard">
+        <span class="close-btn" onclick="closePopup()">✖</span>
+        <h2 id="popupTitle"></h2>
+        <p id="popupContent"></p>
+    </div>
+</div>
+
+<script>
+function openAbout() {
+    document.getElementById("popupTitle").innerText = "About Us";
+    document.getElementById("popupContent").innerText =
+        "LoanShield is an AI-powered loan prediction system designed to help analyze loan safety with high accuracy.";
+    document.getElementById("footerPopup").style.display = "flex";
+}
+
+function openContact() {
+    document.getElementById("popupTitle").innerText = "Contact Us";
+    document.getElementById("popupContent").innerHTML =
+        "Email: support@loanshield.ai<br>Phone: +91 98765 43210";
+    document.getElementById("footerPopup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("footerPopup").style.display = "none";
+}
+</script>
