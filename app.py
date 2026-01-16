@@ -7,21 +7,27 @@ import os
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = "loan_secret_key_123"
 
-# -----------------------------
-# Load ML Model
-# -----------------------------
-model = joblib.load("loan_model.pkl")
 
-# -----------------------------
-# DATABASE SETUP
-# -----------------------------
+# -------------------------------------------------
+# LOAD ML MODEL SAFELY
+# -------------------------------------------------
+try:
+    model = joblib.load("loan_model.pkl")
+except:
+    model = None
+    print("⚠️ MODEL FAILED TO LOAD — Check loan_model.pkl")
+
+
+# -------------------------------------------------
+# DATABASE
+# -------------------------------------------------
 DB_NAME = "database.db"
 
 def init_db():
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
 
-    # USER table
+    # USERS TABLE
     c.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,12 +36,13 @@ def init_db():
         )
     """)
 
-    # Default admin
+    # DEFAULT ADMIN
     c.execute("SELECT * FROM users WHERE username=?", ("admin",))
     if not c.fetchone():
-        c.execute("INSERT INTO users (username, password) VALUES (?, ?)", ("admin", "12345"))
+        c.execute("INSERT INTO users (username, password) VALUES (?, ?)",
+                  ("admin", "12345"))
 
-    # HISTORY table
+    # HISTORY TABLE
     c.execute("""
         CREATE TABLE IF NOT EXISTS history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,25 +62,32 @@ def init_db():
 
 init_db()
 
-# -----------------------------
-# LOGIN CHECK
-# -----------------------------
+
+# -------------------------------------------------
+# LOGIN HELPERS
+# -------------------------------------------------
 def login_required():
     return "user" in session
+
 
 def validate_user(username, password):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+    c.execute("SELECT * FROM users WHERE username=? AND password=?",
+              (username, password))
     user = c.fetchone()
     conn.close()
     return user is not None
 
-# -----------------------------
+
+# -------------------------------------------------
 # AUTH ROUTES
-# -----------------------------
+# -------------------------------------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if login_required():
+        return redirect(url_for("home"))
+
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -87,8 +101,12 @@ def login():
     return render_template("login.html")
 
 
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    if login_required():
+        return redirect(url_for("home"))
+
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -96,14 +114,18 @@ def signup():
         try:
             conn = sqlite3.connect(DB_NAME)
             c = conn.cursor()
-            c.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+            c.execute("INSERT INTO users (username, password) VALUES (?, ?)",
+                      (username, password))
+
             conn.commit()
             conn.close()
             return redirect(url_for("login"))
+
         except:
             return render_template("signup.html", error="Username already exists!")
 
     return render_template("signup.html")
+
 
 
 @app.route("/logout")
@@ -111,32 +133,30 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 
-# -----------------------------
-# LANDING PAGE (Home)
-# -----------------------------
+
+# -------------------------------------------------
+# HOME PAGE
+# -------------------------------------------------
 @app.route("/")
 def home():
     if not login_required():
         return redirect(url_for("login"))
-
-    # NEW landing page replaces old index.html
     return render_template("home.html")
 
 
-# -----------------------------
-# PREDICTION PAGE (FORM)
-# -----------------------------
+# -------------------------------------------------
+# PREDICT FORM (GET)
+# -------------------------------------------------
 @app.route("/predict", methods=["GET"])
-def predict_form():
+def predict_page():
     if not login_required():
         return redirect(url_for("login"))
-
     return render_template("predict.html")
 
 
-# -----------------------------
-# PREDICTION HANDLING
-# -----------------------------
+# -------------------------------------------------
+# PREDICT RESULT (POST)
+# -------------------------------------------------
 @app.route("/predict", methods=["POST"])
 def predict():
     if not login_required():
@@ -151,7 +171,7 @@ def predict():
         education = request.form["education"]
         employment = request.form["employment"]
 
-        # ML input format
+        # Prepare ML input
         data = pd.DataFrame([{
             "Age": age,
             "Income": income,
@@ -164,13 +184,14 @@ def predict():
 
         prediction = int(model.predict(data)[0])
 
-        # Save result
+        # SAVE TO DB
         conn = sqlite3.connect(DB_NAME)
         c = conn.cursor()
         c.execute("""
             INSERT INTO history (age, income, loan_amount, credit_score, dti_ratio, education, employment, prediction)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (age, income, loan_amount, credit_score, dti_ratio, education, employment, prediction))
+
         conn.commit()
         conn.close()
 
@@ -180,9 +201,9 @@ def predict():
         return f"Error: {str(e)}"
 
 
-# -----------------------------
+# -------------------------------------------------
 # DASHBOARD
-# -----------------------------
+# -------------------------------------------------
 @app.route("/dashboard")
 def dashboard():
     if not login_required():
@@ -196,13 +217,17 @@ def dashboard():
     danger = len(df[df["prediction"] == 1])
     total = len(df)
 
-    return render_template("dashboard.html",
-                           history=df.to_dict(orient="records"),
-                           safe=safe, danger=danger, total=total)
+    return render_template(
+        "dashboard.html",
+        history=df.to_dict(orient="records"),
+        safe=safe,
+        danger=danger,
+        total=total
+    )
 
 
-# -----------------------------
-# RUN APP
-# -----------------------------
+# -------------------------------------------------
+# RUN SERVER
+# -------------------------------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
