@@ -43,8 +43,7 @@ body::after {
     z-index: -1;
 }
 
-
-/* ------------------------------  
+/* ------------------------------
    ANIMATIONS
 --------------------------------*/
 .fade-in {
@@ -64,7 +63,6 @@ body::after {
     0%,100% { transform: translateY(0px); }
     50% { transform: translateY(-12px); }
 }
-
 
 /* -----------------------------------
    NAVBAR (Glass + Glow)
@@ -104,7 +102,6 @@ body::after {
     transform: translateY(-2px);
 }
 
-/* Nav links */
 .nav-links {
     display: flex;
     list-style: none;
@@ -126,7 +123,6 @@ body::after {
     text-shadow: 0 0 6px rgba(194,142,90,0.5);
 }
 
-/* Active underline */
 .nav-links .active {
     color: #B68258 !important;
     font-weight: 600;
@@ -149,10 +145,7 @@ body::after {
     to { width: 28px; opacity: 1; }
 }
 
-
-/* ------------------------------
-   MOBILE NAV
---------------------------------*/
+/* MOBILE NAV */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -168,7 +161,6 @@ body::after {
     transition: 0.4s ease;
 }
 
-/* Open animation */
 .hamburger.open span:nth-child(1) {
     transform: rotate(45deg) translateY(8px);
 }
@@ -203,7 +195,6 @@ body::after {
     }
 }
 
-
 /* ------------------------------
    PAGE SPACING
 --------------------------------*/
@@ -219,7 +210,6 @@ body::after {
         padding-right: 18px;
     }
 }
-
 
 /* ------------------------------
    HOME PAGE
@@ -254,7 +244,6 @@ body::after {
     color: #523A28;
 }
 
-/* Home image */
 .hero-image img {
     width: 430px;
     max-width: 100%;
@@ -262,7 +251,6 @@ body::after {
     filter: drop-shadow(0 8px 18px rgba(0,0,0,0.12));
     animation: float 4s ease-in-out infinite;
 }
-
 
 /* ------------------------------
    BUTTONS (Glow + Ripple)
@@ -290,7 +278,6 @@ body::after {
     transform: translateY(-2px);
 }
 
-/* Ripple */
 .btn-primary:active::after,
 .btn-secondary:active::after {
     content: "";
@@ -319,7 +306,6 @@ body::after {
     color: white;
 }
 
-
 /* ------------------------------
    PREDICT PAGE
 --------------------------------*/
@@ -345,7 +331,6 @@ body::after {
     box-shadow: 0 8px 25px rgba(0,0,0,0.12);
 }
 
-/* Predict Inputs */
 .form-card input,
 .form-card select {
     width: 100%;
@@ -356,7 +341,6 @@ body::after {
     border-radius: 8px;
     font-size: 15px;
 }
-
 
 /* ------------------------------
    DASHBOARD
@@ -384,7 +368,6 @@ body::after {
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
-
 /* ------------------------------
    MOBILE FIXES
 --------------------------------*/
@@ -396,10 +379,11 @@ body::after {
         flex-direction: column;
         text-align: center;
     }
+}  /* <-- FIXED: THIS WAS MISSING */
 
-  /* ------------------------------------------
-   FIXED & RESPONSIVE FOOTER (FINAL VERSION)
--------------------------------------------*/
+/* ------------------------------
+   FIXED GLOBAL FOOTER
+--------------------------------*/
 .footer {
     width: 100%;
     background: rgba(255,255,255,0.65);
@@ -447,18 +431,15 @@ body::after {
     font-size: 14px;
     color: #6b5644;
 }
+
 .footer-right strong {
     color: #B68258;
 }
 
-/* ------------------------------------------
-   MOBILE FOOTER FIX — Perfect on all phones
--------------------------------------------*/
+/* MOBILE FOOTER */
 @media(max-width: 768px){
-
     .footer {
         padding: 22px 20px;
-        position: relative;   /* not fixed */
         margin-top: 40px;
     }
 
@@ -471,10 +452,5 @@ body::after {
     .footer-links a {
         display: inline-block;
         margin: 6px 12px;
-    }
-
-    /* Prevent white gap under pages */
-    body {
-        padding-bottom: 40px !important;
     }
 }
