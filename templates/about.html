@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About - LoanShield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f4ef, #f4ece3, #f9f6f0);
+            background-size: 400% 400%;
+            animation: bgShift 18s ease infinite;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .about-container {
+            max-width: 1050px;
+            margin: 150px auto;
+            padding: 40px;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(18px);
+            border-radius: 22px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .about-title {
+            text-align: center;
+            font-size: 34px;
+            font-weight: 700;
+            color: #7a5633;
+            margin-bottom: 20px;
+        }
+
+        .about-text {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #4d3e3e;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .about-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .about-icons a {
+            font-size: 32px;
+            color: #7A5633;
+            transition: 0.3s;
+        }
+
+        .about-icons a:hover {
+            color: #C7A27C;
+            transform: translateY(-4px);
+        }
+
+        @media(max-width: 600px){
+            .about-container { padding: 25px; }
+            .about-title { font-size: 26px; }
+        }
+    </style>
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="about-container fade-in">
+    <h1 class="about-title">About LoanShield</h1>
+
+    <p class="about-text">
+        LoanShield is an AI-powered loan risk assessment platform designed to help
+        financial institutions predict loan defaults with higher accuracy.  
+        Our system uses machine learning models trained on real financial data to
+        deliver fast, smart, and reliable predictions.
+    </p>
+
+    <p class="about-text">
+        Our vision is to make financial decision-making faster, more accurate,
+        and accessible through the power of Artificial Intelligence.
+    </p>
+
+    <div class="about-icons">
+        <a href="https://instagram.com" target="_blank">📷</a>
+        <a href="https://linkedin.com" target="_blank">🔗</a>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+</body>
+</html>
