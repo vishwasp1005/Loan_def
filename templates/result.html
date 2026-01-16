@@ -8,7 +8,7 @@
     <style>
 
         /* --------------------------------------
-           PREMIUM BACKGROUND (same as others)
+           PREMIUM BACKGROUND 
         --------------------------------------- */
         body {
             background: linear-gradient(135deg, #f8f4ef, #f5ece3, #f9f6f0);
@@ -23,23 +23,23 @@
         }
 
         /* --------------------------------------
-           MAIN WRAPPER
+           MAIN CONTAINER 
         --------------------------------------- */
         .result-container {
             max-width: 650px;
-            margin: 150px auto 80px auto; /* added bottom margin for footer */
+            margin: 150px auto 120px auto; /* extra bottom for footer */
             text-align: center;
             animation: fadeIn 0.8s ease;
-            padding: 0 20px;
+            padding: 0 22px;
         }
 
         /* --------------------------------------
-           RESULT CARD (Glass + Glow)
+           RESULT CARD 
         --------------------------------------- */
         .result-card {
             padding: 50px;
             border-radius: 22px;
-            background: rgba(255,255,255,0.75);
+            background: rgba(255,255,255,0.78);
             backdrop-filter: blur(20px);
             box-shadow: 0 18px 40px rgba(0,0,0,0.12);
             position: relative;
@@ -48,7 +48,7 @@
         }
 
         @keyframes popIn {
-            from { transform: scale(0.85); opacity: 0; }
+            from { transform: scale(0.88); opacity: 0; }
             to   { transform: scale(1); opacity: 1; }
         }
 
@@ -65,24 +65,19 @@
             border-radius: 50%;
         }
 
-        /* --------------------------------------
-           SAFE & DANGER THEMES
-        --------------------------------------- */
+        /* Safe / Danger themes */
         .result-safe {
             border-left: 14px solid #2E7D32;
             background: rgba(212,248,212,0.78);
             color: #1b6f26;
         }
-
         .result-danger {
             border-left: 14px solid #D32F2F;
             background: rgba(255,212,212,0.78);
             color: #B21C1C;
         }
 
-        /* --------------------------------------
-           EMOJI float
-        --------------------------------------- */
+        /* Emoji */
         .emoji {
             font-size: 95px;
             margin-bottom: 15px;
@@ -95,7 +90,7 @@
         }
 
         /* --------------------------------------
-           ACTION BUTTONS
+           BUTTONS
         --------------------------------------- */
         .action-buttons {
             margin-top: 32px;
@@ -110,7 +105,6 @@
             border-radius: 10px;
             font-weight: 600;
             text-decoration: none;
-            display: inline-block;
             transition: 0.25s ease;
         }
 
@@ -122,7 +116,6 @@
         .btn-primary:hover {
             background: #b48b65;
             transform: translateY(-3px);
-            box-shadow: 0 10px 22px rgba(0,0,0,0.15);
         }
 
         .btn-secondary {
@@ -133,21 +126,22 @@
             background: #C7A27C;
             color: white;
             transform: translateY(-3px);
-            box-shadow: 0 10px 22px rgba(0,0,0,0.15);
         }
 
         /* --------------------------------------
            MOBILE FIXES
         --------------------------------------- */
+        @media(max-width: 700px){
+            .result-container {
+                margin-top: 140px;
+                margin-bottom: 160px; /* EXTRA SAFE for mobile footer */
+            }
+        }
+
         @media(max-width: 600px){
 
-            .result-container {
-                margin-top: 130px;
-                margin-bottom: 110px; /* perfect mobile bottom spacing */
-            }
-
             .result-card {
-                padding: 35px 25px;
+                padding: 32px 20px !important;
             }
 
             .emoji {
@@ -155,8 +149,31 @@
             }
 
             h1 {
-                font-size: 24px;
+                font-size: 22px;
+                line-height: 1.35;
             }
+
+            p {
+                font-size: 14px;
+            }
+
+            .action-buttons {
+                gap: 12px;
+            }
+
+            .btn {
+                padding: 12px 22px;
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+
+        /* Fix for very small phones (Galaxy Fold, iPhone SE) */
+        @media(max-width: 360px){
+            .emoji { font-size: 60px; }
+            h1 { font-size: 20px; }
+            .result-card { padding: 25px 16px; }
         }
 
     </style>
@@ -172,7 +189,7 @@
         <div class="result-card result-safe">
             <div class="emoji">🟢</div>
             <h1>Loan Status: <strong>SAFE</strong></h1>
-            <p>The applicant is unlikely to default based on the model’s analysis.</p>
+            <p>The applicant is unlikely to default based on the analysis.</p>
         </div>
 
         {% else %}
@@ -190,7 +207,6 @@
 
     </div>
 
-    <!-- ⭐ FOOTER ADDED (no component removed) -->
     {% include 'footer.html' %}
 
 </body>
