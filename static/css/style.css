@@ -397,3 +397,53 @@ body::after {
         text-align: center;
     }
 }
+
+/* ----------------------------------------------------
+   FOOTER (New Component – does NOT remove anything)
+-----------------------------------------------------*/
+.footer {
+    margin-top: 80px;
+    width: 100%;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(14px);
+    padding: 25px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    box-shadow: 0 -4px 18px rgba(0,0,0,0.08);
+}
+
+.footer p {
+    margin: 6px 0;
+    font-size: 14px;
+    color: #5A4A3B;
+}
+
+.footer a {
+    color: #B68258;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer a:hover {
+    color: #8B5E2E;
+}
+
+/* ----------------------------------------------------
+   MOBILE — REMOVE EMPTY SPACE ON ALL PAGES
+-----------------------------------------------------*/
+.page-container {
+    min-height: calc(100vh - 250px); /* auto-fill screen height */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Pages with big empty bottom = fix center on phone */
+@media(max-width: 600px){
+    .hero,
+    .predict-container,
+    .result-container,
+    .dashboard-wrapper {
+        padding-bottom: 40px;
+    }
+}
