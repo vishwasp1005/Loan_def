@@ -48,6 +48,7 @@ body::after {
 }
 
 
+/* ------------------------------
    ANIMATIONS
 --------------------------------*/
 .fade-in {
@@ -176,6 +177,14 @@ body::after {
 }
 
 @media(max-width: 850px){
+    .navbar {
+        padding: 18px 30px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
     .hamburger { display: flex; }
 
     .nav-links {
@@ -206,6 +215,18 @@ body::after {
     padding-top: 130px;
     padding-left: 60px;
     padding-right: 60px;
+    min-height: calc(100vh - 220px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+@media(max-width: 768px){
+    .page-container {
+        padding-top: 100px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 }
 
 @media(max-width: 600px){
@@ -227,13 +248,23 @@ body::after {
 }
 
 .hero-text {
-    width: 50%;
+    flex: 1;
+    max-width: 600px;
 }
 
 .hero-text h1 {
     font-size: 52px;
     font-weight: 700;
     color: #3A2F2F;
+    line-height: 1.2;
+    margin: 20px 0;
+}
+
+.hero-text p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #5A4A3B;
+    margin: 20px 0;
 }
 
 .highlight {
@@ -246,11 +277,55 @@ body::after {
     border-radius: 22px;
     font-size: 14px;
     color: #523A28;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.stats {
+    display: flex;
+    gap: 25px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    background: rgba(255,255,255,0.7);
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+    min-width: 100px;
+}
+
+.stat-box h2 {
+    font-size: 24px;
+    color: #C28E5A;
+    margin: 0 0 5px 0;
+}
+
+.stat-box p {
+    font-size: 14px;
+    color: #5A4A3B;
+    margin: 0;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero-image img {
-    width: 430px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 430px;
     display: block;
     filter: drop-shadow(0 8px 18px rgba(0,0,0,0.12));
     animation: float 4s ease-in-out infinite;
@@ -269,6 +344,7 @@ body::after {
     display: inline-block;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .btn-primary {
@@ -303,6 +379,7 @@ body::after {
 .btn-secondary {
     border: 2px solid #C7A27C;
     color: #C7A27C;
+    background: transparent;
 }
 
 .btn-secondary:hover {
@@ -373,17 +450,111 @@ body::after {
 }
 
 /* ------------------------------
-   MOBILE FIXES
+   MOBILE FIXES - TABLET
 --------------------------------*/
-@media(max-width: 900px){
-    .hero { flex-direction: column; text-align: center; }
-    .hero-text, .hero-image { width: 100%; }
+@media(max-width: 950px){
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 30px;
+        padding: 20px 0;
+    }
+
+    .hero-text {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .hero-text h1 {
+        font-size: 42px;
+    }
+
+    .hero-image {
+        width: 100%;
+    }
+
+    .hero-image img {
+        max-width: 350px;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .stats {
+        justify-content: center;
+    }
 
     .predict-container {
         flex-direction: column;
         text-align: center;
     }
-}  /* <-- FIXED: THIS WAS MISSING */
+
+    .form-card {
+        width: 100%;
+        max-width: 500px;
+    }
+}
+
+/* ------------------------------
+   MOBILE FIXES - PHONE
+--------------------------------*/
+@media(max-width: 600px){
+    .hero {
+        gap: 15px;
+        padding: 10px 0 30px;
+    }
+
+    .hero-text h1 {
+        font-size: 32px;
+        margin: 15px 0;
+    }
+
+    .hero-text p {
+        font-size: 15px;
+        margin: 15px 0;
+    }
+
+    .badge {
+        font-size: 12px;
+        padding: 6px 14px;
+    }
+
+    .hero-image img {
+        max-width: 280px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+    }
+
+    .stats {
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .stat-box {
+        padding: 10px 15px;
+        min-width: 90px;
+    }
+
+    .stat-box h2 {
+        font-size: 20px;
+    }
+
+    .stat-box p {
+        font-size: 12px;
+    }
+}
 
 /* ------------------------------
    FIXED GLOBAL FOOTER
@@ -405,12 +576,9 @@ body::after {
     justify-content: space-between;
     align-items: center;
     gap: 40px;
-
-    /* FIX: allow shrinking on mobile */
     flex-wrap: wrap;
 }
 
-/* force equal behavior for 3 blocks */
 .footer-left,
 .footer-links,
 .footer-right {
@@ -418,7 +586,6 @@ body::after {
     text-align: center;
 }
 
-/* keep original look */
 .footer-left h2 {
     color: #B68258;
     margin: 0;
@@ -437,7 +604,7 @@ body::after {
     font-weight: 600;
     margin: 0 14px;
     transition: 0.3s ease;
-    white-space: nowrap; /* FIX: buttons don't wrap weird */
+    white-space: nowrap;
 }
 
 .footer-links a:hover {
@@ -447,7 +614,7 @@ body::after {
 .footer-right {
     font-size: 14px;
     color: #6b5644;
-    white-space: nowrap;  /* FIX: keeps text in one clean line */
+    white-space: nowrap;
 }
 
 .footer-right strong {
@@ -456,7 +623,6 @@ body::after {
 
 /* MOBILE FOOTER FIX */
 @media(max-width: 768px){
-
     .footer {
         padding: 22px 20px;
         margin-top: 40px;
@@ -479,56 +645,8 @@ body::after {
         margin: 6px 10px;
         display: inline-block;
     }
-}
 
-/* MIN HEIGHT FIX (IMPORTANT) */
-.page-container {
-    min-height: calc(100vh - 230px);
-}
-/* FORCE PAGES TO ALWAYS FILL SCREEN HEIGHT */
-.page-container {
-    min-height: calc(100vh - 220px); 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-/* HERO MOBILE FIX */
-@media(max-width: 768px) {
-
-    .hero {
-        flex-direction: column-reverse !important;
-        text-align: center;
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
-        gap: 10px !important;
-    }
-
-    .hero-text {
-        width: 100% !important;
-    }
-
-    .hero-image img {
-        width: 260px !important;
-        max-width: 100%;
-        display: block;
-        margin: 0 auto;
-        transform: translateY(-10px);
-    }
-
-    .stats {
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-top: 10px !important;
-    }
-
-    .stat-box h2 {
-        font-size: 18px !important;
-    }
-
-    .stat-box p {
-        font-size: 13px !important;
+    .footer-right {
+        white-space: normal;
     }
 }
