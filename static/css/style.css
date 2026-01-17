@@ -18,32 +18,36 @@ body {
 
 /* ------------------------------
    PREMIUM PARALLAX GLOW BG
---------------------------------*/
-body::before {
-    content: "";
-    position: fixed;
-    width: 650px;
-    height: 650px;
-    top: -200px;
-    right: -150px;
-    background: radial-gradient(circle, rgba(198,148,86,0.32), transparent 70%);
-    filter: blur(70px);
+ ------------------------------*/
+body::before,
+body::after {
+    position: absolute !important;
+    filter: blur(60px);
     z-index: -1;
+}
+
+body::before {
+    width: 420px;
+    height: 420px;
+    top: -120px;
+    right: -80px;
 }
 
 body::after {
-    content: "";
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    bottom: -250px;
-    left: -250px;
-    background: radial-gradient(circle, rgba(255,214,165,0.35), transparent 70%);
-    filter: blur(80px);
-    z-index: -1;
+    width: 380px;
+    height: 380px;
+    bottom: -120px;
+    left: -120px;
 }
 
-/* ------------------------------
+@media(max-width: 768px){
+    body::before,
+    body::after {
+        display: none; /* remove extra height on mobile */
+    }
+}
+
+
    ANIMATIONS
 --------------------------------*/
 .fade-in {
@@ -401,8 +405,20 @@ body::after {
     justify-content: space-between;
     align-items: center;
     gap: 40px;
+
+    /* FIX: allow shrinking on mobile */
+    flex-wrap: wrap;
 }
 
+/* force equal behavior for 3 blocks */
+.footer-left,
+.footer-links,
+.footer-right {
+    flex: 1;
+    text-align: center;
+}
+
+/* keep original look */
 .footer-left h2 {
     color: #B68258;
     margin: 0;
@@ -421,6 +437,7 @@ body::after {
     font-weight: 600;
     margin: 0 14px;
     transition: 0.3s ease;
+    white-space: nowrap; /* FIX: buttons don't wrap weird */
 }
 
 .footer-links a:hover {
@@ -430,14 +447,16 @@ body::after {
 .footer-right {
     font-size: 14px;
     color: #6b5644;
+    white-space: nowrap;  /* FIX: keeps text in one clean line */
 }
 
 .footer-right strong {
     color: #B68258;
 }
 
-/* MOBILE FOOTER */
+/* MOBILE FOOTER FIX */
 @media(max-width: 768px){
+
     .footer {
         padding: 22px 20px;
         margin-top: 40px;
@@ -446,11 +465,70 @@ body::after {
     .footer-content {
         flex-direction: column;
         text-align: center;
-        gap: 10px;
+        gap: 15px;
+    }
+
+    .footer-left,
+    .footer-links,
+    .footer-right {
+        flex: unset;
+        width: 100%;
     }
 
     .footer-links a {
+        margin: 6px 10px;
         display: inline-block;
-        margin: 6px 12px;
+    }
+}
+
+/* MIN HEIGHT FIX (IMPORTANT) */
+.page-container {
+    min-height: calc(100vh - 230px);
+}
+/* FORCE PAGES TO ALWAYS FILL SCREEN HEIGHT */
+.page-container {
+    min-height: calc(100vh - 220px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* HERO MOBILE FIX */
+@media(max-width: 768px) {
+
+    .hero {
+        flex-direction: column-reverse !important;
+        text-align: center;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+        gap: 10px !important;
+    }
+
+    .hero-text {
+        width: 100% !important;
+    }
+
+    .hero-image img {
+        width: 260px !important;
+        max-width: 100%;
+        display: block;
+        margin: 0 auto;
+        transform: translateY(-10px);
+    }
+
+    .stats {
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 10px !important;
+    }
+
+    .stat-box h2 {
+        font-size: 18px !important;
+    }
+
+    .stat-box p {
+        font-size: 13px !important;
     }
 }
